@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import WithMockServer from './mocks/WithMockServer'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import StickerRain from './test'
 const queryClient = new QueryClient()
 
 export default function App() {
@@ -22,12 +23,13 @@ export default function App() {
     return (
         <>
             <QueryClientProvider client={queryClient}></QueryClientProvider>
-            <div className="p-4 text-xl">
+            {/* <div className="p-4 text-xl">
                 <p className="user-name">이름: {user.name}</p>
                 <p>나이: {user.age}</p>
                 <WithMockServer />
-            </div>
-            <h1 className="text-4xl font-bold">App.tsx</h1>
+            </div> */}
+            <StickerRain />
+            {/* <h1 className="text-4xl font-bold">App.tsx</h1> */}
         </>
     )
 }
