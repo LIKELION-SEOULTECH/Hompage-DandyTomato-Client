@@ -2,17 +2,18 @@
 
 export interface SessionGetResponse {
     sessions: Array<{
-        session_id: string
+        id: string
         title: string
-        started_at: string
-        ended_at: string
+        content: string
+        assignments: Array<{
+            id: string
+            title: string
+            description: string
+            started_at: string
+            ended_at: string
+            status: string
+        }>
     }>
-}
-
-export interface SessionPostRequest {
-    title: string
-    text: string
-    link: string
 }
 
 export interface SessionQuizCreateRequest {

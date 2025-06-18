@@ -41,3 +41,10 @@ node_modules/
 # Task files
 tasks.json
 tasks/ 
+
+.taskmaster/
+.roomodes
+.cursorrules
+.cursor/
+.roo/
+.windsurfrules
