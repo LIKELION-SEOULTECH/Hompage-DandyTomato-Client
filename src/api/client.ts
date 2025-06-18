@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { useAuthZustandStore } from '@/stores/auth'
-
+export const baseURL = '/api/v1'
 export const apiClient = axios.create({
-    baseURL: '/api/v1',
+    baseURL: baseURL,
     headers: {
         'Content-Type': 'application/json'
     }
