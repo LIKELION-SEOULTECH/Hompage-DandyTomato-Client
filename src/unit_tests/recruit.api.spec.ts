@@ -4,8 +4,8 @@ import type { ApplyGetResponse, ApplyPostRequest } from '@/types/recruit'
 
 // postApplicant 함수 단위 테스트
 
-describe('postApplicant', () => {
-    it('should return ApplyGetResponse with a new id', async () => {
+describe('postApplicant API', () => {
+    it('새로운 id가 포함된 ApplyGetResponse를 반환해야 한다', async () => {
         const res: ApplyGetResponse = await postApplicant(mockApplicant)
         expect(res).toHaveProperty('id')
         expect(res.name).toBe(mockApplicant.name)
@@ -15,8 +15,8 @@ describe('postApplicant', () => {
     })
 })
 
-describe('postApplicantDraft', () => {
-    it('should return ApplyGetResponse with a new id (draft)', async () => {
+describe('postApplicantDraft API', () => {
+    it('새로운 id가 포함된 ApplyGetResponse(draft)를 반환해야 한다', async () => {
         const res: ApplyGetResponse = await postApplicantDraft(mockApplicant)
         expect(res).toHaveProperty('id')
         expect(res.name).toBe(mockApplicant.name)

@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
 import { baseURL } from '@/api/client'
 import { sessionHandlers } from './sessionHandler'
-
+import { archiveHandlers } from './archiveHandler'
 export const handlers = [
     http.get(`${baseURL}/demo/`, () => {
         return HttpResponse.json({
@@ -39,5 +39,6 @@ export const handlers = [
         }
         return HttpResponse.json({ id: Math.floor(Math.random() * 100) })
     }),
-    ...sessionHandlers
+    ...sessionHandlers,
+    ...archiveHandlers
 ]
