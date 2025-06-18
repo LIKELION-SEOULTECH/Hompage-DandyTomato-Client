@@ -1,5 +1,7 @@
 import { http, HttpResponse } from 'msw'
 import { baseURL } from '@/api/client'
+import memberHandlers from './handlers/memberHandler'
+import { sessionHandlers } from './sessionHandler'
 import { archiveHandlers } from './archiveHandler'
 
 export const handlers = [
@@ -39,5 +41,7 @@ export const handlers = [
         }
         return HttpResponse.json({ id: Math.floor(Math.random() * 100) })
     }),
+    ...memberHandlers,
+    ...sessionHandlers,
     ...archiveHandlers
 ]

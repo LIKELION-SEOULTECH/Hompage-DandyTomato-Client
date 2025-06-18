@@ -8,13 +8,19 @@ import type {
 export async function postApplicant(
     data: ApplyPostRequest
 ): Promise<ApplyGetResponse> {
-    const res = await apiClient.post<ApplyGetResponse>('/applicant', data)
+    const res = await apiClient.post<ApplyGetResponse>(
+        '/recruit/application',
+        data
+    )
     return res.data
 }
 
 export async function postApplicantDraft(
     data: ApplyDraftPostRequest
 ): Promise<ApplyGetResponse> {
-    const res = await apiClient.post<ApplyGetResponse>('/applicant/draft', data)
+    const res = await apiClient.post<ApplyGetResponse>(
+        '/recruit/apply/draft',
+        data
+    )
     return res.data
 }

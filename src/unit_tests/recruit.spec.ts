@@ -10,13 +10,13 @@ import type {
 
 // 지원자 등록 테스트
 
-describe('Recruit API DTO', () => {
-    it('should create a valid RecruitPostRequest', () => {
+describe('지원자 DTO 타입 유효성 검사', () => {
+    it('RecruitPostRequest 타입이 올바르게 생성되어야 한다', () => {
         const req: RecruitPostRequest = { email: 'test@example.com' }
         expect(req.email).toBeTypeOf('string')
     })
 
-    it('should create a valid ApplyPostRequest', () => {
+    it('ApplyPostRequest 타입이 올바르게 생성되어야 한다', () => {
         const req: ApplyPostRequest = {
             id: 1,
             name: '홍길동',
@@ -32,7 +32,7 @@ describe('Recruit API DTO', () => {
         expect(req.qustion).toBeInstanceOf(Array)
     })
 
-    it('should create a valid ApplyDraftPostRequest', () => {
+    it('ApplyDraftPostRequest 타입이 올바르게 생성되어야 한다', () => {
         const req: ApplyDraftPostRequest = {
             id: 2,
             name: '이몽룡',
@@ -48,7 +48,7 @@ describe('Recruit API DTO', () => {
         expect(req.link).toMatch(/^https?:\/\//)
     })
 
-    it('should create a valid ApplyGetResponse', () => {
+    it('ApplyGetResponse 타입이 올바르게 생성되어야 한다', () => {
         const res: ApplyGetResponse = {
             id: 3,
             name: '성춘향',
@@ -64,7 +64,7 @@ describe('Recruit API DTO', () => {
         expect(res.qustion.length).toBeGreaterThan(0)
     })
 
-    it('should create a valid ApplyPutRequest', () => {
+    it('ApplyPutRequest 타입이 올바르게 생성되어야 한다', () => {
         const req: ApplyPutRequest = {
             name: '임꺽정',
             studentId: '20231237',
@@ -78,12 +78,12 @@ describe('Recruit API DTO', () => {
         expect(req.major).toBeTypeOf('string')
     })
 
-    it('should create a valid ApplyResultGetResponse (pass)', () => {
+    it('합격 결과가 pass인 ApplyResultGetResponse 타입이 올바르게 생성되어야 한다', () => {
         const res: ApplyResultGetResponse = { result: 'pass' }
         expect(res.result).toBe('pass')
     })
 
-    it('should create a valid ApplyResultGetResponse (fail)', () => {
+    it('불합격 결과가 fail인 ApplyResultGetResponse 타입이 올바르게 생성되어야 한다', () => {
         const res: ApplyResultGetResponse = { result: 'fail' }
         expect(res.result).toBe('fail')
     })
