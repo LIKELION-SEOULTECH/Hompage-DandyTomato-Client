@@ -40,12 +40,25 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+    --color-sub-seoultech-red: var(--sub-seoultech-red);
+    --color-sub-seoultech-blue: var(--sub-seoultech-blue);
+    --color-sub-background: var(--sub-background);
+    --color-pri-seoultech-gold: var(--pri-seoultech-gold);
+    --color-pri-white: var(--pri-white);
+    --color-pri-black: var(--pri-black);
 }
 
 :root {
     --radius: 0.625rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
+    --sub-seoultech-red: oklch(62.9% 0.196446 33);
+    --sub-seoultech-blue: oklch(36% 0.083495 245.3);
+    --sub-background: oklch(25% 0.006891 269.9);
+    --pri-seoultech-gold: oklch(85.2% 0.066408 85.8);
+    --pri-white: oklch(96.7% 0.002869 84.6);
+    --pri-black: oklch(16.1% 0.009072 240.6);
+    --pri-gray-1: oklch(92.2% 0.005498 275);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
@@ -80,6 +93,13 @@
 .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
+    --sub-seoultech-red: oklch(62.9% 0.196446 33);
+    --sub-seoultech-blue: oklch(36% 0.083495 245.3);
+    --sub-background: oklch(25% 0.006891 269.9);
+    --pri-seoultech-gold: oklch(85.2% 0.066408 85.8);
+    --pri-white: oklch(96.7% 0.002869 84.6);
+    --pri-black: oklch(16.1% 0.009072 240.6);
+    --pri-gray-1: oklch(92.2% 0.005498 275);
     --card: oklch(0.205 0 0);
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.205 0 0);
