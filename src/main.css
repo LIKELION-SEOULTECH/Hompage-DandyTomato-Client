@@ -46,11 +46,12 @@
     --color-pri-seoultech-gold: var(--pri-seoultech-gold);
     --color-pri-white: var(--pri-white);
     --color-pri-black: var(--pri-black);
+    --color-pri-gray-1: var(--pri-gray-1);
 }
 
 :root {
     --radius: 0.625rem;
-    --background: oklch(1 0 0);
+    --background: oklch(96.7% 0.002869 84.6);
     --foreground: oklch(0.145 0 0);
     --sub-seoultech-red: oklch(62.9% 0.196446 33);
     --sub-seoultech-blue: oklch(36% 0.083495 245.3);
@@ -91,7 +92,7 @@
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
+    --background: oklch(96.7% 0.002869 84.6);
     --foreground: oklch(0.985 0 0);
     --sub-seoultech-red: oklch(62.9% 0.196446 33);
     --sub-seoultech-blue: oklch(36% 0.083495 245.3);
@@ -143,6 +144,7 @@
 html,
 body {
     overflow-x: hidden;
+    overflow-wrap: anywhere;
 }
 
 .main-section {
