@@ -1,5 +1,6 @@
 import FilterButton from '@/components/archive/FilterButton'
 import ProjectCard from '../components/archive/ProjectCard'
+import HighlightenTitle from '@/components/HighlightenTitle'
 
 const ArchivePage = () => {
     const galleryItems = [
@@ -21,15 +22,10 @@ const ArchivePage = () => {
     return (
         <div className="relative h-screen w-screen overflow-x-auto bg-[#f5f4f2]">
             <div className="relative h-full w-full">
-                <div className="absolute top-[185px] left-32 bg-[#e74c2e]">
-                    <div className="relative box-border flex flex-row content-stretch items-center justify-center gap-2.5 p-0">
-                        <div className="relative shrink-0 text-left text-[64px] leading-[0] font-bold tracking-[-1.92px] text-nowrap text-[#f5f4f2] not-italic">
-                            <p className="adjustLetterSpacing block leading-[normal] whitespace-pre">
-                                갤러리
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <HighlightenTitle
+                    text="갤러리"
+                    className="absolute top-[185px] left-32"
+                />
 
                 <div className="fixed top-[185px] right-[100px]">
                     <div className="box-border flex flex-row content-stretch items-center justify-end gap-16">

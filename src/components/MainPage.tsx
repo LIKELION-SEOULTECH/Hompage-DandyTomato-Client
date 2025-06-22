@@ -11,6 +11,7 @@ import {
     useCarousel
 } from './ui/carousel'
 import Autoplay from 'embla-carousel-autoplay'
+import HighlightenTitle from './HighlightenTitle'
 gsap.registerPlugin(ScrollTrigger)
 
 // Figma: 메인페이지 전체 레이아웃 (node-id=1277-701)
@@ -89,9 +90,10 @@ export default function MainPage() {
             {/* About Section */}
             <section className="main-section flex h-screen flex-row items-end gap-128 bg-[#F8F8F8] px-128 py-128">
                 <div className="flex flex-col items-baseline justify-center">
-                    <h2 className="font-pretendard text-64 text-pri-white bg-sub-seoultech-red mt-61 leading-none font-bold tracking-[-1.92px]">
-                        가능성을 현실로, 도전을 성장으로.
-                    </h2>
+                    <HighlightenTitle
+                        text="가능성을 현실로, 도전을 성장으로."
+                        className="mt-61"
+                    />
                     <p className="font-pretendard text-32 text-pri-black mt-42 leading-[150%] tracking-[-0.96px] whitespace-pre-line">
                         국내 121개 대학 지점을 보유한 대학생 연합 IT 벤처 창업
                         동아리
@@ -153,9 +155,10 @@ export default function MainPage() {
             </section>
             <section className="main-section flex h-screen flex-row items-baseline gap-145 bg-[#F8F8F8] px-128 py-128">
                 <div className="flex flex-col items-baseline justify-center">
-                    <h2 className="font-pretendard text-64 text-pri-white bg-sub-seoultech-red mt-61 leading-none font-bold tracking-[-1.92px]">
-                        프로젝트
-                    </h2>
+                    <HighlightenTitle
+                        text="프로젝트"
+                        className="mt-61"
+                    />
                     <p className="font-pretendard text-32 text-pri-black mt-42 leading-[150%] tracking-[-0.96px] whitespace-pre-line">
                         아이디어톤, 중앙해커톤, 그리고 장기 프로젝트까지!
                         <br />
