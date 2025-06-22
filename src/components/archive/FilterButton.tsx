@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Select,
     SelectContent,
@@ -8,21 +8,31 @@ import {
 } from '@/components/ui/select'
 interface FilterButtonProps {
     text: string
+    options: {
+        label: string
+        value: string
+    }[]
 }
 
-const FilterButton: React.FC<FilterButtonProps> = ({ text }) => {
+const FilterButton: React.FC<FilterButtonProps> = ({ text, options = [] }) => {
+    const [open, setOpen] = useState(false)
     return (
-        <Select className="text-sub-seoultech-red text-20 border-sub-seoultech-red rounded-50 border-2 bg-transparent font-bold">
-            <SelectTrigger className="text-sub-seoultech-red text-20 border-sub-seoultech-red rounded-50 border-2 bg-transparent font-bold">
-                <SelectValue
-                    placeholder={text}
-                    className="text-sub-seoultech-red text-20 font-bold"
-                />
+        <Select
+            open={open}
+            onOpenChange={setOpen}>
+            <SelectTrigger
+                open={open}
+                className="text-sub-seoultech-red text-20 border-sub-seoultech-red rounded-50 sticky border-2 bg-transparent">
+                <SelectValue placeholder={text} />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value="option1">Option 1</SelectItem>
-                <SelectItem value="option2">Option 2</SelectItem>
-                <SelectItem value="option3">Option 3</SelectItem>
+                {options.map(option => (
+                    <SelectItem
+                        key={option.value}
+                        value={option.value}>
+                        {option.label}
+                    </SelectItem>
+                ))}
             </SelectContent>
         </Select>
     )
