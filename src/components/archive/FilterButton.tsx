@@ -6,15 +6,21 @@ import {
     SelectTrigger,
     SelectValue
 } from '@/components/ui/select'
+import { cn } from '@/lib/utils'
 interface FilterButtonProps {
     text: string
     options: {
         label: string
         value: string
     }[]
+    className?: string
 }
 
-const FilterButton: React.FC<FilterButtonProps> = ({ text, options = [] }) => {
+const FilterButton: React.FC<FilterButtonProps> = ({
+    text,
+    options = [],
+    className
+}) => {
     const [open, setOpen] = useState(false)
     return (
         <Select
@@ -22,7 +28,10 @@ const FilterButton: React.FC<FilterButtonProps> = ({ text, options = [] }) => {
             onOpenChange={setOpen}>
             <SelectTrigger
                 open={open}
-                className="text-sub-seoultech-red text-20 border-sub-seoultech-red rounded-50 sticky border-2 bg-transparent">
+                className={cn(
+                    'text-sub-seoultech-red text-20 border-sub-seoultech-red rounded-50 sticky border-2 bg-transparent',
+                    className
+                )}>
                 <SelectValue placeholder={text} />
             </SelectTrigger>
             <SelectContent>
