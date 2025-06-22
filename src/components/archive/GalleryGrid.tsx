@@ -1,4 +1,4 @@
-import ProjectCard from './GalleryCard'
+import GalleryCard from './GalleryCard'
 
 export default function GalleryGrid({ galleryItems }: { galleryItems: any[] }) {
     const columns = Math.ceil(galleryItems.length / 3) + 1
@@ -53,7 +53,7 @@ export default function GalleryGrid({ galleryItems }: { galleryItems: any[] }) {
                 const pos = getGridPosition(index)
                 return (
                     <>
-                        <ProjectCard
+                        <GalleryCard
                             key={item.id}
                             style={{
                                 gridColumnEnd: pos.gridColumnEnd,

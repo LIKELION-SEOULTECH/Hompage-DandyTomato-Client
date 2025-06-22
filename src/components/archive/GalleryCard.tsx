@@ -1,14 +1,14 @@
 import { cn } from '@/lib/utils'
 import React, { useState } from 'react'
 
-interface ProjectCardProps {
+interface GalleryCardProps {
     className?: string
     style?: React.CSSProperties
     index?: number
     // Add other props like title, imageUrl, etc. as needed
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
+const GalleryCard: React.FC<GalleryCardProps> = ({
     className,
     style,
     index
@@ -44,4 +44,4 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     )
 }
 
-export default ProjectCard
+export default GalleryCard
