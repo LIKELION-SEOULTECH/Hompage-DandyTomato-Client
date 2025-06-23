@@ -1,8 +1,10 @@
 import MainPage from '@/components/MainPage'
 import { Route, Routes } from 'react-router-dom'
 import Layout from '@/components/layout/layout'
-import ArchivePage from './pages/archive'
+import GalleryPage from './pages/GalleryPage'
 import MyPage from './pages/myPage'
+import ProjectPage from './pages/ProejctPage'
+import ProjectDetailPage from './pages/ProjectDetailPage'
 
 export default function App() {
     return (
@@ -14,8 +16,16 @@ export default function App() {
                         path="/"
                     />
                     <Route
-                        element={<ArchivePage />}
-                        path="/archive"
+                        element={<ProjectPage />}
+                        path="/project"
+                    />
+                    <Route
+                        element={<GalleryPage />}
+                        path="/gallery"
+                    />
+                    <Route
+                        element={<ProjectDetailPage />}
+                        path="/project/:id"
                     />
                     <Route
                         element={<MyPage />}

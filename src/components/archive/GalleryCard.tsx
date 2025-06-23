@@ -1,24 +1,27 @@
 import { cn } from '@/lib/utils'
 import React, { useState } from 'react'
+import { Badge } from '../ui/badge'
 import TagBadge from './TagBadge'
 
-interface ProjectCardProps {
+interface GalleryCardProps {
     className?: string
     style?: React.CSSProperties
     index?: number
     title?: string
+    date?: string
     description?: string
     tag?: string[]
     // Add other props like title, imageUrl, etc. as needed
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
+const GalleryCard: React.FC<GalleryCardProps> = ({
     className,
     style,
     index,
-    title = '서비스명',
-    description = '서비스 설명',
-    tag = ['해시태그']
+    title = '활동이름',
+    date = '2025.01.01',
+    description = '간단한 설명',
+    tag = ['해쉬태그']
 }) => {
     const [isHovered, setIsHovered] = useState(false)
     return (
@@ -37,13 +40,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             <div
                 className={cn(
                     !isHovered && 'opacity-0',
-                    'flex h-full w-full flex-col items-baseline justify-end gap-10 bg-[oklch(0%_0_0/0.3)] p-32'
+                    'flex h-full w-full flex-col items-center justify-center gap-10 bg-[oklch(0%_0_0/0.2)]'
                 )}>
                 <h3 className="text-20 text-sub-seoultech-red bg-pri-white font-bold">
                     {title}
                 </h3>
-                <p className="text-16 text-pri-whit text-left font-bold">
-                    {description}
+                <p className="text-16 text-pri-whit text-center font-bold">
+                    {date}
+                    <br /> {description}
                 </p>
                 <div className="flex flex-wrap gap-10">
                     {tag.map(tag => (
@@ -58,4 +62,4 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     )
 }
 
-export default ProjectCard
+export default GalleryCard
