@@ -12,7 +12,7 @@ export default function ProjectGrid({ projectItems }: { projectItems: any[] }) {
                 gridAutoFlow: 'column dense',
 
                 // height: `100%`
-                width: `${projectItems.length * 500}px`
+                width: `${columns * 500}px`
             }}>
             {projectItems.map((item, index) => {
                 return (
