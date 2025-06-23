@@ -60,6 +60,7 @@
     --pri-white: oklch(96.7% 0.002869 84.6);
     --pri-black: oklch(16.1% 0.009072 240.6);
     --pri-gray-1: oklch(92.2% 0.005498 275);
+    --pri-gray-disabled: oklch(78.2% 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
@@ -101,6 +102,7 @@
     --pri-white: oklch(96.7% 0.002869 84.6);
     --pri-black: oklch(16.1% 0.009072 240.6);
     --pri-gray-1: oklch(92.2% 0.005498 275);
+    --pri-gray-disabled: oklch(78.2% 0 0);
     --card: oklch(0.205 0 0);
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.205 0 0);

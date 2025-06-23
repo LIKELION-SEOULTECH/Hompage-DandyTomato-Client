@@ -5,6 +5,7 @@ import GalleryPage from './pages/GalleryPage'
 import MyPage from './pages/myPage'
 import ProjectPage from './pages/ProejctPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
+import SessionResourcesPage from './pages/SessionResourcesPage'
 
 export default function App() {
     return (
@@ -25,11 +26,15 @@ export default function App() {
                     />
                     <Route
                         element={<ProjectDetailPage />}
-                        path="/project/:id"
+                        path="/project/:id" // TODO: 프로젝트 상세 페이지 추가
                     />
                     <Route
                         element={<MyPage />}
                         path="/myPage"
+                    />
+                    <Route
+                        element={<SessionResourcesPage />}
+                        path="/session-resources"
                     />
                 </Route>
             </Routes>
