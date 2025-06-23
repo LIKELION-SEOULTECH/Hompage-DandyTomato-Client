@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils'
 import React, { useState } from 'react'
 import { Badge } from '../ui/badge'
+import TagBadge from './TagBadge'
 
 interface GalleryCardProps {
     className?: string
@@ -50,11 +51,10 @@ const GalleryCard: React.FC<GalleryCardProps> = ({
                 </p>
                 <div className="flex flex-wrap gap-10">
                     {tag.map(tag => (
-                        <Badge
-                            className="text-16 text-sub-seoultech-red border-sub-seoultech-red rounded-50 border-2 bg-transparent px-8 py-4 font-bold"
-                            variant={'default'}>
-                            #{tag}
-                        </Badge>
+                        <TagBadge
+                            key={tag}
+                            tag={tag}
+                        />
                     ))}
                 </div>
             </div>
