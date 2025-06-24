@@ -149,6 +149,9 @@ body {
     overflow-wrap: anywhere;
 }
 
-.main-section {
-    margin-left: -2px;
+.hide-scrollbar {
+    -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
 }
