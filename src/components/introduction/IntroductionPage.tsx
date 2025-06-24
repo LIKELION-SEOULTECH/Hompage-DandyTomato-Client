@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import GlowToggleButton from '../ui/glow-toggle-button'
 import IntroSection from './sections/IntroSection'
 import CertificationSection from './sections/CertificationSection'
+import RecruitProcessSection from './sections/RecruitProcessSection'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -47,20 +48,11 @@ export default function IntroductionPage() {
         <section className="recruit-section w-screen h-screen flex ">
           <IntroSection />
         </section>
-        <section className="recruit-section w-987 h-screen flex items-center justify-center bg-gray">
+        <section className="recruit-section w-987 h-screen flex items-center justify-center">
           <CertificationSection />
         </section>
-        <section className="recruit-section w-screen h-screen flex items-center justify-center border bg-[#D5F5E3] text-4xl font-bold">
-          Section 3: 지원 방법
-          <Button variant="default" size="lg" asChild>
-            <a
-              href="https://your-google-form-link.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              지원하러 가기 →
-            </a>
-          </Button>
+        <section className="recruit-section w-2000 h-screen">
+          <RecruitProcessSection />
         </section>
         <section className="recruit-section w-screen h-screen flex items-center justify-center border bg-[#FADBD8] text-4xl font-bold">
           Section 4: 자주 묻는 질문
