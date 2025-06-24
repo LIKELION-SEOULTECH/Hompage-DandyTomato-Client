@@ -6,6 +6,7 @@ import MyPage from './pages/myPage'
 import ProjectPage from './pages/ProejctPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import SessionResourcesPage from './pages/SessionResourcesPage'
+import SessionAssignmentPage from './pages/SessionAssignmentPage'
 
 export default function App() {
     return (
@@ -35,6 +36,10 @@ export default function App() {
                     <Route
                         element={<SessionResourcesPage />}
                         path="/session-resources"
+                    />
+                    <Route
+                        element={<SessionAssignmentPage />}
+                        path="/session-assignment"
                     />
                 </Route>
             </Routes>
