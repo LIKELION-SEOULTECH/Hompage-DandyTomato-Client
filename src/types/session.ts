@@ -22,9 +22,10 @@ export interface SessionQuizCreateRequest {
 
 export interface SessionQuizCreateResponse {
     quiz: Array<{
-        title: string
-        오지선다: string[]
+        question: string
+        options: {
+            [key: string]: string
+        }
         answer: string
-        해설: string
     }>
 }
