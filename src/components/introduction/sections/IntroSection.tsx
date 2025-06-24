@@ -14,8 +14,8 @@ export default function IntroSection() {
                 </div>
 
                 {/* 오른쪽: 콘텐츠 */}
-                <div className="w-5/9 h-full pb-[6%] flex flex-col gap-6">
-                    <div className="flex flex-col gap-16 pt-[17.5%]">
+                <div className="w-5/9 h-full pb-[11vh] flex flex-col gap-6">
+                    <div className="flex flex-col gap-16  mt-[17.5vh]">
                         <span className="text-64 font-bold text-white bg-sub_seoultech_red w-fit leading-none tracking-[-1.92px] font-pretendard">
                             14기 아기사자
                         </span>
