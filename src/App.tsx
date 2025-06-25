@@ -29,7 +29,7 @@ export default function App() {
                     />
                     <Route
                         element={<ProjectDetailPage />}
-                        path="/project/:id" // TODO: 프로젝트 상세 페이지 추가
+                        path="/project/:id"
                     />
                     <Route
                         element={<MyPage />}

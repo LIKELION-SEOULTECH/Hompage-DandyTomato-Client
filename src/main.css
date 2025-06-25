@@ -148,10 +148,11 @@ body {
     overflow-x: hidden;
     overflow-wrap: anywhere;
 }
-
 .hide-scrollbar {
     -ms-overflow-style: none;
 }
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
+.main-section {
+    margin-left: -2px;
 }
