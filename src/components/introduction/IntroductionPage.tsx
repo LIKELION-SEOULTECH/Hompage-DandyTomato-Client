@@ -46,16 +46,16 @@ export default function IntroductionPage() {
         ref={containerRef}
         className="flex h-screen w-[800vw] fixed top-0 left-0 z-40  bg-white"
       >
-        <section className="recruit-section w-screen h-screen flex ">
+        <section className="recruit-section w-[987px] h-screen flex ">
           <IntroSection />
         </section>
         <section className="recruit-section w-987 h-screen flex items-center justify-center">
           <CertificationSection />
         </section>
-        <section className="recruit-section w-1484 h-screen">
+        <section className="recruit-section w-[1484px] h-screen">
           <RecruitProcessSection scrollerRef={containerRef as React.RefObject<HTMLDivElement>} />
         </section>
-        <section className="recruit-section w-screen h-screen flex ">
+        <section className="recruit-section w-[1484px] h-screen flex ml-200">
           <ActivityReviewSection />
         </section>
         <section className="recruit-section w-screen h-screen flex ">
