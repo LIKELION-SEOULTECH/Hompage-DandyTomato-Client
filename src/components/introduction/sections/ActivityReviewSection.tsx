@@ -38,7 +38,7 @@ export default function ActivityReviewSection() {
                 </div>
             </div>
 
-            <div className="fixed bottom-0 left-0 w-full h-[21vh] bg-gradient-to-t from-white to-transparent pointer-events-none z-10" />
+            <div className="fixed bottom-0 left-0 w-full h-[11.5vh] bg-gradient-to-t from-white to-transparent pointer-events-none z-10" />
         </div>
     )
 }
