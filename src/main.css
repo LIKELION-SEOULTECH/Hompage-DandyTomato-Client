@@ -148,3 +148,11 @@ body {
 .main-section {
     margin-left: -2px;
 }
+
+.scrollbar-hide {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;   
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;             
+  }
