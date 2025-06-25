@@ -1,15 +1,42 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import ProcessBubble from '@/components/ui/introduction/ProcessBubble'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 type RecruitProcessSectionProps = {
     scrollerRef: React.RefObject<HTMLDivElement>
 }
 
 export default function RecruitProcessSection({ scrollerRef }: RecruitProcessSectionProps) {
+    const lineRef = useRef<HTMLDivElement>(null)
     const bubbleRefs = useRef<(HTMLDivElement | null)[]>([])
     const markerRefs = useRef<(HTMLDivElement | null)[]>([])
+
+    useEffect(() => {
+        if (!lineRef.current || !scrollerRef.current) return
+
+        // 줄 애니메이션: 스크롤보다 살짝 느리게, 되돌릴 땐 줄어듦
+        gsap.fromTo(
+            lineRef.current,
+            { width: 0 },
+            {
+                width: 1400,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: lineRef.current,
+                    start: 'left center',
+                    end: 'right center',
+                    scrub: 1.5, // 살짝 느리게
+                    horizontal: true,
+                    scroller: scrollerRef.current,
+                },
+            }
+        )
+    }, [scrollerRef])
 
     const setMarkerRef = (el: HTMLDivElement | null, index: number) => {
         if (el) markerRefs.current[index] = el
@@ -20,7 +47,7 @@ export default function RecruitProcessSection({ scrollerRef }: RecruitProcessSec
     }
 
     return (
-        <div className="w-screen min-h-screen bg-[#FDF6ED] flex justify-center">
+        <div className="w-screen min-h-screen bg-white flex justify-center">
             <div className="max-w-[1600px] w-full flex flex-col items-start mt-[17.5vh] mb-[11vh] ml-32">
                 <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-none tracking-[-1.92px] font-pretendard">
                     14기 모집 절차
@@ -28,6 +55,7 @@ export default function RecruitProcessSection({ scrollerRef }: RecruitProcessSec
 
                 <div className="relative w-full pt-[20%] pb-[100px]">
                     <div
+                        ref={lineRef}
                         className="relative h-[10px] flex-shrink-0 rounded-full z-0"
                         style={{
                             width: '1400px',

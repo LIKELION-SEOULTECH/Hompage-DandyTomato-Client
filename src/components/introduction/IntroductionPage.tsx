@@ -7,6 +7,7 @@ import GlowToggleButton from '../ui/glow-toggle-button'
 import IntroSection from './sections/IntroSection'
 import CertificationSection from './sections/CertificationSection'
 import RecruitProcessSection from './sections/RecruitProcessSection'
+import ActivityReviewSection from './sections/ActivityReviewSection'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -43,7 +44,7 @@ export default function IntroductionPage() {
 
       <div
         ref={containerRef}
-        className="flex h-screen w-[400vw] fixed top-0 left-0 z-40  bg-white"
+        className="flex h-screen w-[800vw] fixed top-0 left-0 z-40  bg-white"
       >
         <section className="recruit-section w-screen h-screen flex ">
           <IntroSection />
@@ -51,11 +52,14 @@ export default function IntroductionPage() {
         <section className="recruit-section w-987 h-screen flex items-center justify-center">
           <CertificationSection />
         </section>
-        <section className="recruit-section w-2000 h-screen">
+        <section className="recruit-section w-[1300px] h-screen">
           <RecruitProcessSection scrollerRef={containerRef as React.RefObject<HTMLDivElement>} />
         </section>
-        <section className="recruit-section w-screen h-screen flex items-center justify-center border bg-[#FADBD8] text-4xl font-bold">
-          Section 4: 자주 묻는 질문
+        <section className="recruit-section w-screen h-screen flex ">
+          <ActivityReviewSection />
+        </section>
+        <section className="recruit-section w-screen h-screen flex ">
+          안녕
         </section>
       </div>
     </div>
