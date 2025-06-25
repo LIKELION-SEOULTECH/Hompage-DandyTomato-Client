@@ -1,10 +1,13 @@
 'use client'
 
-type Props = {
+type ProcessBubbleProps = {
     title: string
     date: string
     highlight?: boolean
-    direction?: 'top' | 'bottom' // 말풍선 꼬리 방향
+    direction?: 'top' | 'bottom'
+    bgColor?: string
+    textColor?: string
+    highlightColor?: string
 }
 
 export default function ProcessBubble({
@@ -12,25 +15,49 @@ export default function ProcessBubble({
     date,
     highlight = false,
     direction = 'bottom',
-}: Props) {
+    bgColor = '#E4E5E9',
+    textColor = '#000000',
+    highlightColor = '#0B4066', // sub_seoultech_blue
+}: ProcessBubbleProps) {
     const isTop = direction === 'top'
 
     return (
-        <div
-            className={`relative bg-gray text-black px-4 py-3 text-center shadow-md rounded-xl
-        before:content-[''] before:absolute before:left-1/2 before:-translate-x-1/2
-        ${isTop
-                    ? 'before:-top-2 before:border-[10px] before:border-b-gray before:border-x-transparent before:border-t-0'
-                    : 'before:-bottom-2 before:border-[10px] before:border-t-gray before:border-x-transparent before:border-b-0'
-                }`}
-        >
+        <div className="relative w-fit text-left font-pretendard">
+            {/* 꼬리 */}
             <div
-                className={`font-bold text-[18px] leading-snug ${highlight ? 'text-sub_seoultech_red' : 'text-sub_seoultech_blue'
-                    }`}
+                className="absolute"
+                style={{
+                    left: '36px',
+                    width: '34.641px',
+                    height: '30px',
+                    aspectRatio: '34.64 / 30',
+                    backgroundColor: bgColor,
+                    clipPath: isTop
+                        ? 'path("M21.6506 3C19.7261 0 14.9149 0 12.9904 3L0 25L34.641 25L21.6506 3Z")'
+                        : 'path("M21.6506 22.5C19.7261 25.8333 14.9149 25.8333 12.9904 22.5L0 0L34.641 0L21.6506 22.5Z")',
+                    top: isTop ? undefined : 'calc(100% - 5px)',
+                    bottom: isTop ? 'calc(100% - 5px)' : undefined,
+                }}
+            />
+
+            {/* 말풍선 본체 */}
+            <div
+                className="rounded-xl shadow-md w-fit text-left whitespace-nowrap px-[36px] py-[36px] gap-10"
+                style={{
+                    backgroundColor: bgColor,
+                    color: textColor,
+                }}
             >
-                {title}
+                <div
+                    className={`text-[32px] font-bold leading-[48px] tracking-[-0.96px] ${highlight ? 'text-sub_seoultech_blue' : ''
+                        }`}
+                >
+                    {title}
+                </div>
+                <div className="text-[20px] font-semibold leading-[30px] tracking-[-0.6px] text-black">
+                    {date}
+                </div>
             </div>
-            <div className="text-[14px] mt-1">{date}</div>
         </div>
     )
 }
