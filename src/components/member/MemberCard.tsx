@@ -13,7 +13,8 @@ export default function MemberCard({
     email,
     description,
     links,
-    ref
+    ref,
+    dimmedRef
 }: {
     isOpen: boolean
     handleClose: () => void
@@ -26,6 +27,7 @@ export default function MemberCard({
     description: string
     links: string[]
     ref: RefObject<HTMLDivElement>
+    dimmedRef: RefObject<HTMLDivElement>
 }) {
     return (
         <div
@@ -35,12 +37,16 @@ export default function MemberCard({
             {/* 카드 */}
             <div
                 ref={ref}
-                className="rounded-15 bg-pri-white relative z-10 px-128 py-64">
+                className="rounded-15 bg-pri-white relative z-10 px-128 py-64"
+                style={{
+                    transformStyle: 'preserve-3d'
+                }}>
                 <div
                     className="bg-pri-white relative z-10 flex w-fit flex-col items-center justify-center gap-36"
                     style={{
                         transform: 'rotateY(0deg)',
-                        backfaceVisibility: 'hidden'
+                        backfaceVisibility: 'hidden',
+                        transformStyle: 'preserve-3d'
                     }}>
                     <img
                         src={image}
@@ -49,16 +55,16 @@ export default function MemberCard({
                     />
                     <div className="flex w-265 flex-col gap-25 text-center">
                         <div className="flex flex-row items-center justify-center gap-16">
-                            <Badge
-                                className="border-sub-seoultech-red rounded-50 text-20 text-sub-seoultech-red border-2 bg-transparent px-16 py-8 font-bold"
-                                variant={'default'}>
-                                {generation}
-                            </Badge>
-                            <Badge
-                                className="border-sub-seoultech-red rounded-50 text-20 text-sub-seoultech-red border-2 bg-transparent px-16 py-8 font-bold"
-                                variant={'default'}>
-                                {part}
-                            </Badge>
+                            <TagBadge
+                                tag={generation}
+                                withHash={false}
+                                className="text-20 text-sub-seoultech-red px-16 py-8"
+                            />
+                            <TagBadge
+                                tag={part}
+                                withHash={false}
+                                className="text-20 px-16 py-8"
+                            />
                         </div>
                         <div className="flex flex-col gap-16">
                             <p>
@@ -96,30 +102,42 @@ export default function MemberCard({
                     className="bg-sub-seoultech-blue rounded-15 absolute top-0 left-0 z-9 flex h-full w-full flex-col items-center justify-center gap-36 overflow-hidden px-128 py-64"
                     style={{
                         transform: 'rotateY(180deg)',
-                        backfaceVisibility: 'hidden'
+                        backfaceVisibility: 'hidden',
+                        transformStyle: 'preserve-3d'
                     }}>
+                    {/* 이미지 */}
+                    <div className="absolute top-0 left-0 z-1 h-full w-full">
+                        <img
+                            src={image}
+                            alt={name}
+                            className="h-full w-full object-cover"
+                        />
+                    </div>
+                    {/* 이름, 태그 */}
                     <div className="relative z-9 flex h-full w-full flex-col items-center justify-end px-36 py-24">
-                        <div className="flex flex-col gap-12">
-                            <img
-                                src={image}
-                                alt={name}
-                            />
-                        </div>
                         <div className="flex flex-col items-center justify-center gap-8 text-center">
                             <p className="text-16 text-pri-white font-semibold">
                                 {name}
                             </p>
                             <div className="flex flex-row items-center justify-center gap-8">
-                                <TagBadge tag={generation} />
-                                <TagBadge tag={part} />
+                                <TagBadge
+                                    tag={generation}
+                                    className="text-11 text-sub-seoultech-red px-8 py-4"
+                                />
+                                <TagBadge
+                                    tag={part}
+                                    className="text-11 px-8 py-4"
+                                />
                             </div>
                         </div>
                     </div>
-                    <div className="absolute bottom-0 h-96 w-full bg-gradient-to-t from-black to-transparent" />
+                    {/* 그라데이션 딤드 */}
+                    <div className="absolute bottom-0 z-2 h-96 w-full bg-gradient-to-t from-black to-transparent" />
                 </div>
             </div>
             {/* 딤드 배경 */}
             <div
+                ref={dimmedRef}
                 className="bg-pri-black/15 absolute bottom-0 h-screen w-screen"
                 onClick={handleClose}
             />

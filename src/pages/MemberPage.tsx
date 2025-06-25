@@ -11,6 +11,7 @@ export default function MemberPage() {
     const containerRef = useRef<HTMLDivElement>(null)
     const memberRef = useRef<HTMLDivElement>(null)
     const tlRef = useRef<GSAPTimeline>(null)
+    const dimmedRef = useRef<HTMLDivElement>(null)
     const [isOpen, setIsOpen] = useState(false)
     const [isAnimating, setIsAnimating] = useState(false)
     useHorizontalScroll(containerRef as RefObject<HTMLDivElement>)
@@ -50,11 +51,22 @@ export default function MemberPage() {
             transformStyle: 'preserve-3d',
             transform: 'rotateZ(0deg)',
             rotateY: 180,
-            ease: 'power2.in',
+            rotateX: dx / 100,
+            rotateZ: -dx / 100,
+            ease: 'power1',
             onComplete: () => {
                 setIsAnimating(false)
             }
         })
+        tlRef.current.from(
+            dimmedRef.current,
+            {
+                opacity: 0,
+                duration: 1,
+                ease: 'power1.out'
+            },
+            '-=1'
+        )
 
         console.log(memberRect.width, memberRect.height)
         tlRef.current.restart() // 애니메이션 재시작
@@ -89,6 +101,7 @@ export default function MemberPage() {
                 }
                 links={['https://github.com/bogus-j']}
                 ref={memberRef as RefObject<HTMLDivElement>}
+                dimmedRef={dimmedRef as RefObject<HTMLDivElement>}
             />
             <div
                 className={`fixed top-185 right-100 z-10 flex flex-row gap-12`}>
