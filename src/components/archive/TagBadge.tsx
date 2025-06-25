@@ -15,8 +15,7 @@ export default function TagBadge({
             className={cn(
                 'text-16 text-sub-seoultech-red border-sub-seoultech-red rounded-50 border-2 bg-transparent px-8 py-4 font-bold',
                 className
-            )}
-            variant={'default'}>
+            )}>
             {withHash && `#`}
             {tag}
         </Badge>

@@ -8,6 +8,7 @@ import ProjectDetailPage from './pages/ProjectDetailPage'
 import SessionResourcesPage from './pages/SessionResourcesPage'
 import SessionAssignmentPage from './pages/SessionAssignmentPage'
 import SessionAIQuizPage from './pages/SessionAIQuizPage'
+import MemberPage from './pages/MemberPage'
 
 export default function App() {
     return (
@@ -45,6 +46,10 @@ export default function App() {
                     <Route
                         element={<SessionAIQuizPage />}
                         path="/session-ai-quiz"
+                    />
+                    <Route
+                        element={<MemberPage />}
+                        path="/members"
                     />
                 </Route>
             </Routes>
