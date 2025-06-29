@@ -13,6 +13,7 @@ import {
 import Autoplay from 'embla-carousel-autoplay'
 import HighlightenTitle from './HighlightenTitle'
 import useHorizontalScroll from '@/hooks/useHorizontalScroll'
+import { useGSAP } from '@gsap/react'
 gsap.registerPlugin(ScrollTrigger)
 
 // Figma: 메인페이지 전체 레이아웃 (node-id=1277-701)
@@ -20,7 +21,17 @@ gsap.registerPlugin(ScrollTrigger)
 export default function MainPage() {
     const containerRef = useRef<HTMLDivElement>(null)
     useHorizontalScroll(containerRef as React.RefObject<HTMLDivElement>)
-
+    // useGSAP(() => {
+    //     ScrollTrigger.create({
+    //         trigger: '.sticky',
+    //         start: 'top top',
+    //         endTrigger: '#about',
+    //         end: 'bottom top',
+    //         pin: '.sticky',
+    //         pinReparent: true,
+    //         markers: true
+    //     })
+    // })
     return (
         <div
             ref={containerRef}
@@ -51,8 +62,48 @@ export default function MainPage() {
                     />
                 </video>
             </section>
-            {/* About Section */}
+            {/* LILON section */}
             <section className="main-section flex h-screen flex-row items-end gap-128 bg-[#F8F8F8] px-128 py-128">
+                <div className="flex flex-col items-baseline justify-center">
+                    <HighlightenTitle
+                        text="LIKELION, 멋쟁이사자처럼"
+                        className="sticky mt-61"
+                    />
+                    <div className="mt-155 flex flex-row gap-48">
+                        <LIONBox
+                            titleLetter="L"
+                            titleWord="LEAD"
+                            titleHanguel="주도적으로 이끌다"
+                            description="더 나은 방향을 향해, 도전하고 끊임없이 시도합니다."
+                        />
+                        <LIONBox
+                            titleLetter="I"
+                            titleWord="IMMERSE"
+                            titleHanguel="몰입하다"
+                            description="하나에 깊게 몰두하며,
+끝까지 나아갑니다."
+                        />
+                        <LIONBox
+                            titleLetter="O"
+                            titleWord="OPEN"
+                            titleHanguel="열다"
+                            description="서로 다른 관점을 소통으로
+                            이어가며, 함께 성장합니다."
+                        />
+                        <LIONBox
+                            titleLetter="N"
+                            titleWord="NETWORK"
+                            titleHanguel="연결하다"
+                            description="팀워크와 협력을 통해
+                            결과물을 창출합니다."
+                        />
+                    </div>
+                </div>
+            </section>
+            {/* About Section */}
+            <section
+                className="main-section flex h-screen flex-row items-end gap-128 bg-[#F8F8F8] px-128 py-128"
+                id="about">
                 <div className="flex flex-col items-baseline justify-center">
                     <HighlightenTitle
                         text="가능성을 현실로, 도전을 성장으로."
@@ -168,6 +219,7 @@ export default function MainPage() {
                     </Carousel>
                 </div>
             </section>
+
             {/* FAQ Section (아코디언 활용) */}
             {/* <section className="main-section flex h-screen w-screen flex-col items-center justify-center bg-[#F8F8F8]">
                 <h2 className="font-pretendard mb-6 text-[32px] font-bold text-[#222]">
@@ -182,7 +234,32 @@ export default function MainPage() {
         </div>
     )
 }
-
+const LIONBox = ({
+    titleLetter,
+    titleWord,
+    titleHanguel,
+    description
+}: {
+    titleLetter?: string
+    titleWord: string
+    titleHanguel: string
+    description: string
+}) => {
+    return (
+        <div className="flex w-384 flex-col items-baseline justify-center">
+            <p className="font-pretendard text-sub-seoultech-red leading-trim text-[256px] font-black">
+                {titleLetter}
+            </p>
+            <p className="font-pretendard text-32 mt-95 font-bold whitespace-pre-line">
+                <span className="text-sub-seoultech-red">{titleWord} </span>
+                <span className="text-sub-seoultech-blue">{titleHanguel}</span>
+            </p>
+            <span className="font-pretendard text-32 text-pri-black mt-48 font-medium whitespace-pre-line">
+                {description}
+            </span>
+        </div>
+    )
+}
 const AboutBox = ({
     title,
     description

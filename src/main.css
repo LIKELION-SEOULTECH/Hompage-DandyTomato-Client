@@ -148,6 +148,8 @@ html,
 body {
     overflow-x: hidden;
     overflow-wrap: anywhere;
+    letter-spacing: -0.03em;
+    line-height: 1.5;
 }
 .hide-scrollbar {
     -ms-overflow-style: none;
@@ -157,4 +159,8 @@ body {
     .main-section {
         margin-left: -2px;
     }
+}
+
+.leading-trim {
+    text-box: trim-both cap alphabetic;
 }
