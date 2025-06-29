@@ -17,26 +17,31 @@ export default function SessionResourcesPage() {
     ]
 
     return (
-        <div className="relative flex flex-row justify-end gap-16 pt-185 pr-100">
-            <HighlightenTitle
-                text="세션 자료"
-                className="fixed top-185 left-128"
-            />
-            <div className="fixed bottom-128 left-128 flex flex-col gap-52">
-                <p className="text-24 text-pri-black font-bold">파트 구분</p>
-                <ToggleGroupButton
-                    options={[
-                        { label: '전체', value: 'all' },
-                        { label: '기획 PM', value: 'pm' },
-                        { label: '백엔드 BACK-END', value: 'backend' },
-                        { label: '프론트엔드 FRONT-END', value: 'frontend' },
-                        { label: '디자이너 DESIGNER', value: 'designer' },
-                        { label: '인공지능 AI', value: 'ai' }
-                    ]}
-                    className="text-sub-seoultech-red"
-                />
+        <div className="relative flex h-full w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128">
+            <div className="flex flex-col gap-313">
+                <HighlightenTitle text="세션 자료" />
+                <div className="flex flex-col gap-52">
+                    <p className="text-24 text-pri-black font-bold">
+                        파트 구분
+                    </p>
+                    <ToggleGroupButton
+                        options={[
+                            { label: '전체', value: 'all' },
+                            { label: '기획 PM', value: 'pm' },
+                            { label: '백엔드 BACK-END', value: 'backend' },
+                            {
+                                label: '프론트엔드 FRONT-END',
+                                value: 'frontend'
+                            },
+                            { label: '디자이너 DESIGNER', value: 'designer' },
+                            { label: '인공지능 AI', value: 'ai' }
+                        ]}
+                        className="text-sub-seoultech-red"
+                    />
+                </div>
             </div>
-            <div className="flex flex-col items-end gap-115">
+
+            <div className="flex h-full w-full flex-col items-end gap-115">
                 <ToggleGroupButton
                     options={[
                         { label: '세션 자료', value: 'resources' },
@@ -45,10 +50,7 @@ export default function SessionResourcesPage() {
                     className="text-sub-seoultech-red flex-row"
                     itemClassName="px-16 py-8 h-auto"
                 />
-                <SessionResourceList
-                    items={items}
-                    className=""
-                />
+                <SessionResourceList items={items} />
             </div>
         </div>
     )

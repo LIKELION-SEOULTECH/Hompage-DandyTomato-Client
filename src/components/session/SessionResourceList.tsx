@@ -17,7 +17,7 @@ export default function SessionResourceList({
     return (
         <div
             ref={containerRef}
-            className={cn('flex h-768 w-1100 flex-col gap-16', className)}>
+            className={cn('flex h-full w-full flex-col gap-16', className)}>
             {items.map((item, index) => (
                 <SessionResourceItem
                     key={index}

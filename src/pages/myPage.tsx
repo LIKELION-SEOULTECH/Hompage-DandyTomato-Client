@@ -2,6 +2,7 @@ import FilterButton from '@/components/archive/FilterButton'
 import TagBadge from '@/components/archive/TagBadge'
 import HighlightenTitle from '@/components/HighlightenTitle'
 import LinkIcon from '@/components/LinkIcon'
+import SessionResourceList from '@/components/session/SessionResourceList'
 
 export default function MyPage() {
     const { image, name, major, email, description, links, generation, part } =
@@ -20,7 +21,7 @@ export default function MyPage() {
             part: '기획'
         }
     return (
-        <div className="relative flex h-[100vh] flex-row pt-185 pr-100 pl-128">
+        <div className="relative flex h-[100vh] flex-row gap-128 pt-185 pr-100 pl-128">
             <ProfileCard
                 image={image}
                 name={name}
@@ -32,48 +33,37 @@ export default function MyPage() {
                 part={part}
             />
             {/* Main Content */}
-            <div className="">
-                {/* Main Title */}
-                <HighlightenTitle
-                    text="제출한 과제"
-                    className="absolute top-[185px] left-[521px]"
-                />
-                {/* Sort Button */}
-                <FilterButton
-                    text="최신순"
-                    options={[
-                        { label: '최신순', value: '최신순' },
-                        { label: '오래된순', value: '오래된순' }
-                    ]}
-                    className="absolute top-[185px] right-[100px]"
-                />
-                {/* Assignment List */}
-                <div
-                    className="absolute left-[521px] w-[1107px]"
-                    style={{ top: 'calc(25% + 73px)' }}>
-                    <div className="relative box-border flex w-[1107px] flex-col content-stretch items-start justify-start gap-6 p-0">
-                        {[1, 2, 3, 4, 5].map(i => (
-                            <div
-                                key={i}
-                                className="relative w-full shrink-0 rounded-[15px] bg-[#e4e5e9]">
-                                <div className="relative flex size-full flex-row items-center">
-                                    <div className="relative box-border flex w-full flex-row content-stretch items-center justify-between p-[36px] leading-[0] text-nowrap not-italic">
-                                        <div className="relative shrink-0 text-center text-[24px] font-bold tracking-[-0.72px] text-[#0a0e11]">
-                                            <p className="adjustLetterSpacing block leading-[1.5] text-nowrap whitespace-pre">
-                                                과제 제목
-                                            </p>
-                                        </div>
-                                        <div className="relative shrink-0 text-left text-[20px] font-medium tracking-[-0.6px] text-[#0b4066]">
-                                            <p className="adjustLetterSpacing block leading-[1.5] text-nowrap whitespace-pre">
-                                                2025.06.18
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+            <div className="flex h-full w-full flex-col gap-82">
+                <div className="flex flex-row items-center justify-between">
+                    {/* Main Title */}
+                    <HighlightenTitle text="제출한 과제" />
+                    {/* Sort Button */}
+                    <FilterButton
+                        text="최신순"
+                        options={[
+                            { label: '최신순', value: '최신순' },
+                            { label: '오래된순', value: '오래된순' }
+                        ]}
+                    />
                 </div>
+
+                {/* Assignment List */}
+
+                <SessionResourceList
+                    items={[
+                        {
+                            week: 1,
+                            title: '과제 제목',
+                            assignmentState: '과제 할당됨'
+                        },
+
+                        {
+                            week: 1,
+                            title: '과제 제목',
+                            assignmentState: '과제 할당됨'
+                        }
+                    ]}
+                />
             </div>
         </div>
     )
