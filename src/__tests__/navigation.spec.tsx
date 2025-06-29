@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import GlobalNavigationButton from '@/components/globalNavigationButton'
+import GlobalNavigationButton from '@/components/GlobalNavigationButton'
 import { BrowserRouter } from 'react-router-dom'
 
 describe('GlobalNavigation', () => {

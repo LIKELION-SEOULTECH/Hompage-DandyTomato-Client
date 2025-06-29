@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import GlobalNavigationButton from '@/components/globalNavigationButton'
+import GlobalNavigationButton from '@/components/GlobalNavigationButton'
 
 export default function Layout() {
     return (

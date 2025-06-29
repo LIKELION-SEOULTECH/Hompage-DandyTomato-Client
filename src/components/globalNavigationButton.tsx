@@ -6,9 +6,11 @@ import {
     NavigationMenuItem,
     NavigationMenuList
 } from '@/components/ui/navigation-menu'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function GlobalNavigationButton() {
+    const [isHover, setIsHover] = useState(false)
     return (
         <div className="fixed top-64 z-50 flex w-screen justify-between px-64">
             <NavigationMenu className="">
@@ -16,9 +18,35 @@ export default function GlobalNavigationButton() {
                     <NavigationMenuItem className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50 px-30 py-10">
                         <Link to="/">ABOUT US</Link>
                     </NavigationMenuItem>
-                    <NavigationMenuItem className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50 px-30 py-10">
-                        <Link to="/archive">ARCHIVE</Link>
-                    </NavigationMenuItem>
+                    <NavigationMenuList
+                        className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50 flex flex-row items-center gap-64 px-30 py-10 transition-all duration-300"
+                        onMouseOver={() => {
+                            setIsHover(true)
+                        }}
+                        onMouseOut={() => {
+                            setIsHover(false)
+                        }}>
+                        ARCHIVE
+                        {isHover && (
+                            <>
+                                <NavigationMenuItem className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50">
+                                    <Link
+                                        to="/project"
+                                        className="font-pretendard text-16 font-bold">
+                                        PROJECTS
+                                    </Link>
+                                </NavigationMenuItem>
+                                <NavigationMenuItem className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50">
+                                    <Link
+                                        to="/gallery"
+                                        className="font-pretendard text-16 font-bold">
+                                        GALLERY
+                                    </Link>
+                                </NavigationMenuItem>
+                            </>
+                        )}
+                    </NavigationMenuList>
+
                     <NavigationMenuItem className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50 px-30 py-10">
                         <Link to="/members">MEMBERS</Link>
                     </NavigationMenuItem>
