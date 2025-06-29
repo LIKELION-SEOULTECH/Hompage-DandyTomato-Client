@@ -81,12 +81,13 @@ export default function MainPage() {
                         text="LIKELION, 멋쟁이사자처럼"
                         className="sticky mt-61"
                     />
-                    <div className="mt-155 flex flex-row gap-48">
+                    <div className="mt-155 flex flex-row">
                         <LIONBox
                             titleLetter="L"
                             titleWord="LEAD"
                             titleHanguel="주도적으로 이끌다"
                             description="더 나은 방향을 향해, 도전하고 끊임없이 시도합니다."
+                            className="mr-120"
                         />
                         <LIONBox
                             titleLetter="I"
@@ -94,6 +95,7 @@ export default function MainPage() {
                             titleHanguel="몰입하다"
                             description="하나에 깊게 몰두하며,
 끝까지 나아갑니다."
+                            className="mr-64"
                         />
                         <LIONBox
                             titleLetter="O"
@@ -101,6 +103,7 @@ export default function MainPage() {
                             titleHanguel="열다"
                             description="서로 다른 관점을 소통으로
                             이어가며, 함께 성장합니다."
+                            className="mr-124"
                         />
                         <LIONBox
                             titleLetter="N"
@@ -393,15 +396,21 @@ const LIONBox = ({
     titleLetter,
     titleWord,
     titleHanguel,
-    description
+    description,
+    className
 }: {
     titleLetter?: string
     titleWord: string
     titleHanguel: string
     description: string
+    className?: string
 }) => {
     return (
-        <div className="flex w-384 flex-col items-baseline justify-center">
+        <div
+            className={cn(
+                'flex w-384 flex-col items-baseline justify-center',
+                className
+            )}>
             <p className="font-pretendard text-sub-seoultech-red leading-trim text-[256px] font-black">
                 {titleLetter}
             </p>
