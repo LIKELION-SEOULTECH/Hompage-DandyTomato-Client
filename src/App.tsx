@@ -9,6 +9,7 @@ import SessionResourcesPage from './pages/SessionResourcesPage'
 import SessionAssignmentPage from './pages/SessionAssignmentPage'
 import SessionAIQuizPage from './pages/SessionAIQuizPage'
 import MemberPage from './pages/MemberPage'
+import MyPageEdit from './pages/MyPageEdit'
 
 export default function App() {
     return (
@@ -50,6 +51,10 @@ export default function App() {
                     <Route
                         element={<MemberPage />}
                         path="/members"
+                    />
+                    <Route
+                        element={<MyPageEdit />}
+                        path="/mypage/edit"
                     />
                 </Route>
             </Routes>
