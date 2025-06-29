@@ -23,7 +23,6 @@ export default function MemberItem({
                 alt={name}
                 className="rounded-15 absolute top-0 left-0 z-1 h-full w-full overflow-hidden object-cover"
             />
-
             {/* 이름, 태그 */}
             <div className="relative z-9 flex h-full w-full flex-col items-center justify-end px-36 py-24">
                 <div className="flex flex-col items-center justify-center gap-8 text-center">

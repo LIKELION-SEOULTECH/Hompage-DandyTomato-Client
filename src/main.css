@@ -163,4 +163,12 @@ body {
 
 .leading-trim {
     text-box: trim-both cap alphabetic;
+.hide-scrollbar {
+    -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+    .main-section {
+        margin-left: -2px;
+    }
 }

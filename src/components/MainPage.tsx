@@ -44,6 +44,7 @@ export default function MainPage() {
     //         markers: true
     //     })
     // })
+
     return (
         <div
             ref={containerRef}

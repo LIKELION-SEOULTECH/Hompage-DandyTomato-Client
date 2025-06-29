@@ -40,7 +40,6 @@ export default function SessionResourcesPage() {
                     />
                 </div>
             </div>
-
             <div className="flex h-full w-full flex-col items-end gap-115">
                 <ToggleGroupButton
                     options={[
