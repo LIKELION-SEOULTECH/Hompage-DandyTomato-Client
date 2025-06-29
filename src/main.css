@@ -163,6 +163,7 @@ body {
 
 .leading-trim {
     text-box: trim-both cap alphabetic;
+}
 .hide-scrollbar {
     -ms-overflow-style: none;
 }
