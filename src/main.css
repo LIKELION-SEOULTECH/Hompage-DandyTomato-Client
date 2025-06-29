@@ -47,6 +47,7 @@
     --color-pri-white: var(--pri-white);
     --color-pri-black: var(--pri-black);
     --color-pri-gray-1: var(--pri-gray-1);
+    --font-pretendard: 'Pretendard Variable', sans-serif;
 }
 
 :root {
@@ -153,6 +154,7 @@ body {
 }
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
-.main-section {
-    margin-left: -2px;
+    .main-section {
+        margin-left: -2px;
+    }
 }
