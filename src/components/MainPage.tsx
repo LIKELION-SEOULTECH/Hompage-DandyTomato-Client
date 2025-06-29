@@ -13,13 +13,37 @@ import {
 import Autoplay from 'embla-carousel-autoplay'
 import HighlightenTitle from './HighlightenTitle'
 import useHorizontalScroll from '@/hooks/useHorizontalScroll'
+import { useGSAP } from '@gsap/react'
+import TagBadge from './archive/TagBadge'
 gsap.registerPlugin(ScrollTrigger)
+import PM from '@/assets/icons/PMIcon.svg'
+import Design from '@/assets/icons/DesignIcon.svg'
+import Backend from '@/assets/icons/BackendIcon.svg'
+import Frontend from '@/assets/icons/FrontendIcon.svg'
+import AI from '@/assets/icons/AIIcon.svg'
+import { cn } from '@/lib/utils'
+import PartBG1 from '@/assets/images/PartBoxBackground01.png'
+import PartBG2 from '@/assets/images/PartBoxBackground02.png'
+import PartBG3 from '@/assets/images/PartBoxBackground03.png'
+import PartBG4 from '@/assets/images/PartBoxBackground04.png'
+import PartBG5 from '@/assets/images/PartBoxBackground05.png'
 
 // Figma: 메인페이지 전체 레이아웃 (node-id=1277-701)
 // 실제 섹션별 컴포넌트는 추후 분리/구현
 export default function MainPage() {
     const containerRef = useRef<HTMLDivElement>(null)
     useHorizontalScroll(containerRef as React.RefObject<HTMLDivElement>)
+    // useGSAP(() => {
+    //     ScrollTrigger.create({
+    //         trigger: '.sticky',
+    //         start: 'top top',
+    //         endTrigger: '#about',
+    //         end: 'bottom top',
+    //         pin: '.sticky',
+    //         pinReparent: true,
+    //         markers: true
+    //     })
+    // })
 
     return (
         <div
@@ -51,14 +75,57 @@ export default function MainPage() {
                     />
                 </video>
             </section>
-            {/* About Section */}
+            {/* LILON section */}
             <section className="main-section flex h-screen flex-row items-end gap-128 bg-[#F8F8F8] px-128 py-128">
+                <div className="flex flex-col items-baseline justify-center">
+                    <HighlightenTitle
+                        text="LIKELION, 멋쟁이사자처럼"
+                        className="sticky mt-61"
+                    />
+                    <div className="mt-155 flex flex-row">
+                        <LIONBox
+                            titleLetter="L"
+                            titleWord="LEAD"
+                            titleHanguel="주도적으로 이끌다"
+                            description="더 나은 방향을 향해, 도전하고 끊임없이 시도합니다."
+                            className="mr-120"
+                        />
+                        <LIONBox
+                            titleLetter="I"
+                            titleWord="IMMERSE"
+                            titleHanguel="몰입하다"
+                            description="하나에 깊게 몰두하며,
+끝까지 나아갑니다."
+                            className="mr-64"
+                        />
+                        <LIONBox
+                            titleLetter="O"
+                            titleWord="OPEN"
+                            titleHanguel="열다"
+                            description="서로 다른 관점을 소통으로
+                            이어가며, 함께 성장합니다."
+                            className="mr-124"
+                        />
+                        <LIONBox
+                            titleLetter="N"
+                            titleWord="NETWORK"
+                            titleHanguel="연결하다"
+                            description="팀워크와 협력을 통해
+                            결과물을 창출합니다."
+                        />
+                    </div>
+                </div>
+            </section>
+            {/* About Section */}
+            <section
+                className="main-section flex h-screen flex-row items-end gap-128 bg-[#F8F8F8] px-128 py-128"
+                id="about">
                 <div className="flex flex-col items-baseline justify-center">
                     <HighlightenTitle
                         text="가능성을 현실로, 도전을 성장으로."
                         className="mt-61"
                     />
-                    <p className="font-pretendard text-32 text-pri-black mt-42 leading-[150%] tracking-[-0.96px] whitespace-pre-line">
+                    <p className="font-pretendard text-32 text-pri-black mt-42 font-medium whitespace-pre-line">
                         국내 121개 대학 지점을 보유한 대학생 연합 IT 벤처 창업
                         동아리
                         <br />
@@ -81,6 +148,101 @@ export default function MainPage() {
                             description="NN개"
                         />
                     </div>
+                </div>
+                <div className="flex flex-row gap-48">
+                    <PartBox
+                        part="기획 PM"
+                        logo={
+                            <img
+                                src={PM}
+                                alt="PM"
+                            />
+                        }
+                        tags={[
+                            '린스타트업 모델',
+                            '문제 정의',
+                            'IA',
+                            'BM',
+                            '플로우차트',
+                            '와이어프레임',
+                            '기능명세서'
+                        ]}
+                        description="서비스의 아이디어를 구체화하고, 어떤 기능이 필요한지 고민하며 팀원들과 협업해 프로젝트를 이끌어가는 역할을 해요."
+                        background={PartBG1}
+                    />
+                    <PartBox
+                        part="디자인 DESIGN"
+                        logo={
+                            <img
+                                src={Design}
+                                alt="Design"
+                            />
+                        }
+                        tags={[
+                            'UI/UX',
+                            'Figma',
+                            '디자인 시스템',
+                            '시각디자인 원칙',
+                            '브랜딩',
+                            '개발자와의 협업'
+                        ]}
+                        description="프로젝트에서 사용자들이 편리하게 이용할 수 있도록 UX/UI 디자인을 만들고, 서비스의 비주얼 아이덴티티를 구축하는 역할을 해요."
+                        background={PartBG2}
+                    />
+                    <PartBox
+                        part="백엔드 BACK-END"
+                        logo={
+                            <img
+                                src={Backend}
+                                alt="Backend"
+                            />
+                        }
+                        tags={[
+                            'NoSQL',
+                            'Mongo DB',
+                            'Spring',
+                            'Messaging Queue',
+                            'Redisson Lock'
+                        ]}
+                        description="서비스 요구에 맞는 API를 개발하고, 배포와 운영을 통해 서버와 DB를 효율적으로 관리해요. 프레임워크를 활용해 실제 서비스 운영에 필요한 인프라를 구현해요."
+                        background={PartBG3}
+                    />
+                    <PartBox
+                        part="프론트엔드 FRONT-END"
+                        logo={
+                            <img
+                                src={Frontend}
+                                alt="Frontend"
+                            />
+                        }
+                        tags={[
+                            'React Hook',
+                            'HTML',
+                            'CSS',
+                            'React Native',
+                            '서버 상태 관리'
+                        ]}
+                        description="사용자 인터페이스를 구현하고, 서버와의 통신을 통해 서비스를 구성해요. 웹 클라이언트 개발에 필요한 기술을 기초부터 심화까지 배워나가요."
+                        background={PartBG4}
+                    />
+                    <PartBox
+                        part="인공지능 AI"
+                        logo={
+                            <img
+                                src={AI}
+                                alt="AI"
+                            />
+                        }
+                        tags={[
+                            '감정분석',
+                            'YOLO',
+                            '데이터 전처리',
+                            '가상환경',
+                            'Colab'
+                        ]}
+                        description="데이터를 분석하여  AI 모델을 설계해요. 머신러닝과 딥러닝을 활용해 서비스 기능을 고도화하거나 자동화하는 기술을 다뤄요."
+                        background={PartBG5}
+                    />
                 </div>
                 <div className="flex flex-row gap-48">
                     <AboutImageBox
@@ -168,6 +330,7 @@ export default function MainPage() {
                     </Carousel>
                 </div>
             </section>
+
             {/* FAQ Section (아코디언 활용) */}
             {/* <section className="main-section flex h-screen w-screen flex-col items-center justify-center bg-[#F8F8F8]">
                 <h2 className="font-pretendard mb-6 text-[32px] font-bold text-[#222]">
@@ -183,6 +346,85 @@ export default function MainPage() {
     )
 }
 
+const PartBox = ({
+    part,
+    logo,
+    tags,
+    description,
+    background
+}: {
+    part: string
+    logo: React.ReactNode
+    tags: string[]
+    description: string
+    background: string
+}) => {
+    return (
+        <div className="rounded-15 relative flex h-645 w-394 flex-col items-baseline justify-between overflow-hidden bg-cover bg-center px-32 py-64">
+            <img
+                className="absolute top-0 left-0 z-1 h-full w-full"
+                src={background}
+                alt=""
+                draggable={false}
+            />
+            <span className="font-pretendard text-32 text-sub-seoultech-red bg-pri-white z-2 font-bold whitespace-pre-line">
+                {part}
+            </span>
+            <div className="z-2 flex flex-col items-baseline justify-baseline gap-28">
+                <div className="flex flex-row items-center justify-center">
+                    {logo}
+                </div>
+                <div className="flex flex-row flex-wrap items-center justify-baseline gap-10">
+                    {tags.map((tag, index) => (
+                        <TagBadge
+                            key={index}
+                            tag={tag}
+                            withHash={false}
+                            className="font-pretendard border-2 font-bold"
+                        />
+                    ))}
+                </div>
+                <div className="flex flex-row items-center justify-center">
+                    <span className="font-pretendard text-16 text-pri-black font-medium whitespace-pre-line">
+                        {description}
+                    </span>
+                </div>
+            </div>
+        </div>
+    )
+}
+const LIONBox = ({
+    titleLetter,
+    titleWord,
+    titleHanguel,
+    description,
+    className
+}: {
+    titleLetter?: string
+    titleWord: string
+    titleHanguel: string
+    description: string
+    className?: string
+}) => {
+    return (
+        <div
+            className={cn(
+                'flex w-384 flex-col items-baseline justify-center',
+                className
+            )}>
+            <p className="font-pretendard text-sub-seoultech-red leading-trim text-[256px] font-black">
+                {titleLetter}
+            </p>
+            <p className="font-pretendard text-32 mt-95 font-bold whitespace-pre-line">
+                <span className="text-sub-seoultech-red">{titleWord} </span>
+                <span className="text-sub-seoultech-blue">{titleHanguel}</span>
+            </p>
+            <span className="font-pretendard text-32 text-pri-black mt-48 font-medium whitespace-pre-line">
+                {description}
+            </span>
+        </div>
+    )
+}
 const AboutBox = ({
     title,
     description
