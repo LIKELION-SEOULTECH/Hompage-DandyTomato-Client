@@ -14,7 +14,19 @@ import Autoplay from 'embla-carousel-autoplay'
 import HighlightenTitle from './HighlightenTitle'
 import useHorizontalScroll from '@/hooks/useHorizontalScroll'
 import { useGSAP } from '@gsap/react'
+import TagBadge from './archive/TagBadge'
 gsap.registerPlugin(ScrollTrigger)
+import PM from '@/assets/icons/PMIcon.svg'
+import Design from '@/assets/icons/DesignIcon.svg'
+import Backend from '@/assets/icons/BackendIcon.svg'
+import Frontend from '@/assets/icons/FrontendIcon.svg'
+import AI from '@/assets/icons/AIIcon.svg'
+import { cn } from '@/lib/utils'
+import PartBG1 from '@/assets/images/PartBoxBackground01.png'
+import PartBG2 from '@/assets/images/PartBoxBackground02.png'
+import PartBG3 from '@/assets/images/PartBoxBackground03.png'
+import PartBG4 from '@/assets/images/PartBoxBackground04.png'
+import PartBG5 from '@/assets/images/PartBoxBackground05.png'
 
 // Figma: 메인페이지 전체 레이아웃 (node-id=1277-701)
 // 실제 섹션별 컴포넌트는 추후 분리/구현
@@ -109,7 +121,7 @@ export default function MainPage() {
                         text="가능성을 현실로, 도전을 성장으로."
                         className="mt-61"
                     />
-                    <p className="font-pretendard text-32 text-pri-black mt-42 leading-[150%] tracking-[-0.96px] whitespace-pre-line">
+                    <p className="font-pretendard text-32 text-pri-black mt-42 font-medium whitespace-pre-line">
                         국내 121개 대학 지점을 보유한 대학생 연합 IT 벤처 창업
                         동아리
                         <br />
@@ -132,6 +144,101 @@ export default function MainPage() {
                             description="NN개"
                         />
                     </div>
+                </div>
+                <div className="flex flex-row gap-48">
+                    <PartBox
+                        part="기획 PM"
+                        logo={
+                            <img
+                                src={PM}
+                                alt="PM"
+                            />
+                        }
+                        tags={[
+                            '린스타트업 모델',
+                            '문제 정의',
+                            'IA',
+                            'BM',
+                            '플로우차트',
+                            '와이어프레임',
+                            '기능명세서'
+                        ]}
+                        description="서비스의 아이디어를 구체화하고, 어떤 기능이 필요한지 고민하며 팀원들과 협업해 프로젝트를 이끌어가는 역할을 해요."
+                        background={PartBG1}
+                    />
+                    <PartBox
+                        part="디자인 DESIGN"
+                        logo={
+                            <img
+                                src={Design}
+                                alt="Design"
+                            />
+                        }
+                        tags={[
+                            'UI/UX',
+                            'Figma',
+                            '디자인 시스템',
+                            '시각디자인 원칙',
+                            '브랜딩',
+                            '개발자와의 협업'
+                        ]}
+                        description="프로젝트에서 사용자들이 편리하게 이용할 수 있도록 UX/UI 디자인을 만들고, 서비스의 비주얼 아이덴티티를 구축하는 역할을 해요."
+                        background={PartBG2}
+                    />
+                    <PartBox
+                        part="백엔드 BACK-END"
+                        logo={
+                            <img
+                                src={Backend}
+                                alt="Backend"
+                            />
+                        }
+                        tags={[
+                            'NoSQL',
+                            'Mongo DB',
+                            'Spring',
+                            'Messaging Queue',
+                            'Redisson Lock'
+                        ]}
+                        description="서비스 요구에 맞는 API를 개발하고, 배포와 운영을 통해 서버와 DB를 효율적으로 관리해요. 프레임워크를 활용해 실제 서비스 운영에 필요한 인프라를 구현해요."
+                        background={PartBG3}
+                    />
+                    <PartBox
+                        part="프론트엔드 FRONT-END"
+                        logo={
+                            <img
+                                src={Frontend}
+                                alt="Frontend"
+                            />
+                        }
+                        tags={[
+                            'React Hook',
+                            'HTML',
+                            'CSS',
+                            'React Native',
+                            '서버 상태 관리'
+                        ]}
+                        description="사용자 인터페이스를 구현하고, 서버와의 통신을 통해 서비스를 구성해요. 웹 클라이언트 개발에 필요한 기술을 기초부터 심화까지 배워나가요."
+                        background={PartBG4}
+                    />
+                    <PartBox
+                        part="인공지능 AI"
+                        logo={
+                            <img
+                                src={AI}
+                                alt="AI"
+                            />
+                        }
+                        tags={[
+                            '감정분석',
+                            'YOLO',
+                            '데이터 전처리',
+                            '가상환경',
+                            'Colab'
+                        ]}
+                        description="데이터를 분석하여  AI 모델을 설계해요. 머신러닝과 딥러닝을 활용해 서비스 기능을 고도화하거나 자동화하는 기술을 다뤄요."
+                        background={PartBG5}
+                    />
                 </div>
                 <div className="flex flex-row gap-48">
                     <AboutImageBox
@@ -231,6 +338,54 @@ export default function MainPage() {
             {/* <footer className="font-pretendard w-full border-t border-[#E5E5E5] bg-white py-10 text-center text-[14px] text-[#999]">
                 © 2024 멋쟁이 토마토. All rights reserved.
             </footer> */}
+        </div>
+    )
+}
+
+const PartBox = ({
+    part,
+    logo,
+    tags,
+    description,
+    background
+}: {
+    part: string
+    logo: React.ReactNode
+    tags: string[]
+    description: string
+    background: string
+}) => {
+    return (
+        <div className="rounded-15 relative flex h-645 w-394 flex-col items-baseline justify-between overflow-hidden bg-cover bg-center px-32 py-64">
+            <img
+                className="absolute top-0 left-0 z-1 h-full w-full"
+                src={background}
+                alt=""
+                draggable={false}
+            />
+            <span className="font-pretendard text-32 text-sub-seoultech-red bg-pri-white z-2 font-bold whitespace-pre-line">
+                {part}
+            </span>
+            <div className="z-2 flex flex-col items-baseline justify-baseline gap-28">
+                <div className="flex flex-row items-center justify-center">
+                    {logo}
+                </div>
+                <div className="flex flex-row flex-wrap items-center justify-baseline gap-10">
+                    {tags.map((tag, index) => (
+                        <TagBadge
+                            key={index}
+                            tag={tag}
+                            withHash={false}
+                            className="font-pretendard border-2 font-bold"
+                        />
+                    ))}
+                </div>
+                <div className="flex flex-row items-center justify-center">
+                    <span className="font-pretendard text-16 text-pri-black font-medium whitespace-pre-line">
+                        {description}
+                    </span>
+                </div>
+            </div>
         </div>
     )
 }
