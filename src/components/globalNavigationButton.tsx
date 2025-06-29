@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 export default function GlobalNavigationButton() {
     const [isHover, setIsHover] = useState(false)
     const [isSessionHover, setIsSessionHover] = useState(false)
-    const isLogin = false
+    const isLogin = true
     return (
         <div className="fixed top-64 z-50 flex w-screen justify-between px-64">
             <NavigationMenu className="">
@@ -68,7 +68,7 @@ export default function GlobalNavigationButton() {
                             onMouseOut={() => {
                                 setIsSessionHover(false)
                             }}>
-                            <NavigationMenuItem className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50 px-30 py-10">
+                            <NavigationMenuItem className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50">
                                 <Link to="/session-resources">SESSION</Link>
                             </NavigationMenuItem>
                             {isSessionHover && (
