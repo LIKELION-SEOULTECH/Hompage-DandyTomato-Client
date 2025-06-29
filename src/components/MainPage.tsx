@@ -12,50 +12,14 @@ import {
 } from './ui/carousel'
 import Autoplay from 'embla-carousel-autoplay'
 import HighlightenTitle from './HighlightenTitle'
+import useHorizontalScroll from '@/hooks/useHorizontalScroll'
 gsap.registerPlugin(ScrollTrigger)
 
 // Figma: 메인페이지 전체 레이아웃 (node-id=1277-701)
 // 실제 섹션별 컴포넌트는 추후 분리/구현
 export default function MainPage() {
     const containerRef = useRef<HTMLDivElement>(null)
-    useEffect(() => {
-        const sections = gsap.utils.toArray('.main-section')
-        if (!containerRef.current || sections.length === 0) return
-
-        // gsap.to(sections, {
-        //     xPercent: -100 * (sections.length - 1),
-        //     ease: 'none',
-        //     scrollTrigger: {
-        //         trigger: containerRef.current,
-        //         pin: true,
-        //         scrub: 1,
-        //         anticipatePin: 1,
-        //         // snap: 1 / (sections.length - 1),
-        //         end: () =>
-        //             '+=' +
-        //             (containerRef.current!.offsetWidth *
-        //                 (sections.length - 1) *
-        //                 1) /
-        //                 10
-        //     }
-        // })
-        const totalWidth = containerRef.current.scrollWidth - window.innerWidth
-        gsap.to(containerRef.current, {
-            x: -totalWidth,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: containerRef.current,
-                pin: true,
-                scrub: 1,
-                anticipatePin: 1,
-                end: () => `+=${totalWidth}`
-            }
-        })
-
-        return () => {
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill())
-        }
-    }, [])
+    useHorizontalScroll(containerRef as React.RefObject<HTMLDivElement>)
 
     return (
         <div
