@@ -8,23 +8,22 @@ export default function MemberItem({
     onClick
 }: {
     name: string
-    image: string
+    image?: string
     part: string
     generation: string
     onClick: () => void
 }) {
     return (
         <div
-            className="bg-sub-seoultech-blue rounded-15 relative h-286 w-286 overflow-hidden"
+            className="rounded-15 relative h-286 w-286 overflow-hidden bg-transparent"
             onClick={onClick}>
             {/* 이미지 */}
-            <div className="absolute top-0 left-0 z-1 h-full w-full">
-                <img
-                    src={image}
-                    alt={name}
-                    className="h-full w-full object-cover"
-                />
-            </div>
+            <img
+                src={image || '/src/assets/images/MemberCardDefault.png'}
+                alt={name}
+                className="rounded-15 absolute top-0 left-0 z-1 h-full w-full overflow-hidden object-cover"
+            />
+
             {/* 이름, 태그 */}
             <div className="relative z-9 flex h-full w-full flex-col items-center justify-end px-36 py-24">
                 <div className="flex flex-col items-center justify-center gap-8 text-center">

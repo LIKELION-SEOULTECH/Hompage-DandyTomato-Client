@@ -1,6 +1,6 @@
 import { RefObject } from 'react'
 import TagBadge from '../archive/TagBadge'
-import { Badge } from '../ui/badge'
+import LinkIcon from '../LinkIcon'
 
 export default function MemberCard({
     isOpen,
@@ -20,12 +20,12 @@ export default function MemberCard({
     handleClose: () => void
     name: string
     major: string
-    image: string
+    image?: string
     part: string
     generation: string
-    email: string
-    description: string
-    links: string[]
+    email?: string
+    description?: string
+    links?: string[]
     ref: RefObject<HTMLDivElement>
     dimmedRef: RefObject<HTMLDivElement>
 }) {
@@ -49,7 +49,9 @@ export default function MemberCard({
                         transformStyle: 'preserve-3d'
                     }}>
                     <img
-                        src={image}
+                        src={
+                            image || '/src/assets/images/MemberCardDefault.png'
+                        }
                         alt={name}
                         className="rounded-15 h-265 w-265 object-cover"
                     />
@@ -72,26 +74,21 @@ export default function MemberCard({
                                     {name}/{major}
                                 </span>
                                 <span className="text-20 text-pri-black font-medium">
-                                    {email}
+                                    {email || ''}
                                 </span>
                             </p>
 
                             <p className="text-16 text-pri-black font-medium">
-                                {description}
+                                {description || ''}
                             </p>
                         </div>
 
                         <div className="flex flex-row items-center justify-center gap-16">
-                            {links.map(link => (
-                                <a
-                                    href={link}
-                                    target="_blank"
-                                    rel="noopener noreferrer">
-                                    <img
-                                        src={link}
-                                        alt={name}
-                                    />
-                                </a>
+                            {links?.map(link => (
+                                <LinkIcon
+                                    key={link}
+                                    link={link}
+                                />
                             ))}
                         </div>
                     </div>
@@ -108,7 +105,10 @@ export default function MemberCard({
                     {/* 이미지 */}
                     <div className="absolute top-0 left-0 z-1 h-full w-full">
                         <img
-                            src={image}
+                            src={
+                                image ||
+                                '/src/assets/images/MemberCardDefault.png'
+                            }
                             alt={name}
                             className="h-full w-full object-cover"
                         />
