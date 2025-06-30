@@ -1,22 +1,30 @@
-import React from 'react';
-
-const applicant = {
-    name: '홍길동',
-    studentId: '23101051',
-    department: '산업공학과 ITM전공',
-    phone: '010-0000-0000',
-    email: 'seoultech.likelion@gmail.com',
-};
+import React, { useState } from 'react';
+import { cn } from '@/lib/utils';
+import ApplyInput from '@/components/Apply/ApplyInput';
 
 const parts = [
-    { label: '기획 PM', filled: true },
-    { label: '디자인 DESIGN' },
-    { label: '백엔드 BACK-END' },
-    { label: '프론트엔드 FRONT-END' },
-    { label: '인공지능 AI' },
+    '기획 PM',
+    '디자인 DESIGN',
+    '백엔드 BACK-END',
+    '프론트엔드 FRONT-END',
+    '인공지능 AI',
 ];
 
 export default function ApplyPage() {
+    const [selectedPart, setSelectedPart] = useState(parts[0]);
+    const [form, setForm] = useState({
+        name: '',
+        studentId: '',
+        department: '',
+        phone: '',
+        email: '',
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setForm((prev) => ({ ...prev, [name]: value }));
+    };
+
     return (
         <div className="w-full h-screen flex flex-col bg-white">
             {/* 상단 타이틀 */}
@@ -25,46 +33,69 @@ export default function ApplyPage() {
                     지원하기
                 </h1>
                 {/* 메인 컨텐츠 */}
-                <div className="flex flex-row w-full justify-between mt-[6vh] px-[8vw]">
+                <div className="flex flex-row w-full mt-[6vh] px-[8vw]">
                     {/* 좌측 지원자 정보 */}
-                    <div className="flex flex-col gap-12 w-[50%] max-w-[700px]">
-                        <div className="grid grid-cols-2 gap-x-16 gap-y-10">
-                            <div>
-                                <div className="text-[20px] font-bold mb-2">이름</div>
-                                <div className="bg-[#E9EDF3] rounded-[10px] px-6 py-3 text-[18px] font-semibold text-[#032B49]">{applicant.name}</div>
-                            </div>
-                            <div>
-                                <div className="text-[20px] font-bold mb-2">전화번호</div>
-                                <div className="bg-[#E9EDF3] rounded-[10px] px-6 py-3 text-[18px] font-semibold text-[#032B49]">{applicant.phone}</div>
-                            </div>
-                            <div>
-                                <div className="text-[20px] font-bold mb-2">학번</div>
-                                <div className="bg-[#E9EDF3] rounded-[10px] px-6 py-3 text-[18px] font-semibold text-[#032B49]">{applicant.studentId}</div>
-                            </div>
-                            <div>
-                                <div className="text-[20px] font-bold mb-2">이메일</div>
-                                <div className="bg-[#E9EDF3] rounded-[10px] px-6 py-3 text-[18px] font-semibold text-[#032B49]">{applicant.email}</div>
-                            </div>
-                            <div>
-                                <div className="text-[20px] font-bold mb-2">학과</div>
-                                <div className="bg-[#E9EDF3] rounded-[10px] px-6 py-3 text-[18px] font-semibold text-[#032B49]">{applicant.department}</div>
-                            </div>
+                    <div className="flex flex-col max-w-[758px]">
+                        <div className="grid grid-cols-2 gap-x-64 gap-y-36">
+                            <ApplyInput
+                                label="이름"
+                                name="name"
+                                value={form.name}
+                                onChange={handleChange}
+                                placeholder="홍길동"
+                                width="256px"
+                            />
+                            <ApplyInput
+                                label="전화번호"
+                                name="phone"
+                                value={form.phone}
+                                onChange={handleChange}
+                                placeholder="010-0000-0000"
+                                width="438px"
+                            />
+                            <ApplyInput
+                                label="학번"
+                                name="studentId"
+                                value={form.studentId}
+                                onChange={handleChange}
+                                placeholder="23101051"
+                                width="256px"
+                            />
+                            <ApplyInput
+                                label="이메일"
+                                name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                placeholder="seoultech.likelion@gmail.com"
+                                type="email"
+                                width="438px"
+                            />
+                            <ApplyInput
+                                label="학과"
+                                name="department"
+                                value={form.department}
+                                onChange={handleChange}
+                                placeholder="산업공학과 ITM전공"
+                                width="256px"
+                            />
                         </div>
                     </div>
                     {/* 우측 지원 파트 */}
-                    <div className="flex flex-col items-start min-w-[260px] ml-[4vw]">
+                    <div className="flex flex-col items-start min-w-[260px] ml-128">
                         <div className="text-[20px] font-bold mb-6">지원 파트</div>
-                        <div className="flex flex-col gap-4">
-                            {parts.map((part, idx) => (
+                        <div className="flex flex-col gap-[28px]">
+                            {parts.map((part) => (
                                 <button
-                                    key={part.label}
-                                    className={
-                                        part.filled
-                                            ? 'bg-sub_seoultech_red text-white font-bold rounded-full px-6 py-2 text-[18px]'
-                                            : 'border-2 border-sub_seoultech_red text-sub_seoultech_red font-bold rounded-full px-6 py-2 text-[18px] bg-white'
-                                    }
+                                    key={part}
+                                    onClick={() => setSelectedPart(part)}
+                                    className={cn(
+                                        'flex flex-col justify-center items-center px-12 py-[6px] rounded-50 border-2 text-sm font-semibold whitespace-nowrap font-pretendard self-start',
+                                        selectedPart === part
+                                            ? 'bg-sub_seoultech_red text-white border-sub_seoultech_red'
+                                            : 'text-sub_seoultech_red border-sub_seoultech_red bg-white'
+                                    )}
                                 >
-                                    {part.label}
+                                    {part}
                                 </button>
                             ))}
                         </div>
