@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import ApplyInput from '@/components/Apply/ApplyInput';
+import { useLocation, Link } from 'react-router-dom';
 
 const parts = [
     '기획 PM',
@@ -11,7 +12,10 @@ const parts = [
 ];
 
 export default function ApplyPage() {
-    const [selectedPart, setSelectedPart] = useState(parts[0]);
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const initialPart = params.get('part') || parts[0];
+    const [selectedPart, setSelectedPart] = useState(initialPart);
     const [form, setForm] = useState({
         name: '',
         studentId: '',
@@ -33,17 +37,16 @@ export default function ApplyPage() {
                     지원하기
                 </h1>
                 {/* 메인 컨텐츠 */}
-                <div className="flex flex-row w-full mt-[6vh] px-[8vw]">
+                <div className="flex flex-row gap-[128px] w-full mt-[6vh] px-[8vw]">
                     {/* 좌측 지원자 정보 */}
-                    <div className="flex flex-col max-w-[758px]">
-                        <div className="grid grid-cols-2 gap-x-64 gap-y-36">
+                    <div className="flex flex-col gap-12">
+                        <div className="grid grid-cols-[256px_438px] gap-x-64 gap-y-36">
                             <ApplyInput
                                 label="이름"
                                 name="name"
                                 value={form.name}
                                 onChange={handleChange}
                                 placeholder="홍길동"
-                                width="256px"
                             />
                             <ApplyInput
                                 label="전화번호"
@@ -51,7 +54,6 @@ export default function ApplyPage() {
                                 value={form.phone}
                                 onChange={handleChange}
                                 placeholder="010-0000-0000"
-                                width="438px"
                             />
                             <ApplyInput
                                 label="학번"
@@ -59,7 +61,6 @@ export default function ApplyPage() {
                                 value={form.studentId}
                                 onChange={handleChange}
                                 placeholder="23101051"
-                                width="256px"
                             />
                             <ApplyInput
                                 label="이메일"
@@ -68,7 +69,6 @@ export default function ApplyPage() {
                                 onChange={handleChange}
                                 placeholder="seoultech.likelion@gmail.com"
                                 type="email"
-                                width="438px"
                             />
                             <ApplyInput
                                 label="학과"
@@ -76,14 +76,13 @@ export default function ApplyPage() {
                                 value={form.department}
                                 onChange={handleChange}
                                 placeholder="산업공학과 ITM전공"
-                                width="256px"
                             />
                         </div>
                     </div>
                     {/* 우측 지원 파트 */}
-                    <div className="flex flex-col items-start min-w-[260px] ml-128">
-                        <div className="text-[20px] font-bold mb-6">지원 파트</div>
-                        <div className="flex flex-col gap-[28px]">
+                    <div className="flex flex-col items-start min-w-[260px]">
+                        <div className="text-[24px] font-bold mb-16 leading-36 tracking-[-0.72px]">지원 파트</div>
+                        <div className="flex flex-col gap-[20px]">
                             {parts.map((part) => (
                                 <button
                                     key={part}
@@ -104,10 +103,13 @@ export default function ApplyPage() {
             </div>
             {/* 우측 하단 버튼 */}
             <div className="flex w-full justify-end items-end pr-[8vw] pb-[5vh] mt-auto">
-                <button className="flex items-center gap-2 text-sub_seoultech_red font-bold text-[20px]">
+                <Link
+                    to={`/apply/part?part=${encodeURIComponent(selectedPart)}`}
+                    className="flex items-center gap-2 text-sub_seoultech_red font-bold text-[20px]"
+                >
                     파트별 지원서 작성하기
                     <span className="inline-flex items-center justify-center rounded-full bg-sub_seoultech_red w-8 h-8 text-white text-xl ml-1">→</span>
-                </button>
+                </Link>
             </div>
         </div>
     );

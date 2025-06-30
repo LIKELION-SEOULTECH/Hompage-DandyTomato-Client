@@ -4,6 +4,7 @@ import Layout from '@/components/layout/layout'
 import RecruitPage from '@/pages/IntroductionPage' // 경로 맞춰서!
 import IntroductionPage from '@/pages/IntroductionPage'
 import ApplyPage from '@/pages/ApplyPage'
+import ApplyPartPage from '@/pages/ApplyPartPage'
 
 export default function App() {
     return (
@@ -20,6 +21,9 @@ export default function App() {
                     <Route
                         element={<ApplyPage />}
                         path="/apply" />
+                    <Route
+                        element={<ApplyPartPage />}
+                        path="/apply/part" />
                 </Route>
             </Routes>
         </>

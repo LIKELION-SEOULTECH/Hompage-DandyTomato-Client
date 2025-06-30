@@ -1,4 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+import InstaIcon from '@/assets/icons/insta_icon.svg';
+import KakaoIcon from '@/assets/icons/kakao_icon.svg';
+import ContactIcon from '@/assets/icons/contact_icon.svg';
 
 export default function ApplySection() {
     const navigate = useNavigate();
@@ -31,15 +34,15 @@ export default function ApplySection() {
                     모집 알림 받기
                 </button>
 
-                <div className="absolute bottom-[11vh] left-0 flex gap-4 flex-wrap">
-                    <div className="flex items-center gap-2 bg-[#F5F8FC] px-4 py-2 rounded-lg font-pretendard text-[#032B49]">
-                        <span>📷</span> @likelion_st
+                <div className="absolute bottom-[11vh] left-0 flex gap-24 flex-wrap">
+                    <div className="flex items-center gap-10 bg-[#E4E5E9] p-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
+                        <img src={InstaIcon} alt="인스타그램" className="w-20 h-20" /> @likelion_st
                     </div>
-                    <div className="flex items-center gap-2 bg-[#F5F8FC] px-4 py-2 rounded-lg font-pretendard text-[#032B49]">
-                        <span>💬</span> @ajh1215hoo
+                    <div className="flex items-center gap-10 bg-[#E4E5E9] p-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
+                        <img src={KakaoIcon} alt="카카오톡" className="w-20 h-20" /> @ajh1215hoo
                     </div>
-                    <div className="flex items-center gap-2 bg-[#F5F8FC] px-4 py-2 rounded-lg font-pretendard text-[#032B49]">
-                        <span>📧</span> seoultech.likelion@gmail.com
+                    <div className="flex items-center gap-10 bg-[#E4E5E9] px-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
+                        <img src={ContactIcon} alt="이메일" className="w-20 h-20" /> seoultech.likelion@gmail.com
                     </div>
                 </div>
             </div>
