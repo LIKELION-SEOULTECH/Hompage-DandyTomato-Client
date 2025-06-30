@@ -28,7 +28,7 @@ export default function FAQSection() {
         <div className="flex w-full gap-193 bg-white ">
             {/* 왼쪽 필터 */}
             <div className="flex flex-col min-w-[180px]  mt-[17.5vh] mb-[11vh]">
-                <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-none tracking-[-1.92px] font-pretendard">
+                <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard">
                     FAQ
                 </h2>
                 <p className="text-[20px] font-bold leading-[30px] tracking-[-0.6px] text-[#0A0E11] font-pretendard mt-[23.7vh]">
@@ -57,7 +57,7 @@ export default function FAQSection() {
                 onMouseEnter={() => setScrollable(true)}
                 onMouseLeave={() => setScrollable(false)}
                 className={cn(
-                    "flex-1 h-screen pr-2 pt-[17.5vh] transition-all duration-300",
+                    "min-w-[708px] h-screen pr-2 pt-[17.5vh] transition-all duration-300",
                     scrollable ? "overflow-y-auto scrollbar-hide" : "overflow-hidden"
                 )}
             >

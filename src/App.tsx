@@ -1,8 +1,9 @@
 import MainPage from '@/components/MainPage'
 import { Route, Routes } from 'react-router-dom'
 import Layout from '@/components/layout/layout'
-import RecruitPage from '@/components/introduction/IntroductionPage' // 경로 맞춰서!
-import IntroductionPage from '@/components/introduction/IntroductionPage'
+import RecruitPage from '@/pages/IntroductionPage' // 경로 맞춰서!
+import IntroductionPage from '@/pages/IntroductionPage'
+import ApplyPage from '@/pages/ApplyPage'
 
 export default function App() {
     return (
@@ -16,6 +17,9 @@ export default function App() {
                     <Route
                         element={<IntroductionPage />}
                         path="/recruit" />
+                    <Route
+                        element={<ApplyPage />}
+                        path="/apply" />
                 </Route>
             </Routes>
         </>

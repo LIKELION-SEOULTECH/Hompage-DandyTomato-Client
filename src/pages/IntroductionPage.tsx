@@ -3,22 +3,26 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Button } from '@/components/ui/button'
-import GlowToggleButton from '../ui/glow-toggle-button'
-import IntroSection from './sections/IntroSection'
-import CertificationSection from './sections/CertificationSection'
-import RecruitProcessSection from './sections/RecruitProcessSection'
-import ActivityReviewSection from './sections/ActivityReviewSection'
-import FAQSection from './sections/FAQSection'
+import GlowToggleButton from '../components/ui/glow-toggle-button'
+import IntroSection from '../components/introduction/sections/IntroSection'
+import CertificationSection from '../components/introduction/sections/CertificationSection'
+import RecruitProcessSection from '../components/introduction/sections/RecruitProcessSection'
+import ActivityReviewSection from '../components/introduction/sections/ActivityReviewSection'
+import FAQSection from '../components/introduction/sections/FAQSection'
+import ApplySection from '../components/introduction/sections/ApplySection'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function IntroductionPage() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const applySectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!containerRef.current) return
+    if (!containerRef.current || !applySectionRef.current) return;
 
-    const totalWidth = containerRef.current.scrollWidth - window.innerWidth
+    // ApplySection의 끝 위치 계산
+    const applySectionEnd = applySectionRef.current.offsetLeft + applySectionRef.current.offsetWidth;
+    const totalWidth = applySectionEnd - window.innerWidth;
 
     gsap.to(containerRef.current, {
       x: -totalWidth,
@@ -30,11 +34,11 @@ export default function IntroductionPage() {
         anticipatePin: 1,
         end: () => `+=${totalWidth}`
       }
-    })
+    });
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
-    }
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, [])
 
   return (
@@ -45,7 +49,7 @@ export default function IntroductionPage() {
 
       <div
         ref={containerRef}
-        className="flex h-screen w-[800vw] fixed top-0 left-0 z-40  bg-white"
+        className="flex h-screen fixed top-0 left-0 z-40 bg-white"
       >
         <section className="recruit-section w-screen h-screen flex ">
           <IntroSection />
@@ -61,6 +65,9 @@ export default function IntroductionPage() {
         </section>
         <section className="recruit-section h-screen flex ml-384">
           <FAQSection />
+        </section>
+        <section ref={applySectionRef} className="recruit-section h-screen flex ml-384">
+          <ApplySection />
         </section>
       </div>
     </div>

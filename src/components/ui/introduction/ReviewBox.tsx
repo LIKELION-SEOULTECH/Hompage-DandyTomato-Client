@@ -10,7 +10,7 @@ export default function ReviewBox({ title, content, className }: ReviewBoxProps)
     return (
         <div
             className={cn(
-                'inline-flex flex-col items-start gap-[10px] p-[36px] rounded-15 bg-gray',
+                'flex flex-col items-start gap-[10px] p-[36px] rounded-15 bg-gray w-422 ',
                 className
             )}
         >

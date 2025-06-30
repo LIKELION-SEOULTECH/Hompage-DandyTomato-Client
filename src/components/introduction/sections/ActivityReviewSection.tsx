@@ -8,31 +8,40 @@ import ReviewBox from '@/components/ui/introduction/ReviewBox'
 export default function ActivityReviewSection() {
     const [scrollable, setScrollable] = useState(false)
 
+    // 리뷰를 3개의 컬럼으로 분배
+    const columns = 3;
+    const columnedReviews = Array.from({ length: columns }, () => [] as typeof reviews);
+    reviews.forEach((review, idx) => {
+        columnedReviews[idx % columns].push(review);
+    });
+
     return (
         <div className="relative w-screen bg-white flex justify-center ml-0">
             <div className="max-w-screen w-full flex flex-col items-start mt-[17.5vh]">
-                <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-none tracking-[-1.92px] font-pretendard ml-32">
+                <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard">
                     이전 기수 활동 후기
                 </h2>
 
                 <div
                     onMouseEnter={() => setScrollable(true)}
                     onMouseLeave={() => setScrollable(false)}
-                    className={`relative mt-78 ml-32 w-[calc(100%-8rem)] transition-all duration-300 pr-[17px] ${scrollable ? 'overflow-y-auto scrollbar-hide' : 'overflow-hidden'
-                        }`}
-                    style={{ scrollbarGutter: 'stable' }}
+                    className={cn(
+                        "relative mt-78 w-[calc(100%-8rem)] transition-all duration-300 pr-[10px] overflow-y-auto",
+                        scrollable ? "scrollbar-hide" : "overflow-hidden"
+                    )}
+                    style={{ maxHeight: '600px', scrollbarGutter: 'stable' }} // 필요시 maxHeight 조정
                 >
-                    <div
-                        className="columns-3 gap-x-[36px]"
-                        style={{ columnWidth: '422px', columnGap: '36px' }}
-                    >
-                        {reviews.map((review, idx) => (
-                            <ReviewBox
-                                key={idx}
-                                title={review.title}
-                                content={review.content}
-                                className="mb-[36px] break-inside-avoid"
-                            />
+                    <div className="flex gap-x-[36px]">
+                        {columnedReviews.map((col, colIdx) => (
+                            <div key={colIdx} className="flex flex-col gap-y-[36px]">
+                                {col.map((review, idx) => (
+                                    <ReviewBox
+                                        key={idx}
+                                        title={review.title}
+                                        content={review.content}
+                                    />
+                                ))}
+                            </div>
                         ))}
                     </div>
                 </div>
