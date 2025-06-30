@@ -7,6 +7,7 @@ import { ToggleGroupButton } from '@/components/archive/ToggleGroupButton'
 import { Input } from '@/components/ui/input'
 import PlusIcon from '@/assets/icons/CrossIcon.svg'
 import XIcon from '@/assets/icons/CrossIcon.svg'
+import { cn } from '@/lib/utils'
 
 const projectInitialState = {
     title: '',
@@ -295,23 +296,24 @@ export default function ArchiveAdminPage() {
                                 </Layout>
                                 <Layout title="활동태그">
                                     <ToggleGroupButton
-                                        className="flex flex-row gap-16 px-12 py-6"
+                                        className="flex flex-row gap-16 px-12"
+                                        itemClassName="text-16 font-bold w-full px-16"
                                         options={[
                                             {
-                                                label: '정기세션',
-                                                value: '정기세션'
+                                                label: '아이디어톤',
+                                                value: '아이디어톤'
                                             },
                                             {
-                                                label: '중앙활동',
-                                                value: '중앙활동'
+                                                label: '중앙해커톤',
+                                                value: '중앙해커톤'
                                             },
                                             {
-                                                label: '자체활동',
-                                                value: '자체활동'
+                                                label: '장기프로젝트',
+                                                value: '장기프로젝트'
                                             },
                                             {
-                                                label: '친목활동',
-                                                value: '친목활동'
+                                                label: '기타',
+                                                value: '기타'
                                             }
                                         ]}
                                     />
@@ -330,7 +332,11 @@ export default function ArchiveAdminPage() {
                                 </Layout>
                                 <Layout title="프로젝트 형태">
                                     <SharedButton
-                                        className="rounded-50 border-sub-seoultech-red text-sub-seoultech-red h-auto w-fit border-2 bg-transparent px-16 py-8"
+                                        className={cn(
+                                            'rounded-50 border-sub-seoultech-red text-sub-seoultech-red h-auto w-fit border-2 bg-transparent px-16 py-8',
+                                            projectIsExcellent &&
+                                                'border-sub-seoultech-red text-pri-white bg-sub-seoultech-red'
+                                        )}
                                         onClick={() =>
                                             projectDispatch({
                                                 type: 'SET_IS_EXCELLENT',
