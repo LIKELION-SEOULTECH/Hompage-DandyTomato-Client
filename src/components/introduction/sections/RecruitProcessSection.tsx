@@ -47,8 +47,8 @@ export default function RecruitProcessSection({ scrollerRef }: RecruitProcessSec
     }
 
     return (
-        <div className="w-screen min-h-screen bg-white flex justify-center">
-            <div className="max-w-[1600px] w-full flex flex-col items-start mt-[17.5vh] mb-[11vh] ml-32">
+        <div className="w-auto min-h-screen bg-white flex justify-center">
+            <div className="max-w-[1600px] w-full flex flex-col items-start mt-[17.5vh] mb-[11vh]">
                 <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard">
                     14기 모집 절차
                 </h2>

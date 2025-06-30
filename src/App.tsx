@@ -1,8 +1,8 @@
 import MainPage from '@/components/MainPage'
 import { Route, Routes } from 'react-router-dom'
 import Layout from '@/components/layout/layout'
-import RecruitPage from '@/pages/IntroductionPage' // 경로 맞춰서!
-import IntroductionPage from '@/pages/IntroductionPage'
+import RecruitPage from '@/components/introduction/IntroductionPage' // 경로 맞춰서!
+import IntroductionPage from '@/components/introduction/IntroductionPage'
 import ApplyPage from '@/pages/ApplyPage'
 import ApplyPartPage from '@/pages/ApplyPartPage'
 

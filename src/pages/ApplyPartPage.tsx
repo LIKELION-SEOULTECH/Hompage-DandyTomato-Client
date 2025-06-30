@@ -65,7 +65,7 @@ export default function ApplyPartPage() {
                 </div>
                 {/* 질문 카드(가로 스크롤) 영역 */}
                 <div className="flex-1 flex items-center">
-                    <div className="w-full mb-[11vh] mr-[8vw]">
+                    <div className="w-full mr-[8vw]">
                         <QuestionSection
                             questions={allQuestions}
                             answers={answers}

@@ -16,7 +16,7 @@ export default function ActivityReviewSection() {
     });
 
     return (
-        <div className="relative w-screen bg-white flex justify-center ml-0">
+        <div className="relative w-auto bg-white flex justify-center ml-0">
             <div className="max-w-screen w-full flex flex-col items-start mt-[17.5vh]">
                 <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard">
                     이전 기수 활동 후기

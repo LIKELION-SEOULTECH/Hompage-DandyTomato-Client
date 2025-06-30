@@ -4,8 +4,8 @@ import CertificationItem from '@/components/ui/introduction/CertificationItem'
 
 export default function CertificationSection() {
     return (
-        <div className="w-screen h-screen bg-white flex justify-center">
-            <div className="max-w-[960px] w-full flex flex-col items-start gap-78 mt-[17.5vh] mb-[11vh] ml-128">
+        <div className="w-auto h-screen bg-white flex justify-center">
+            <div className="max-w-[960px] w-full flex flex-col items-start gap-78 mt-[17.5vh] mb-[11vh]">
                 {/* 타이틀 */}
                 <h2 className="text-64 font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard">
                     지원 자격 & 모집 대상
