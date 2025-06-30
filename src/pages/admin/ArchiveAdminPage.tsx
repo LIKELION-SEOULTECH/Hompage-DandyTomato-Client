@@ -20,7 +20,8 @@ const projectInitialState = {
     isExcellent: false,
     description: '',
     team: '',
-    teamMembers: []
+    teamMembers: [],
+    images: []
 }
 
 const projectReducer = (state: typeof projectInitialState, action: any) => {
@@ -50,20 +51,33 @@ const projectReducer = (state: typeof projectInitialState, action: any) => {
         case 'SET_TEAM_MEMBERS_NAME':
             return {
                 ...state,
-                teamMembers: state.teamMembers.map((member, index) =>
-                    index === action.index
-                        ? { ...member, name: action.payload }
-                        : member
+                teamMembers: state.teamMembers.map(
+                    (member: { name: string; part: string }, index: number) =>
+                        index === action.index
+                            ? { ...member, name: action.payload }
+                            : member
                 )
             }
         case 'SET_TEAM_MEMBERS_PART':
             return {
                 ...state,
-                teamMembers: state.teamMembers.map((member, index) =>
-                    index === action.index
-                        ? { ...member, part: action.payload }
-                        : member
+                teamMembers: state.teamMembers.map(
+                    (member: { name: string; part: string }, index: number) =>
+                        index === action.index
+                            ? { ...member, part: action.payload }
+                            : member
                 )
+            }
+        case 'SET_IMAGE':
+            if (state.images.length >= 5) {
+                alert('최대 5개까지 업로드할 수 있습니다.')
+                return state
+            }
+            return { ...state, images: [action.payload, ...state.images] }
+        case 'DELETE_IMAGE':
+            return {
+                ...state,
+                images: state.images.filter((_, i) => i !== action.payload)
             }
         default:
             return state
@@ -75,7 +89,8 @@ const galleryInitialState = {
     description: '',
     period: '',
     year: '',
-    tag: ''
+    tag: '',
+    image: null
 }
 
 const galleryReducer = (state: typeof galleryInitialState, action: any) => {
@@ -90,6 +105,8 @@ const galleryReducer = (state: typeof galleryInitialState, action: any) => {
             return { ...state, year: action.payload }
         case 'SET_TAG':
             return { ...state, tag: action.payload }
+        case 'SET_IMAGE':
+            return { ...state, image: action.payload }
         default:
             return state
     }
@@ -116,15 +133,54 @@ export default function ArchiveAdminPage() {
         isExcellent: projectIsExcellent,
         description: projectDescription,
         team: projectTeam,
-        teamMembers: projectTeamMembers
+        teamMembers: projectTeamMembers,
+        images: projectImages
     } = projectState
     const {
         title: galleryTitle,
         description: galleryDescription,
         period: galleryPeriod,
         year: galleryYear,
-        tag: galleryTag
+        tag: galleryTag,
+        image: galleryImage
     } = galleryState
+
+    const [projectImageSelected, setProjectImageSelected] = useState(0)
+    const onUploadGalleryImage = () => {
+        // 파일 선택
+        const fileInput = document.createElement('input')
+        fileInput.type = 'file'
+        fileInput.accept = 'image/*'
+        fileInput.onchange = e => {
+            const file = (e.target as HTMLInputElement).files?.[0]
+            const fileUrl = URL.createObjectURL(file as Blob)
+            galleryDispatch({
+                type: 'SET_IMAGE',
+                payload: fileUrl
+            })
+        }
+        fileInput.click()
+    }
+    const onUploadProjectImage = () => {
+        const fileInput = document.createElement('input')
+        fileInput.type = 'file'
+        fileInput.accept = 'image/*'
+        fileInput.onchange = e => {
+            const file = (e.target as HTMLInputElement).files?.[0]
+            const fileUrl = URL.createObjectURL(file as Blob)
+            projectDispatch({
+                type: 'SET_IMAGE',
+                payload: fileUrl
+            })
+            setProjectImageSelected(0)
+            console.log(
+                projectImages.length - 1,
+                projectImageSelected,
+                projectImages
+            )
+        }
+        fileInput.click()
+    }
     return (
         <div className="relative flex h-full w-full flex-col gap-82 pt-185 pr-100 pl-128">
             <div className="flex flex-row items-start justify-between">
@@ -141,44 +197,81 @@ export default function ArchiveAdminPage() {
                 />
             </div>
             {type === '프로젝트' && (
-                <div className="flex h-full w-full flex-row justify-between gap-128">
-                    <div className="flex w-full max-w-344 flex-col gap-36">
+                <div className="flex h-full w-full flex-row justify-between gap-64">
+                    <div className="flex w-full max-w-480 flex-col gap-36">
                         <Layout title="사진">
-                            <div
-                                className="bg-pri-gray-1 rounded-15 flex h-344 w-344 flex-col items-center justify-center gap-12 overflow-hidden"
-                                onClick={() => {
-                                    // 파일 선택
-                                    const fileInput =
-                                        document.createElement('input')
-                                    fileInput.type = 'file'
-                                    fileInput.accept = 'image/*'
-                                    fileInput.onchange = e => {
-                                        const file = e.target.files?.[0]
-                                        if (file) {
-                                            // 파일 업로드
-                                            const formData = new FormData()
-                                            formData.append('file', file)
-                                            formData.append('type', 'profile')
-                                            formData.append('id', '1')
-                                            formData.append('name', 'profile')
-                                            formData.append(
-                                                'size',
-                                                file.size.toString()
-                                            )
-                                        }
-                                    }
-                                    fileInput.click()
-                                }}>
+                            {projectImages.length > 0 ? (
                                 <img
-                                    src={FileUploadIcon}
+                                    src={projectImages[projectImageSelected]}
                                     alt="파일 업로드"
-                                    className="h-90 w-90"
+                                    className="rounded-15 h-270 w-480 cursor-pointer object-cover"
+                                    onClick={onUploadProjectImage}
                                 />
-                                <p className="text-20 text-sub-seoultech-blue text-center font-medium">
-                                    사진 업로드
-                                    <br />
-                                    최대 업로드 파일 크기 20MB
-                                </p>
+                            ) : (
+                                <div
+                                    className="bg-pri-gray-1 rounded-15 flex h-270 w-480 flex-col items-center justify-center gap-12 overflow-hidden"
+                                    onClick={onUploadProjectImage}>
+                                    <img
+                                        src={FileUploadIcon}
+                                        alt="파일 업로드"
+                                        className="h-90 w-90 cursor-pointer"
+                                    />
+                                    <p className="text-20 text-sub-seoultech-blue text-center font-medium">
+                                        사진 업로드
+                                        <br />
+                                        최대 업로드 파일 크기 20MB
+                                    </p>
+                                </div>
+                            )}
+                            <div className="relative flex flex-row justify-between">
+                                {Array.from({ length: 5 }).map((_, index) => {
+                                    return (
+                                        <div className="rounded-8 relative h-53 w-91 cursor-pointer">
+                                            {projectImages[index] ? (
+                                                <>
+                                                    <img
+                                                        key={index}
+                                                        src={
+                                                            projectImages[index]
+                                                        }
+                                                        alt="파일 업로드"
+                                                        className="rounded-8 h-53 w-91 cursor-pointer object-cover"
+                                                        onClick={() => {
+                                                            setProjectImageSelected(
+                                                                index
+                                                            )
+                                                            console.log(
+                                                                projectImages.length -
+                                                                    1,
+                                                                projectImageSelected,
+                                                                projectImages
+                                                            )
+                                                        }}
+                                                    />
+                                                    <div
+                                                        className="bg-pri-white rounded-50 absolute -top-4 -right-4 flex cursor-pointer flex-row items-center justify-center px-4 py-4"
+                                                        onClick={() => {
+                                                            setProjectImageSelected(
+                                                                0
+                                                            )
+                                                            projectDispatch({
+                                                                type: 'DELETE_IMAGE',
+                                                                payload: index
+                                                            })
+                                                        }}>
+                                                        <img
+                                                            src={XIcon}
+                                                            alt="파일 삭제"
+                                                            className="h-12 w-12 rotate-45"
+                                                        />
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className="bg-pri-gray-1 rounded-8 h-53 w-91 cursor-pointer" />
+                                            )}
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </Layout>
                         <Layout title="TEAM">
@@ -202,7 +295,7 @@ export default function ArchiveAdminPage() {
                                         projectDispatch={projectDispatch}
                                         teamMembers={projectTeamMembers}
                                     />
-                                ))}{' '}
+                                ))}
                                 <div
                                     className="bg-pri-gray-1 rounded-15 flex h-56 w-56 flex-row items-center justify-center p-16"
                                     onClick={() => {
@@ -366,44 +459,31 @@ export default function ArchiveAdminPage() {
             )}
             {type === '갤러리' && (
                 <div className="flex h-full w-full flex-row justify-between gap-128">
-                    <div className="flex w-full max-w-344 flex-col gap-36">
+                    <div className="flex min-w-480 flex-col gap-36">
                         <Layout title="사진">
-                            <div
-                                className="bg-pri-gray-1 rounded-15 flex h-344 w-344 flex-col items-center justify-center gap-12 overflow-hidden"
-                                onClick={() => {
-                                    // 파일 선택
-                                    const fileInput =
-                                        document.createElement('input')
-                                    fileInput.type = 'file'
-                                    fileInput.accept = 'image/*'
-                                    fileInput.onchange = e => {
-                                        const file = e.target.files?.[0]
-                                        if (file) {
-                                            // 파일 업로드
-                                            const formData = new FormData()
-                                            formData.append('file', file)
-                                            formData.append('type', 'profile')
-                                            formData.append('id', '1')
-                                            formData.append('name', 'profile')
-                                            formData.append(
-                                                'size',
-                                                file.size.toString()
-                                            )
-                                        }
-                                    }
-                                    fileInput.click()
-                                }}>
+                            {galleryImage ? (
                                 <img
-                                    src={FileUploadIcon}
+                                    src={galleryImage}
                                     alt="파일 업로드"
-                                    className="h-90 w-90"
+                                    className="min-h-270 w-480 cursor-pointer object-cover"
+                                    onClick={onUploadGalleryImage}
                                 />
-                                <p className="text-20 text-sub-seoultech-blue text-center font-medium">
-                                    사진 업로드
-                                    <br />
-                                    최대 업로드 파일 크기 20MB
-                                </p>
-                            </div>
+                            ) : (
+                                <div
+                                    className="bg-pri-gray-1 rounded-15 flex h-270 w-480 flex-col items-center justify-center gap-12 overflow-hidden"
+                                    onClick={onUploadGalleryImage}>
+                                    <img
+                                        src={FileUploadIcon}
+                                        alt="파일 업로드"
+                                        className="h-90 w-90 cursor-pointer"
+                                    />
+                                    <p className="text-20 text-sub-seoultech-blue text-center font-medium">
+                                        사진 업로드
+                                        <br />
+                                        최대 업로드 파일 크기 20MB
+                                    </p>
+                                </div>
+                            )}
                         </Layout>
                     </div>
                     <div className="flex w-full flex-row justify-between gap-64">
