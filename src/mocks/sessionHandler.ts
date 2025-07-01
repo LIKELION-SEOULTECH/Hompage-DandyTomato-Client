@@ -108,17 +108,20 @@ export const sessionHandlers = [
     }),
 
     // 3. 세션 상세 페이지 조회
-
     http.get(`${baseURL}/session/:sessionId`, ({ request, params }) => {
         if (params.sessionId === 'not-found') {
-            return HttpResponse.json({ message: 'Not found' }, { status: 404 })
+            return HttpResponse.json(
+                {
+                    code: 'NOT_FOUND',
+                    message: '세션을 찾을 수 없습니다.'
+                },
+                { status: 404 }
+            )
         }
         return HttpResponse.json({
             id: params.sessionId,
             title: '세션 제목',
             content: '세션 내용',
-            started_at: '2024-06-01',
-            ended_at: '2024-06-02',
             assignments: [
                 {
                     id: 'assignment-1',
