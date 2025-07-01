@@ -1,5 +1,5 @@
 // src/components/recruit/RecruitPage.tsx
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Button } from '@/components/ui/button'
@@ -10,10 +10,12 @@ import RecruitProcessSection from './sections/RecruitProcessSection'
 import ActivityReviewSection from './sections/ActivityReviewSection'
 import FAQSection from './sections/FAQSection'
 import ApplySection from './sections/ApplySection'
+import AnimatedButton from '../ui/AnimatedButton'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function IntroductionPage() {
+  const [showButton, setShowButton] = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
   const applySectionRef = useRef<HTMLDivElement>(null)
 
@@ -32,7 +34,11 @@ export default function IntroductionPage() {
         pin: true,
         scrub: 1,
         anticipatePin: 1,
-        end: () => `+=${totalWidth - 384}`
+        end: () => `+=${totalWidth}`,
+        onUpdate: (self) => {
+          if (self.progress >= 0.99) setShowButton(false)
+          else setShowButton(true)
+        }
       }
     });
 
@@ -41,8 +47,22 @@ export default function IntroductionPage() {
     };
   }, [])
 
+  // 버튼 클릭 시 스크롤을 마지막까지 이동
+  const handleGoToEnd = () => {
+    if (!containerRef.current || !applySectionRef.current) return
+    const applySectionEnd = applySectionRef.current.offsetLeft + applySectionRef.current.offsetWidth
+    const totalWidth = applySectionEnd - window.innerWidth
+    // 스크롤을 마지막까지 이동 (세로 스크롤이지만, pin 구조에서는 top이 맞음)
+    window.scrollTo({ top: totalWidth, behavior: 'smooth' })
+  }
+
   return (
     <div className="relative bg-white overflow-y-scroll scrollbar-hide">
+      {showButton && (
+        <div className="fixed right-100 top-[19vh] z-50">
+          <AnimatedButton text="바로 지원하기" color="#F14B2D" onClick={handleGoToEnd} />
+        </div>
+      )}
       <div className="h-[totalWidth]">
       </div>
 
