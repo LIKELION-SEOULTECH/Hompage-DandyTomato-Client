@@ -23,24 +23,88 @@ export const handlers = [
     }),
     http.post(`${baseURL}/recruit/application`, async ({ request }) => {
         const body = await request.json()
-        if (typeof body === 'object' && body !== null) {
-            return HttpResponse.json({
-                ...body,
-                id: Math.floor(Math.random() * 100)
-            })
+        if (!body || typeof body !== 'object') {
+            return HttpResponse.json(
+                {
+                    code: 'INVALID_BODY',
+                    message: '요청 본문이 올바르지 않습니다.'
+                },
+                { status: 400 }
+            )
         }
-        return HttpResponse.json({ id: Math.floor(Math.random() * 10000) })
+        // 필수 필드 체크
+        if (
+            !body.name ||
+            !body.student_id ||
+            !body.email ||
+            !body.phone ||
+            !body.major ||
+            !body.part ||
+            !Array.isArray(body.answers)
+        ) {
+            return HttpResponse.json(
+                {
+                    code: 'MISSING_FIELD',
+                    message: '필수 필드가 누락되었습니다.'
+                },
+                { status: 400 }
+            )
+        }
+        return HttpResponse.json({
+            id: Math.floor(Math.random() * 10000),
+            name: body.name,
+            student_id: body.student_id,
+            email: body.email,
+            phone: body.phone,
+            major: body.major,
+            part: body.part,
+            answers: body.answers,
+            link: body.link,
+            status: 'submitted'
+        })
     }),
-    http.post(`${baseURL}/recruit/apply/draft`, async ({ request }) => {
+    http.post(`${baseURL}/recruit/application/draft`, async ({ request }) => {
         const body = await request.json()
-        if (typeof body === 'object' && body !== null) {
+        if (!body || typeof body !== 'object') {
+            return HttpResponse.json(
+                {
+                    code: 'INVALID_BODY',
+                    message: '요청 본문이 올바르지 않습니다.'
+                },
+                { status: 400 }
+            )
+        }
+        return HttpResponse.json({
+            id: Math.floor(Math.random() * 10000),
+            name: body.name,
+            student_id: body.student_id,
+            email: body.email,
+            phone: body.phone,
+            major: body.major,
+            part: body.part,
+            answers: body.answers,
+            link: body.link,
+            status: 'draft'
+        })
+    }),
+    http.get(
+        `${baseURL}/recruit/application/:applicationId/result`,
+        ({ params }) => {
+            const { applicationId } = params
+            if (applicationId === '0') {
+                return HttpResponse.json(
+                    {
+                        code: 'NOT_FOUND',
+                        message: '지원서를 찾을 수 없습니다.'
+                    },
+                    { status: 404 }
+                )
+            }
             return HttpResponse.json({
-                ...body,
-                id: Math.floor(Math.random() * 100)
+                result: Math.random() > 0.5 ? 'pass' : 'fail'
             })
         }
-        return HttpResponse.json({ id: Math.floor(Math.random() * 100) })
-    }),
+    ),
     ...memberHandlers,
     ...sessionHandlers,
     ...archiveHandlers
