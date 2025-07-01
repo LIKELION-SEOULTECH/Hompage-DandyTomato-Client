@@ -17,7 +17,7 @@ export default function ActivityReviewSection() {
 
     return (
         <div className="relative w-auto bg-white flex justify-center ml-0">
-            <div className="max-w-screen w-full flex flex-col items-start mt-[17.5vh]">
+            <div className="w-auto w-full flex flex-col items-start mt-[17.5vh]">
                 <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard">
                     이전 기수 활동 후기
                 </h2>
@@ -26,7 +26,7 @@ export default function ActivityReviewSection() {
                     onMouseEnter={() => setScrollable(true)}
                     onMouseLeave={() => setScrollable(false)}
                     className={cn(
-                        "relative mt-78 w-[calc(100%-8rem)] transition-all duration-300 pr-[10px] overflow-y-auto",
+                        "relative mt-78 w-[calc(100%)] transition-all duration-300 pr-[10px] overflow-y-auto",
                         scrollable ? "scrollbar-hide" : "overflow-hidden"
                     )}
                     style={{ maxHeight: '600px', scrollbarGutter: 'stable' }} // 필요시 maxHeight 조정

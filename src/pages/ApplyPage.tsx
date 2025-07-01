@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import ApplyInput from '@/components/Apply/ApplyInput';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
+import AnimatedButton from '@/components/ui/AnimatedButton';
 
 const parts = [
     '기획 PM',
@@ -23,6 +24,7 @@ export default function ApplyPage() {
         phone: '',
         email: '',
     });
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -102,14 +104,12 @@ export default function ApplyPage() {
                 </div>
             </div>
             {/* 우측 하단 버튼 */}
-            <div className="flex w-full justify-end items-end pr-[8vw] pb-[5vh] mt-auto">
-                <Link
-                    to={`/apply/part?part=${encodeURIComponent(selectedPart)}`}
-                    className="flex items-center gap-2 text-sub_seoultech_red font-bold text-[20px]"
-                >
-                    파트별 지원서 작성하기
-                    <span className="inline-flex items-center justify-center rounded-full bg-sub_seoultech_red w-8 h-8 text-white text-xl ml-1">→</span>
-                </Link>
+            <div className="flex w-full justify-end items-end pr-[8vw] mt-auto mb-[11vh]">
+                <AnimatedButton
+                    text="파트별 지원서 작성하기"
+                    color="#E74C2E"
+                    onClick={() => navigate(`/apply/part?part=${encodeURIComponent(selectedPart)}`)}
+                />
             </div>
         </div>
     );
