@@ -73,7 +73,7 @@ export default function IntroductionPage() {
         <section className="recruit-section w-screen h-screen flex">
           <IntroSection />
         </section>
-        <section className="recruit-section w-987 h-screen flex items-center justify-center ml-384">
+        <section className="recruit-section w-987 h-screen flex items-center justify-center ml-128">
           <CertificationSection />
         </section>
         <section className="recruit-section w-[2395px] h-screen ml-384">
