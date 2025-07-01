@@ -9,7 +9,9 @@ interface JwtTokens {
 interface AuthState {
     accessToken: string
     refreshToken: string
+    email: string
     setTokens: (tokens: JwtTokens) => void
+    setEmail: (email: string) => void
     logout: () => void
 }
 
@@ -18,14 +20,18 @@ export const useAuthZustandStore = create<AuthState>()(
         ((set: Parameters<StateCreator<AuthState>>[0]) => ({
             accessToken: '',
             refreshToken: '',
+            email: '',
             setTokens: (tokens: JwtTokens) => {
                 set({
                     accessToken: tokens.access_token,
                     refreshToken: tokens.refresh_token
                 })
             },
+            setEmail: (email: string) => {
+                set({ email })
+            },
             logout: () => {
-                set({ accessToken: '', refreshToken: '' })
+                set({ accessToken: '', refreshToken: '', email: '' })
             }
         })) as StateCreator<AuthState>,
         {
@@ -34,7 +40,7 @@ export const useAuthZustandStore = create<AuthState>()(
             partialize: state =>
                 Object.fromEntries(
                     Object.entries(state).filter(([key]) =>
-                        ['accessToken', 'refreshToken'].includes(key)
+                        ['accessToken', 'refreshToken', 'email'].includes(key)
                     )
                 ) as AuthState
         }
