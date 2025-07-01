@@ -76,7 +76,7 @@ export default function IntroductionPage() {
         <section className="recruit-section w-987 h-screen flex items-center justify-center ml-384">
           <CertificationSection />
         </section>
-        <section className="recruit-section w-[1484px] h-screen ml-384">
+        <section className="recruit-section w-[2395px] h-screen ml-384">
           <RecruitProcessSection scrollerRef={containerRef as React.RefObject<HTMLDivElement>} />
         </section>
         <section className="recruit-section h-screen flex ml-384">

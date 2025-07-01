@@ -14,6 +14,9 @@ export default function QuestionAnswerBox({ question, value, onChange, maxLength
     const scrollRef = useRef<HTMLTextAreaElement>(null);
     const [showGradient, setShowGradient] = React.useState(false);
 
+    // value가 undefined일 수 있으므로 안전하게 처리
+    const safeValue = value || '';
+
     useEffect(() => {
         const el = scrollRef.current;
         if (!el) return;
@@ -59,13 +62,13 @@ export default function QuestionAnswerBox({ question, value, onChange, maxLength
             <div className="bg-gray rounded-15 p-36 flex flex-col flex-1 min-h-0">
                 <textarea
                     className="w-full flex-1 min-h-0 bg-transparent resize-none outline-none text-16 text-sub_seoultech_blue placeholder:sub_seoultech_blue leading-24 tracking-[-0.48px]"
-                    value={value}
+                    value={safeValue}
                     onChange={onChange}
                     maxLength={maxLength}
                     placeholder="답변을 입력해 주세요."
                 />
                 <div className="flex justify-between items-center mt-4">
-                    <span className="text-sub_seoultech_blue font-normal text-16 leading-[24px] tracking-[-0.48px]">{value.length}/{maxLength}</span>
+                    <span className="text-sub_seoultech_blue font-normal text-16 leading-[24px] tracking-[-0.48px]">{safeValue.length}/{maxLength}</span>
                     <button
                         className="bg-sub_seoultech_red text-white rounded-50 px-16 py-6 font-bold text-11 leading-[16.5px] tracking-[-0.33px]"
                         onClick={() => { }}

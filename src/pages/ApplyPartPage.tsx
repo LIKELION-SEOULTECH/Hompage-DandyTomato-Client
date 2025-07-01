@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PartInfoSection from '../components/applyPart/PartInfoSection';
 import { partQuestion, commonQuestions } from '../constants/partQuestion';
 import QuestionSection from '../components/applyPart/QuestionSection';
+import { useApplyFormStore } from '@/stores/applyForm';
 
 export default function ApplyPartPage() {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const part = params.get('part') || '기획 PM';
+    const navigate = useNavigate();
+
+    const { formData, updateFormData, updateAnswer, updatePortfolioLink } = useApplyFormStore();
 
     const partData = partQuestion.find((item) => item.name === part);
 
@@ -15,18 +19,28 @@ export default function ApplyPartPage() {
     const commonQ = commonQuestions.map(q => ({ text: q.text, type: q.type }));
     const partQ = partData ? partData.questions.map(q => ({ text: q.text, type: q.type })) : [];
     const allQuestions = [...commonQ, ...partQ];
-    const [answers, setAnswers] = useState(Array(allQuestions.length).fill(''));
-    const [portfolioLinks, setPortfolioLinks] = useState(Array(3).fill(''));
     const maxLength = 500;
 
+    // 질문 개수가 변경되면 answers 배열 크기 조정
+    useEffect(() => {
+        if (formData.answers.length !== allQuestions.length) {
+            const newAnswers = Array(allQuestions.length).fill('');
+            // 기존 답변 유지
+            formData.answers.forEach((answer, index) => {
+                if (index < newAnswers.length) {
+                    newAnswers[index] = answer;
+                }
+            });
+            updateFormData({ answers: newAnswers });
+        }
+    }, [allQuestions.length, formData.answers, updateFormData]);
+
     const handleEdit = () => {
-        window.history.back();
+        navigate('/apply');
     };
 
     const handleAnswerChange = (idx: number, value: string) => {
-        const newAnswers = [...answers];
-        newAnswers[idx] = value;
-        setAnswers(newAnswers);
+        updateAnswer(idx, value);
     };
 
     const handleSpellCheck = (idx: number) => {
@@ -34,9 +48,7 @@ export default function ApplyPartPage() {
     };
 
     const handlePortfolioChange = (idx: number, value: string) => {
-        const newPortfolioLinks = [...portfolioLinks];
-        newPortfolioLinks[idx] = value;
-        setPortfolioLinks(newPortfolioLinks);
+        updatePortfolioLink(idx, value);
     };
 
     if (!partData) {
@@ -68,11 +80,11 @@ export default function ApplyPartPage() {
                     <div className="w-full mr-[8vw]">
                         <QuestionSection
                             questions={allQuestions}
-                            answers={answers}
+                            answers={formData.answers}
                             onChange={handleAnswerChange}
                             maxLength={maxLength}
                             onSpellCheck={handleSpellCheck}
-                            portfolioLinks={portfolioLinks}
+                            portfolioLinks={formData.portfolioLinks}
                             onPortfolioChange={handlePortfolioChange}
                         />
                     </div>

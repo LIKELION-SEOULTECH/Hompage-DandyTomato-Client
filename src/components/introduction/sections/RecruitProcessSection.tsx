@@ -1,115 +1,114 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import ProcessBubble from '@/components/ui/introduction/ProcessBubble'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import processLine from '@/assets/processLine.svg'
 
-gsap.registerPlugin(ScrollTrigger)
+// 단계 데이터
+const steps = [
+    {
+        title: '신규 운영진\n서류 지원 기간',
+        date: '2026.00.00. (금) - 2026.00.00. (금)',
+        highlight: false,
+        isTop: true,
+        titleColor: 'text-sub_seoultech_red',
+        left: 137.775 + 18, // 첫 마커 중심 (x + width/2)
+    },
+    {
+        title: '신규 운영진\n서류 합격',
+        date: '2026.00.00. (금)',
+        highlight: false,
+        isTop: false,
+        titleColor: 'text-sub_seoultech_red',
+        left: 378.375 + 10, // 두번째 마커 중심 (x + width/2)
+    },
+    {
+        title: '신규 운영진\n대면 면접',
+        date: '2026.00.00. (금) - 2026.00.00. (금)',
+        highlight: false,
+        isTop: true,
+        titleColor: 'text-sub_seoultech_red',
+        left: 752.66 + 10, // 세번째 마커 중심
+    },
+    {
+        title: '신규 운영진\n최종 합격',
+        date: '2026.00.00. (금)',
+        highlight: true,
+        isTop: false,
+        titleColor: 'text-sub_seoultech_red',
+        left: 974.944 + 10, // 네번째 마커 중심
+    },
+    {
+        title: '14기 아기사자\n서류 지원 기간',
+        date: '2026.00.00. (금) - 2026.00.00. (금)',
+        highlight: false,
+        isTop: true,
+        titleColor: 'text-sub_seoultech_blue',
+        left: 1351.54 + 18, // 다섯번째 마커 중심
+    },
+    {
+        title: '14기 아기사자\n서류 합격',
+        date: '2026.00.00. (금)',
+        highlight: false,
+        isTop: false,
+        titleColor: 'text-sub_seoultech_blue',
+        left: 1609.14 + 10, // 여섯번째 마커 중심
+    },
+    {
+        title: '14기 아기사자\n대면 면접',
+        date: '2026.00.00. (금) - 2026.00.00. (금)',
+        highlight: false,
+        isTop: true,
+        titleColor: 'text-sub_seoultech_blue',
+        left: 1970.42 + 10, // 일곱번째 마커 중심
+    },
+    {
+        title: '14기 아기사자\n최종 합격',
+        date: '2026.00.00. (금)',
+        highlight: true,
+        isTop: false,
+        titleColor: 'text-sub_seoultech_blue',
+        left: 2207.71 + 10, // 여덟번째 마커 중심
+    },
+]
 
-type RecruitProcessSectionProps = {
-    scrollerRef: React.RefObject<HTMLDivElement>
-}
+const tailOffset = 36 // 말풍선 내 꼬리의 left값(px)
 
-export default function RecruitProcessSection({ scrollerRef }: RecruitProcessSectionProps) {
-    const lineRef = useRef<HTMLDivElement>(null)
-    const bubbleRefs = useRef<(HTMLDivElement | null)[]>([])
-    const markerRefs = useRef<(HTMLDivElement | null)[]>([])
-
-    useEffect(() => {
-        if (!lineRef.current || !scrollerRef.current) return
-
-        // 줄 애니메이션: 스크롤보다 살짝 느리게, 되돌릴 땐 줄어듦
-        gsap.fromTo(
-            lineRef.current,
-            { width: 0 },
-            {
-                width: 1400,
-                ease: 'power2.out',
-                scrollTrigger: {
-                    trigger: lineRef.current,
-                    start: 'left center',
-                    end: 'right center',
-                    scrub: 1.5, // 살짝 느리게
-                    horizontal: true,
-                    scroller: scrollerRef.current,
-                },
-            }
-        )
-    }, [scrollerRef])
-
-    const setMarkerRef = (el: HTMLDivElement | null, index: number) => {
-        if (el) markerRefs.current[index] = el
-    }
-
-    const setBubbleRef = (el: HTMLDivElement | null, index: number) => {
-        bubbleRefs.current[index] = el
-    }
-
+export default function RecruitProcessSection() {
     return (
-        <div className="w-auto min-h-screen bg-white flex justify-center">
-            <div className="max-w-[1600px] w-full flex flex-col items-start mt-[17.5vh] mb-[11vh]">
-                <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard">
+        <div className="w-full min-h-screen bg-white flex justify-center overflow-x-auto">
+            <div className="relative min-w-[2395px] flex flex-col items-start mt-[17.5vh] mb-[11vh]">
+                <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard mb-20">
                     14기 모집 절차
                 </h2>
-
-                <div className="relative w-full pt-[20%] pb-[100px]">
-                    <div
-                        ref={lineRef}
-                        className="relative h-[10px] flex-shrink-0 rounded-full z-0"
-                        style={{
-                            width: '1400px',
-                            background:
-                                'linear-gradient(90deg, rgba(11, 64, 102, 0.00) 0.36%, #0B4066 2.57%, #0B4066 98.01%, rgba(11, 64, 102, 0.00) 100%)',
-                        }}
-                    >
-                        {[0, 1, 2, 3, 4].map((i) => (
+                <div className="relative w-[2395px] h-[139px] mt-[30vh]">
+                    {/* SVG 타임라인+마커 */}
+                    <img src={processLine} alt="process line" className="absolute left-0 top-0 w-[2395px] h-[139px] select-none pointer-events-none" draggable={false} />
+                    {/* 말풍선 */}
+                    {steps.map((step, idx) => {
+                        // 위쪽: 마커 중심에서 23.04px 위, 아래쪽: 50.83px 아래
+                        const bubbleTop = step.isTop
+                            ? 20.8169 - 23.04 - 238 // 선의 y + 오프셋 - 말풍선 높이(대략)
+                            : 20.8169 + 10.2779 + 50.83;
+                        return (
                             <div
-                                key={i}
-                                ref={(el) => setMarkerRef(el, i)}
-                                className="absolute top-1/2 translate-y-[-50%] w-[24px] h-[24px] rotate-45 flex-shrink-0 rounded-[5px]"
+                                key={idx}
+                                className="absolute w-[180px] flex flex-col items-center"
                                 style={{
-                                    left: `${37.36 + 256 * i}px`,
-                                    backgroundColor: '#0B4066',
+                                    left: step.left - tailOffset,
+                                    top: bubbleTop,
                                 }}
-                            />
-                        ))}
-                    </div>
-
-                    <div className="absolute top-[34%] h-[360px] w-[1536px] z-10" style={{ left: '133px' }}>
-                        {[
-                            { title: '서류 모집', date: '2026.00.00. (금) - 2026.00.00. (금)' },
-                            { title: '서류 합격 발표', date: '2026.00.00. (금)' },
-                            { title: '대면 면접', date: '2026.00.00. (금) - 2026.00.00. (금)' },
-                            { title: '최종 합격 발표', date: '2026.00.00. (금)', highlight: true },
-                            { title: '서울과기대 멋대 자체 OT', date: '2026.00.00. (금)' },
-                        ].map((step, idx) => {
-                            const isTop = idx % 2 === 0
-                            const markerLeft = 37.36 + 256 * idx
-                            const bubbleLeft = markerLeft + 9 - 90 + (isTop ? 0 : -60)
-
-                            return (
-                                <div
-                                    key={idx}
-                                    ref={(el) => setBubbleRef(el, idx)}
-                                    className="absolute w-[180px] flex flex-col items-center"
-                                    style={{
-                                        left: `${bubbleLeft}px`,
-                                        top: isTop ? '0px' : 'auto',
-                                        bottom: isTop ? 'auto' : '0px',
-                                        transform: isTop ? 'translateY(-31px)' : 'translateY(48px)',
-                                    }}
-                                >
-                                    <ProcessBubble
-                                        title={step.title}
-                                        date={step.date}
-                                        highlight={step.highlight}
-                                        direction={isTop ? 'bottom' : 'top'}
-                                    />
-                                </div>
-                            )
-                        })}
-                    </div>
+                            >
+                                <ProcessBubble
+                                    title={step.title}
+                                    date={step.date}
+                                    highlight={step.highlight}
+                                    direction={step.isTop ? 'bottom' : 'top'}
+                                    titleColor={step.titleColor}
+                                />
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </div>

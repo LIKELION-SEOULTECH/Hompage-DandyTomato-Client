@@ -1,13 +1,16 @@
 'use client'
 
+import React from 'react'
+
 type ProcessBubbleProps = {
-    title: string
+    title: string | React.ReactNode
     date: string
     highlight?: boolean
     direction?: 'top' | 'bottom'
     bgColor?: string
     textColor?: string
     highlightColor?: string
+    titleColor?: string
 }
 
 export default function ProcessBubble({
@@ -17,9 +20,18 @@ export default function ProcessBubble({
     direction = 'bottom',
     bgColor = '#E4E5E9',
     textColor = '#000000',
-    highlightColor = '#0B4066', // sub_seoultech_blue
+    highlightColor, // sub_seoultech_blue
+    titleColor,
 }: ProcessBubbleProps) {
     const isTop = direction === 'top'
+
+    // title이 string이면 \n 줄바꿈 처리
+    let renderedTitle: React.ReactNode = title;
+    if (typeof title === 'string') {
+        renderedTitle = title.split('\n').map((line, idx) => (
+            <span key={idx} className="block">{line}</span>
+        ));
+    }
 
     return (
         <div className="relative w-fit text-left font-pretendard">
@@ -49,10 +61,10 @@ export default function ProcessBubble({
                 }}
             >
                 <div
-                    className={`text-[32px] font-bold leading-[48px] tracking-[-0.96px] ${highlight ? 'text-sub_seoultech_blue' : ''
-                        }`}
+                    className={`text-[32px] font-bold leading-[48px] tracking-[-0.96px] ${highlight ? 'text-sub_seoultech_blue' : ''}`}
+                    style={titleColor ? { color: titleColor } : {}}
                 >
-                    {title}
+                    {renderedTitle}
                 </div>
                 <div className="text-[20px] font-semibold leading-[30px] tracking-[-0.6px] text-black">
                     {date}

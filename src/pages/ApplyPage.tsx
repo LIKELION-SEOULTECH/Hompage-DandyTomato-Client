@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { cn } from '@/lib/utils';
 import ApplyInput from '@/components/Apply/ApplyInput';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import AnimatedButton from '@/components/ui/AnimatedButton';
+import { useApplyFormStore } from '@/stores/applyForm';
 
 const parts = [
     '기획 PM',
@@ -16,19 +17,24 @@ export default function ApplyPage() {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const initialPart = params.get('part') || parts[0];
-    const [selectedPart, setSelectedPart] = useState(initialPart);
-    const [form, setForm] = useState({
-        name: '',
-        studentId: '',
-        department: '',
-        phone: '',
-        email: '',
-    });
     const navigate = useNavigate();
+
+    const { formData, updateFormData } = useApplyFormStore();
+
+    // URL 파라미터가 있으면 selectedPart 업데이트
+    React.useEffect(() => {
+        if (initialPart && initialPart !== formData.selectedPart) {
+            updateFormData({ selectedPart: initialPart });
+        }
+    }, [initialPart, formData.selectedPart, updateFormData]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
+        updateFormData({ [name]: value });
+    };
+
+    const handlePartChange = (part: string) => {
+        updateFormData({ selectedPart: part });
     };
 
     return (
@@ -46,28 +52,28 @@ export default function ApplyPage() {
                             <ApplyInput
                                 label="이름"
                                 name="name"
-                                value={form.name}
+                                value={formData.name}
                                 onChange={handleChange}
                                 placeholder="홍길동"
                             />
                             <ApplyInput
                                 label="전화번호"
                                 name="phone"
-                                value={form.phone}
+                                value={formData.phone}
                                 onChange={handleChange}
                                 placeholder="010-0000-0000"
                             />
                             <ApplyInput
                                 label="학번"
                                 name="studentId"
-                                value={form.studentId}
+                                value={formData.studentId}
                                 onChange={handleChange}
                                 placeholder="23101051"
                             />
                             <ApplyInput
                                 label="이메일"
                                 name="email"
-                                value={form.email}
+                                value={formData.email}
                                 onChange={handleChange}
                                 placeholder="seoultech.likelion@gmail.com"
                                 type="email"
@@ -75,7 +81,7 @@ export default function ApplyPage() {
                             <ApplyInput
                                 label="학과"
                                 name="department"
-                                value={form.department}
+                                value={formData.department}
                                 onChange={handleChange}
                                 placeholder="산업공학과 ITM전공"
                             />
@@ -88,10 +94,10 @@ export default function ApplyPage() {
                             {parts.map((part) => (
                                 <button
                                     key={part}
-                                    onClick={() => setSelectedPart(part)}
+                                    onClick={() => handlePartChange(part)}
                                     className={cn(
                                         'flex flex-col justify-center items-center px-12 py-[6px] rounded-50 border-2 text-sm font-semibold whitespace-nowrap font-pretendard self-start',
-                                        selectedPart === part
+                                        formData.selectedPart === part
                                             ? 'bg-sub_seoultech_red text-white border-sub_seoultech_red'
                                             : 'text-sub_seoultech_red border-sub_seoultech_red bg-white'
                                     )}
@@ -108,7 +114,13 @@ export default function ApplyPage() {
                 <AnimatedButton
                     text="파트별 지원서 작성하기"
                     color="#E74C2E"
-                    onClick={() => navigate(`/apply/part?part=${encodeURIComponent(selectedPart)}`)}
+                    onClick={() => {
+                        console.log('버튼 클릭됨');
+                        console.log('선택된 파트:', formData.selectedPart);
+                        const url = `/apply/part?part=${encodeURIComponent(formData.selectedPart)}`;
+                        console.log('이동할 URL:', url);
+                        navigate(url);
+                    }}
                 />
             </div>
         </div>
