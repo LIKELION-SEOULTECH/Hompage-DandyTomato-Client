@@ -1,81 +1,60 @@
 import type {
-    MemberInfoPostRequest,
-    MemberInfoResponse,
+    MemberPostRequest,
+    MemberResponse,
+    MemberListParams,
     MemberListResponse
 } from '@/types/member'
 import { apiClient } from './client'
 
-interface MemberListParams {
-    page?: number
-    size?: number
-    part?: 'AI' | 'BACKEND' | 'FRONTEND' | 'DESIGN' | 'PLAN'
-    sort?: 'latest' | 'oldest'
-}
-
-export async function postMemberInfo(
-    data: MemberInfoPostRequest
-): Promise<MemberInfoResponse> {
+export async function postMember(
+    data: MemberPostRequest
+): Promise<MemberResponse> {
     const formData = new FormData()
     Object.entries(data).forEach(([key, value]) => {
-        formData.append(key, value)
-    })
-
-    const response = await apiClient.post<MemberInfoResponse>(
-        '/member-info',
-        formData,
-        {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+        if (value !== undefined && value !== null) {
+            formData.append(key, value as any)
         }
-    )
-
+    })
+    const response = await apiClient.post<MemberResponse>('/member', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
     return response.data
 }
 
 export async function getMembers(
     params: MemberListParams = {}
 ): Promise<MemberListResponse> {
-    const { page = 1, size = 30, part, sort = 'latest' } = params
-    const queryParams = new URLSearchParams({
-        page: page.toString(),
-        size: size.toString(),
-        sort
-    })
-
-    if (part) {
-        queryParams.append('part', part)
-    }
-
+    const queryParams = new URLSearchParams()
+    if (params.page) queryParams.append('page', params.page.toString())
+    if (params.size) queryParams.append('size', params.size.toString())
+    if (params.part) queryParams.append('part', params.part)
+    if (params.year) queryParams.append('year', params.year.toString())
+    if (params.keyword) queryParams.append('keyword', params.keyword)
     const response = await apiClient.get<MemberListResponse>(
-        `/member?${queryParams}`
-    )
-
-    return response.data
-}
-
-export async function getMemberInfo(
-    memberId: string
-): Promise<MemberInfoResponse> {
-    const response = await apiClient.get<MemberInfoResponse>(
-        `/member-info/${memberId}`
+        `/member?${queryParams.toString()}`
     )
     return response.data
 }
 
-export async function updateMemberInfo(
+export async function getMember(memberId: string): Promise<MemberResponse> {
+    const response = await apiClient.get<MemberResponse>(`/member/${memberId}`)
+    return response.data
+}
+
+export async function updateMember(
     memberId: string,
-    data: Partial<MemberInfoPostRequest>
-): Promise<MemberInfoResponse> {
+    data: Partial<MemberPostRequest>
+): Promise<MemberResponse> {
     const formData = new FormData()
     Object.entries(data).forEach(([key, value]) => {
-        if (value !== undefined) {
-            formData.append(key, value)
+        if (value !== undefined && value !== null) {
+            formData.append(key, value as any)
         }
     })
-
-    const response = await apiClient.patch<MemberInfoResponse>(
-        `/member-info/${memberId}`,
+    const response = await apiClient.patch<MemberResponse>(
+        `/member/${memberId}`,
         formData,
         {
             headers: {
@@ -86,6 +65,6 @@ export async function updateMemberInfo(
     return response.data
 }
 
-export async function deleteMemberInfo(memberId: string): Promise<void> {
-    await apiClient.delete(`/member-info/${memberId}`)
+export async function deleteMember(memberId: string): Promise<void> {
+    await apiClient.delete(`/member/${memberId}`)
 }

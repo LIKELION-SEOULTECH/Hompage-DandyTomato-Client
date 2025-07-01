@@ -1,61 +1,63 @@
-// MemberInfoPostRequest와 MemberInfoGetResponse 타입 정의
+// Member API 명세서 기반 타입 정의 (2024 최신)
 
-export interface MemberInfoPostRequest {
-    id: string
-    contactEmail: string
+export interface MemberPostRequest {
     name: string
-    major: string
-    profileUrl: string
-    introduce: string
-    tech: string
-    link: string
-}
-
-export interface MemberInfoResponse {
-    id: string
-    contactEmail: string
-    name: string
-    major: string
+    part: string
     year: number
-    profileUrl: string
-    introduce: string
-    part: 'AI' | 'BACKEND' | 'FRONTEND' | 'DESIGN' | 'PLAN'
-    tech: string
-    link: string
-    role: 'ADMIN' | 'MEMBER'
-    created_at?: string
+    major: string
+    email: string
+    phone: string
+    github_url?: string
+    blog_url?: string
+    profile_image?: File
+    description?: string
 }
 
-export interface MemberListItem {
+export interface MemberResponse {
     id: string
     name: string
-    bio: string
-    position: string
-    skills: string[]
-    github_url: string
-    linkedin_url: string
-    portfolio_url: string
-    profile_image: string
-    join_date: string
-    project_count: number
-    is_active: boolean
-}
-
-export interface Pagination {
-    page: number
-    size: number
-    total: number
-    total_pages: number
-}
-
-export interface MemberListResponse {
-    members: MemberListItem[]
-    pagination: Pagination
+    part: string
+    year: number
+    major: string
+    email: string
+    phone: string
+    github_url?: string
+    blog_url?: string
+    profile_image_url?: string
+    description?: string
+    created_at: string
+    updated_at: string
 }
 
 export interface MemberListParams {
     page?: number
     size?: number
     part?: string
-    sort?: string
+    year?: number
+    keyword?: string
+}
+
+export interface MemberListItem {
+    id: string
+    name: string
+    part: string
+    year: number
+    major: string
+    profile_image_url?: string
+}
+
+export interface MemberListResponse {
+    members: MemberListItem[]
+    pagination: {
+        page: number
+        size: number
+        total: number
+        total_pages: number
+    }
+}
+
+export interface MemberError {
+    code: string
+    message: string
+    details?: any
 }
