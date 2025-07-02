@@ -5,6 +5,21 @@ import RecruitPage from '@/components/introduction/IntroductionPage' // 경로 �
 import IntroductionPage from '@/components/introduction/IntroductionPage'
 import ApplyPage from '@/pages/ApplyPage'
 import ApplyPartPage from '@/pages/ApplyPartPage'
+import GalleryPage from './pages/GalleryPage'
+import MyPage from './pages/MyPage'
+import ProjectPage from './pages/ProejctPage'
+import ProjectDetailPage from './pages/ProjectDetailPage'
+import SessionResourcesPage from './pages/SessionResourcesPage'
+import SessionAssignmentPage from './pages/SessionAssignmentPage'
+import SessionAIQuizPage from './pages/SessionAIQuizPage'
+import MemberPage from './pages/MemberPage'
+import MyPageEdit from './pages/MyPageEdit'
+import ArchiveAdminPage from './pages/admin/ArchiveAdminPage'
+import AuthAdminPage from './pages/admin/AuthAdminPage'
+import RecruitAdminPage from './pages/admin/RecruitAdminPage'
+import SessionAdminPage from './pages/admin/SessionAdminPage'
+import SessionUploadAdminPage from './pages/admin/SessionUploadAdminPage'
+import RecruitQuestionAdminPage from './pages/admin/RecruitQuestionAdminPage'
 
 export default function App() {
     return (
@@ -17,13 +32,76 @@ export default function App() {
                     />
                     <Route
                         element={<IntroductionPage />}
-                        path="/recruit" />
+                        path="/recruit"
+                    />
                     <Route
                         element={<ApplyPage />}
-                        path="/apply" />
+                        path="/apply"
+                    />
                     <Route
                         element={<ApplyPartPage />}
-                        path="/apply/part" />
+                        path="/apply/part"
+                    />
+                    <Route
+                        element={<ProjectPage />}
+                        path="/project"
+                    />
+                    <Route
+                        element={<GalleryPage />}
+                        path="/gallery"
+                    />
+                    <Route
+                        element={<ProjectDetailPage />}
+                        path="/project/:id"
+                    />
+                    <Route
+                        element={<MyPage />}
+                        path="/myPage"
+                    />
+                    <Route
+                        element={<SessionResourcesPage />}
+                        path="/session-resources"
+                    />
+                    <Route
+                        element={<SessionAssignmentPage />}
+                        path="/session-assignment"
+                    />
+                    <Route
+                        element={<SessionAIQuizPage />}
+                        path="/session-ai-quiz"
+                    />
+                    <Route
+                        element={<MemberPage />}
+                        path="/members"
+                    />
+                    <Route
+                        element={<MyPageEdit />}
+                        path="/mypage/edit"
+                    />
+                    <Route
+                        element={<ArchiveAdminPage />}
+                        path="/admin/archive"
+                    />
+                    <Route
+                        element={<SessionAdminPage />}
+                        path="/admin/session"
+                    />
+                    <Route
+                        element={<AuthAdminPage />}
+                        path="/admin/auth"
+                    />
+                    <Route
+                        element={<RecruitAdminPage />}
+                        path="/admin/recruit"
+                    />
+                    <Route
+                        element={<SessionUploadAdminPage />}
+                        path="/admin/session-upload"
+                    />
+                    <Route
+                        element={<RecruitQuestionAdminPage />}
+                        path="/admin/recruit-question"
+                    />
                 </Route>
             </Routes>
         </>

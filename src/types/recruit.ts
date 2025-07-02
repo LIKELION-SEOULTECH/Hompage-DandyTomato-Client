@@ -1,43 +1,27 @@
-// Recruit DTO 타입 정의
+// Recruit API 명세서 기반 타입 정의 (2024 최신)
 
-export interface RecruitPostRequest {
-    email: string
-}
-
-export interface ApplyPostRequest {
-    id: number
+export interface RecruitApplicationRequest {
     name: string
-    studentId: string
+    student_id: string
     email: string
-    phone: number
-    major: string // enum은 string으로 처리
-    part: string // enum은 string으로 처리
-    qustion: string[]
-    link: string
-}
-
-export interface ApplyDraftPostRequest {
-    id: number
-    name: string
-    studentId: string
-    email: string
-    phone: number
+    phone: string
     major: string
     part: string
-    qustion: string[]
-    link: string
+    answers: string[]
+    link?: string
 }
 
-export interface ApplyGetResponse {
+export interface RecruitApplicationResponse {
     id: number
     name: string
-    studentId: string
+    student_id: string
     email: string
-    phone: number
+    phone: string
     major: string
     part: string
-    qustion: string[]
-    link: string
+    answers: string[]
+    link?: string
+    status: 'submitted' | 'draft'
 }
 
 export interface ApplyPutRequest {
@@ -51,6 +35,8 @@ export interface ApplyPutRequest {
     link: string
 }
 
-export interface ApplyResultGetResponse {
-    result: 'pass' | 'fail'
+export interface RecruitError {
+    code: string
+    message: string
+    details?: any
 }

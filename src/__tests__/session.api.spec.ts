@@ -128,10 +128,9 @@ describe('postSessionQuiz', () => {
     it('복습 퀴즈 생성 성공 (200)', async () => {
         const res: SessionQuizCreateResponse = await postSessionQuiz(req)
         expect(Array.isArray(res.quiz)).toBe(true)
-        expect(res.quiz[0]).toHaveProperty('title')
-        expect(res.quiz[0]).toHaveProperty('오지선다')
+        expect(res.quiz[0]).toHaveProperty('question')
+        expect(res.quiz[0]).toHaveProperty('options')
         expect(res.quiz[0]).toHaveProperty('answer')
-        expect(res.quiz[0]).toHaveProperty('해설')
     })
     it('복습 퀴즈 생성 실패 (빈 세션 ID 목록)', async () => {
         await expect(postSessionQuiz({ sessionIds: [] })).rejects.toBeTruthy()

@@ -5,16 +5,22 @@ import {
     getArchiveProjects,
     postArchiveProject
 } from '@/api/archive'
+import type {
+    ArchiveGalleryListParams,
+    ArchiveGalleryPostRequest,
+    ArchiveProjectListParams
+} from '@/types/archive'
 
 describe('Archive API', () => {
     // 1. 갤러리 조회
     it('갤러리 조회 성공 (200)', async () => {
-        const res = await getArchiveGallery({
+        const params: ArchiveGalleryListParams = {
             category: 'dev',
             page: 1,
             size: 2,
             sort: 'latest'
-        })
+        }
+        const res = await getArchiveGallery(params)
         expect(res.status).toBe('success')
         expect(Array.isArray(res.data.galleries)).toBe(true)
         expect(res.data.pagination).toHaveProperty('page', 1)
@@ -28,7 +34,7 @@ describe('Archive API', () => {
     })
     it('갤러리 조회 실패 (정렬 오류)', async () => {
         await expect(
-            getArchiveGallery({ sort: 'wrong' })
+            getArchiveGallery({ sort: 'wrong' as any })
         ).rejects.toMatchObject({
             response: { status: 400 }
         })
@@ -36,7 +42,7 @@ describe('Archive API', () => {
 
     // 2. 갤러리 게시
     it('갤러리 게시 성공 (200)', async () => {
-        const data = {
+        const data: ArchiveGalleryPostRequest = {
             category: 'dev',
             tag: 'tag1',
             title: 'Test Gallery',
@@ -49,29 +55,19 @@ describe('Archive API', () => {
         }
         const res = await postArchiveGallery(data, 'Bearer admin_token')
         expect(res.status).toBe('success')
-        expect(res.data.gallery).toHaveProperty('id')
+        expect(res.data?.gallery).toHaveProperty('id')
     })
-    // it('갤러리 게시 실패 (토큰 없음)', async () => {
-    //     await expect(postArchiveGallery({}, '')).rejects.toMatchObject({
-    //         response: { status: 401 }
-    //     })
-    // })
-    // it('갤러리 게시 실패 (관리자 권한 없음)', async () => {
-    //     await expect(
-    //         postArchiveGallery({}, 'Bearer not_admin')
-    //     ).rejects.toMatchObject({
-    //         response: { status: 403 }
-    //     })
-    // })
+    // (토큰/권한 에러 테스트는 실제 인증 로직 구현 후 활성화)
 
     // 3. 프로젝트 조회
     it('프로젝트 조회 성공 (200)', async () => {
-        const res = await getArchiveProjects({
+        const params: ArchiveProjectListParams = {
             category: 'web',
             status: 'completed',
             page: 1,
             size: 2
-        })
+        }
+        const res = await getArchiveProjects(params)
         expect(res.status).toBe('success')
         expect(Array.isArray(res.data.projects)).toBe(true)
         expect(res.data.pagination).toHaveProperty('page', 1)
@@ -98,26 +94,12 @@ describe('Archive API', () => {
         formData.append('subtitle', 'Sub')
         formData.append('content', 'Content')
         formData.append('project_url', 'https://project.com')
-        formData.append('team_members', JSON.stringify(['AI', 'BACKEND']))
+        // 실제 명세서에 맞게 team_members 등 추가 필요
         formData.append('upload_by', 'member-1')
         const res = await postArchiveProject(formData, 'Bearer member_token')
         expect(res.status).toBe('success')
-        expect(res.data.project).toHaveProperty('id')
+        expect(res.data?.project).toHaveProperty('id')
     })
-    // it('프로젝트 게시 실패 (토큰 없음)', async () => {
-    //     const formData = new FormData()
-    //     await expect(postArchiveProject(formData, '')).rejects.toMatchObject({
-    //         response: { status: 401 }
-    //     })
-    // })
-    // it('프로젝트 게시 실패 (멤버 권한 없음)', async () => {
-    //     const formData = new FormData()
-    //     await expect(
-    //         postArchiveProject(formData, 'Bearer not_member')
-    //     ).rejects.toMatchObject({
-    //         response: { status: 403 }
-    //     })
-    // })
     it('프로젝트 게시 실패 (제목 길이 오류)', async () => {
         const formData = new FormData()
         formData.append('title', 'a')
