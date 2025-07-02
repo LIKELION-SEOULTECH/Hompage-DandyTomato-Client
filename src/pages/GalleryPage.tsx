@@ -5,11 +5,11 @@ import { useRef, useState } from 'react'
 import GalleryGrid from '@/components/archive/GalleryGrid'
 
 const ArchivePage = () => {
-    const [galleryItems, setGalleryItems] = useState<any[]>(Array.from({ length: 100 }, (_, i) => ({ id: i + 1 })))
+    const [galleryItems, setGalleryItems] = useState<any[]>(Array.from({ length: 10 }, (_, i) => ({ id: i + 1 })))
 
     const containerRef = useRef<HTMLDivElement>(null)
     const scrollRef = useRef<HTMLDivElement>(null)
-    useHorizontalScroll(containerRef as React.RefObject<HTMLDivElement>, scrollRef as React.RefObject<HTMLDivElement>)
+    useHorizontalScroll(containerRef as React.RefObject<HTMLDivElement>)
 
     return (
         <>
