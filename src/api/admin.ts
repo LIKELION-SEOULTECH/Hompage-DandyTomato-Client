@@ -103,7 +103,7 @@ export async function updateMemberRole({
     memberId,
     role
 }: UpdateMemberRoleParams) {
-    const res = await apiClient.patch(`/admin/member/${memberId}?role=${role}`)
+    const res = await apiClient.patch(`/admin/member/${memberId}`, { role })
     return res.data
 }
 
@@ -116,24 +116,17 @@ export async function expelMember({ memberId}: ExpelMemberParams) {
 // 멤버 프로필 수정 (PATCH) - 굳
 export async function updateMemberProfile(
     memberId: string,
-    data: UpdateMemberProfileRequest
+    data: Partial<UpdateMemberProfileRequest>
 ) {
-    const formData = new FormData()
-    
-    if (data.id) formData.append('id', data.id)
-    if (data.email) formData.append('email', data.email)
-    if (data.name) formData.append('name', data.name)
-    if (data.major) formData.append('major', data.major)
-    if (data.part) formData.append('part', data.part)
-    if (data.profileImg) formData.append('profileImg', data.profileImg)
-    if (data.introduce) formData.append('introduce', data.introduce)
-    if (data.links) formData.append('links', data.links)
-    
-    const res = await apiClient.patch(`/admin/member/${memberId}`, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
+    const res = await apiClient.patch(
+        `/admin/member/${memberId}`,
+        data,
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            }
         }
-    })
+    )
     return res.data
 }
 
