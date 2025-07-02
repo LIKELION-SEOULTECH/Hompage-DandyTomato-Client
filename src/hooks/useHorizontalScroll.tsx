@@ -5,18 +5,19 @@ import ScrollTrigger from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 export default function useHorizontalScroll(
-    containerRef: React.RefObject<HTMLDivElement>
+    containerRef: React.RefObject<HTMLDivElement>,
+    scrollRef: React.RefObject<HTMLDivElement> = containerRef
 ) {
     useGSAP(
         () => {
             const sections = gsap.utils.toArray('.main-section')
             const totalWidth =
-                containerRef.current.scrollWidth - window.innerWidth / 2
-            gsap.to(containerRef.current, {
+                scrollRef.current.scrollWidth - window.innerWidth
+            gsap.to(scrollRef.current, {
                 x: -totalWidth,
                 ease: 'none',
                 scrollTrigger: {
-                    trigger: containerRef.current,
+                    trigger: containerRef.current || scrollRef.current,
                     pin: true,
                     scrub: 1,
                     anticipatePin: 1,
@@ -25,7 +26,7 @@ export default function useHorizontalScroll(
             })
         },
         {
-            scope: containerRef.current
+            scope: containerRef.current || scrollRef.current
         }
     )
 }
