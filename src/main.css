@@ -182,3 +182,9 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
+.grid-auto-rows {
+    grid-template-columns: repeat(var(--columns), 1fr);
+    grid-auto-rows: calc(
+        (100vw - (var(--columns) - 1) * var(--gutter)) / var(--columns) * 9 / 16
+    );
+}

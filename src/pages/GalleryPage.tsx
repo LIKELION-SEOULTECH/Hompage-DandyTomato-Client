@@ -1,25 +1,29 @@
 import FilterButton from '@/components/archive/FilterButton'
 import HighlightenTitle from '@/components/HighlightenTitle'
 import useHorizontalScroll from '@/hooks/useHorizontalScroll'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import GalleryGrid from '@/components/archive/GalleryGrid'
 
 const ArchivePage = () => {
-    const galleryItems = Array.from({ length: 100 }, (_, i) => ({ id: i + 1 }))
+    const [galleryItems, setGalleryItems] = useState<any[]>(Array.from({ length: 100 }, (_, i) => ({ id: i + 1 })))
 
     const containerRef = useRef<HTMLDivElement>(null)
-    useHorizontalScroll(containerRef as React.RefObject<HTMLDivElement>)
+    const scrollRef = useRef<HTMLDivElement>(null)
+    useHorizontalScroll(containerRef as React.RefObject<HTMLDivElement>, scrollRef as React.RefObject<HTMLDivElement>)
 
     return (
         <>
-            <div className="h-screen w-screen flex flex-col z-10 gap-82 pl-128 pt-189 pb-128 pr-100 items-start justify-between"
+            <div className="h-screen w-full flex flex-col z-10 gap-82 pl-128 pt-189 pb-128 pr-100 items-start justify-start"
                 ref={containerRef}>
                 <HighlightenTitle
                     text="갤러리"
                     className=""
                 />
 
-                <GalleryGrid galleryItems={galleryItems} />
+                <GalleryGrid
+                    galleryItems={galleryItems}
+                    scrollRef={scrollRef as React.RefObject<HTMLDivElement>}
+                />
 
             </div>
 
