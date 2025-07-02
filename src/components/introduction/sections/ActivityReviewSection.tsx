@@ -17,7 +17,7 @@ export default function ActivityReviewSection() {
     });
 
     return (
-        <div className="relative w-auto bg-white flex justify-center ml-0">
+        <div className="relative w-auto flex justify-center ml-0">
             <div className="max-w-1356 w-full flex flex-col items-start mt-[17.5vh]">
                 <HighlightenTitle text="이전 기수 활동 후기" />
 

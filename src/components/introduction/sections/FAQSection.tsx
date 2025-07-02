@@ -27,7 +27,7 @@ export default function FAQSection() {
             : faqList.filter(faq => faq.category === selectedCategory)
 
     return (
-        <div className="flex w-auto gap-193 bg-white ">
+        <div className="flex w-auto gap-193 ">
             {/* 왼쪽 필터 */}
             <div className="flex flex-col min-w-[180px]  mt-[17.5vh] mb-[11vh]">
                 <HighlightenTitle text="FAQ" />

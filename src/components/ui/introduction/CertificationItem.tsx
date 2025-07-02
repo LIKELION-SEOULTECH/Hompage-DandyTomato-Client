@@ -1,6 +1,8 @@
 // src/components/recruit/sections/RecruitConditionItem.tsx
 'use client'
 
+import checkCircle from '@/assets/icons/check.svg'
+
 type Props = {
     text: string
     highlight?: string
@@ -8,9 +10,9 @@ type Props = {
 
 export default function CertificationItem({ text, highlight }: Props) {
     return (
-        <li className="flex items-center gap-4 bg-gray rounded-15 w-731 h-full text-black text-30 font-bold leading-[30px] pl-42 gap-22">
+        <li className="flex items-center bg-pri-gray-1 rounded-15 w-731 h-full text-black text-30 font-bold leading-[30px] pl-42 gap-22">
             <img
-                src="/assets/introduction/check_circle.svg"
+                src={checkCircle}
                 alt="체크"
                 className="h-30 w-30 block"
             />
