@@ -2,7 +2,7 @@
 
 import HighlightenTitle from "@/components/HighlightenTitle"
 import AnimatedButton from "@/components/ui/AnimatedButton"
-
+import IntroBanner from '@/assets/introduction/introduction_banner.png'
 export default function IntroSection({ handleGoToEnd }: { handleGoToEnd: () => void }) {
     return (
         <div className="relative w-screen h-screen flex items-center justify-center">
@@ -13,7 +13,7 @@ export default function IntroSection({ handleGoToEnd }: { handleGoToEnd: () => v
                 {/* 왼쪽: 배너 이미지 */}
                 <div className="w-4/9 h-full flex items-center justify-center overflow-hidden">
                     <img
-                        src="/assets/introduction/introduction_banner.png"
+                        src={IntroBanner}
                         alt="배너"
                         className="h-full w-auto block"
                     />

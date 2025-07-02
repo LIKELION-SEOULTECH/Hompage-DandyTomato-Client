@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import StickerRain from '@/test'
+import MainBanner from '@/assets/introduction/introduction_banner.png'
 // import GlobalNavigation from './globalNavigation'
 import mainBanner from '@/assets/main_banner.svg'
 import {
@@ -40,6 +41,7 @@ export default function MainPage() {
     const aboutContainerRef = useRef<HTMLDivElement>(null)
     const lionTitleRef = useRef<HTMLDivElement>(null)
     const aboutTitleRef = useRef<HTMLDivElement>(null)
+    const projectContainerRef = useRef<HTMLDivElement>(null)
     useGSAP(
         () => {
             const sections = gsap.utils.toArray('.main-section')
@@ -69,29 +71,40 @@ export default function MainPage() {
                     trigger: lionTitleRef.current,
                     containerAnimation: tween,
                     start: `left 10%`, // 타이틀이 화면 상단에 닿을 때
-                    end: () => `${totalWidth + window.innerWidth} left`,// 원하는 지점까지
+                    end: () => `${lionWidth + window.innerWidth} left`,// 원하는 지점까지
                     pin: true,
                     pinSpacing: false, // 섹션이 밀리지 않게
                     // markers: true,// 섹션이 밀리지 않게
-                    scrub: 1,
+                    scrub: 0,
                     toggleActions: "play none reverse none",
                 },
                 // onEnter, onLeave 등으로 추가 효과도 가능
             });
-
             gsap.to(aboutTitleRef.current, {
-                x: aboutWidth,
+                display: 'hidden',
+                x: -window.innerWidth,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: projectContainerRef.current,
+                    containerAnimation: tween,
+                    start: `left left`, // 타이틀이 화면 상단에 닿을 때
+                    end: () => `${projectContainerRef.current?.scrollWidth + window.innerWidth / 2} left`,// 원하는 지점까지
+                    toggleActions: "play none reverse none ",
+                }
+            });
+            gsap.to(aboutTitleRef.current, {
+                x: aboutWidth - window.innerWidth / 2,
                 opacity: 0,
+                ease: 'none',
                 scrollTrigger: {
                     trigger: aboutTitleRef.current, // 타이틀이 화면 상단에 닿을 때
                     containerAnimation: tween,
-                    start: `left left`, // 타이틀이 화면 상단에 닿을 때
-                    end: () => `${totalWidth + window.innerWidth} left`,// 원하는 지점까지
+                    start: `left 10%`, // 타이틀이 화면 상단에 닿을 때
+                    end: () => `${aboutWidth + window.innerWidth / 2} left`,// 원하는 지점까지
                     pin: true,
                     pinSpacing: false, // 섹션이 밀리지 않게
-                    scrub: 1,
+                    scrub: 0,
                     toggleActions: "play none reverse none ",
-                    // markers: true,
                 },
                 // onEnter, onLeave 등으로 추가 효과도 가능
             });
@@ -144,10 +157,10 @@ export default function MainPage() {
                 <SectionLion titleRef={lionTitleRef} />
             </SectionLayout>
             {/* About Section */}
-            <SectionLayout>
+            <SectionLayout className="gap-256 z-10">
                 <SectionAbout titleRef={aboutTitleRef} containerRef={aboutContainerRef} />
             </SectionLayout>
-            <SectionLayout>
+            <SectionLayout className='bg-[oklch(96.7%_0.002869_84.6)]' containerRef={projectContainerRef}>
                 <div className="flex flex-col items-baseline justify-center">
                     <HighlightenTitle
                         text="프로젝트"
@@ -159,76 +172,38 @@ export default function MainPage() {
                         과기대 멋대의 다양한 프로젝트를 확인해보세요 ✨
                     </p>
                 </div>
-                {/* <div>
-                    <Carousel
-                        orientation="vertical"
-                        plugins={[Autoplay({ delay: 2000 })]}>
-                        <CarouselContent>
-                            <CarouselItem>
-                                <AboutImageBox
-                                    image={''}
-                                    title="데모데이"
-                                    description="런칭부터 검증까지, 완성도를 향해 나아가는ㅡ
-기획, 개발, 릴리즈, 그리고 그 이후까지.
-더 나은 결과를 위한 전 과정을 함께 경험해요."
-                                    note="12월 중 진행"
-                                />
-                            </CarouselItem>
-                            <CarouselItem>
-                                <AboutImageBox
-                                    image={''}
-                                    title="데모데이"
-                                    description="런칭부터 검증까지, 완성도를 향해 나아가는ㅡ
-기획, 개발, 릴리즈, 그리고 그 이후까지.
-더 나은 결과를 위한 전 과정을 함께 경험해요."
-                                    note="12월 중 진행"
-                                />
-                            </CarouselItem>
-                            <CarouselItem>
-                                <AboutImageBox
-                                    image={''}
-                                    title="데모데이"
-                                    description="런칭부터 검증까지, 완성도를 향해 나아가는ㅡ
-기획, 개발, 릴리즈, 그리고 그 이후까지.
-더 나은 결과를 위한 전 과정을 함께 경험해요."
-                                    note="12월 중 진행"
-                                />
-                            </CarouselItem>
-                        </CarouselContent>
-                    </Carousel>
-                </div> */}
             </SectionLayout>
-
-            {/* FAQ Section (아코디언 활용) */}
-            {/* <section className="main-section flex h-screen w-screen flex-col items-center justify-center bg-[#F8F8F8]">
-                <h2 className="font-pretendard mb-6 text-[32px] font-bold text-[#222]">
-                    FAQ
-                </h2> */}
-            {/* FAQ Accordion 컴포넌트 자리 */}
-            {/* </section> */}
-            {/* Footer */}
-            {/* <footer className="font-pretendard w-full border-t border-[#E5E5E5] bg-white py-10 text-center text-[14px] text-[#999]">
-                © 2024 멋쟁이 토마토. All rights reserved.
-            </footer> */}
             <SectionLayout>
-                <div className="flex flex-col items-start mt-[17.5vh] mb-[11vh] ml-15">
-                    <HighlightenTitle text="지원하기" className='mb-78' />
+                <div className='w-screen h-full flex flex-row items-end justify-baseline gap-164'>
+                    <img src={MainBanner} alt="" className=' object-left-top h-[100vh] top-0' />
+                    <div className="flex flex-col items-start justify-between h-full w-fit">
+                        <div>
+                            <div className='flex flex-col items-start justify-center gap-16'>
+                                <HighlightenTitle text="함께 성장할 14기를" />
+                                <HighlightenTitle text="모집합니다!" />
+                            </div>
 
-                    <AnimatedButton text="지원서 작성하기" color="#0B4066" onClick={() => navigate('/apply')} />
+                            <div className='flex flex-col items-start justify-center gap-28 mt-68'>
+                                <AnimatedButton text="모집 페이지로 이동하기" color="#0B4066" onClick={() => navigate('/apply')} />
 
-                    <SharedButton onClick={handleSubscribe} className='px-16 py-8 rounded-50 mt-115'>
-                        모집 알림 받기
-                    </SharedButton>
+                                <SharedButton onClick={handleSubscribe} className='px-16 py-8 rounded-50'>
+                                    모집 알림 받기
+                                </SharedButton>
+                            </div>
 
-                    <div className="absolute bottom-[11vh] left-0 flex gap-24 flex-wrap">
-                        <div className="flex items-center gap-10 bg-[#E4E5E9] p-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
-                            <img src={InstaIcon} alt="인스타그램" className="w-20 h-20" /> @likelion_st
                         </div>
-                        <div className="flex items-center gap-10 bg-[#E4E5E9] p-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
-                            <img src={KakaoIcon} alt="카카오톡" className="w-20 h-20" /> @ajh1215hoo
-                        </div>
-                        <div className="flex items-center gap-10 bg-[#E4E5E9] px-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
-                            <img src={ContactIcon} alt="이메일" className="w-20 h-20" /> seoultech.likelion@gmail.com
+
+
+                        <div className="flex gap-24 flex-row">
+                            <div className="flex items-center gap-10 bg-[#E4E5E9] p-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
+                                <img src={InstaIcon} alt="인스타그램" className="w-20 h-20" /> @likelion_st
+                            </div>
+                            <div className="flex items-center gap-10 bg-[#E4E5E9] p-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
+                                <img src={KakaoIcon} alt="카카오톡" className="w-20 h-20" /> @ajh1215hoo
+                            </div>
+                            <div className="flex items-center gap-10 bg-[#E4E5E9] px-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
+                                <img src={ContactIcon} alt="이메일" className="w-20 h-20" /> seoultech.likelion@gmail.com
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -255,17 +230,17 @@ const SectionLion = ({ titleRef }: { titleRef: React.RefObject<HTMLDivElement> }
         return (
             <div
                 className={cn(
-                    'flex w-384 flex-col items-baseline justify-center',
+                    'flex w-450 flex-col items-baseline justify-center',
                     className
                 )}>
-                <p className="font-pretendard text-sub-seoultech-red leading-trim text-[256px] font-black">
+                <p className="font-pretendard text-sub-seoultech-red leading-trim text-[256px] font-black z-2">
                     {titleLetter}
                 </p>
-                <p className="font-pretendard text-32 mt-95 font-bold whitespace-pre-line">
+                <p className="font-pretendard text-32 mt-95 font-bold whitespace-pre-line t">
                     <span className="text-sub-seoultech-red">{titleWord} </span>
                     <span className="text-sub-seoultech-blue">{titleHanguel}</span>
                 </p>
-                <span className="font-pretendard text-32 text-pri-black mt-48 font-medium whitespace-pre-line">
+                <span className="font-pretendard text-32 text-pri-black mt-48 font-medium whitespace-pre-line text-nowrap">
                     {description}
                 </span>
             </div>
@@ -273,43 +248,44 @@ const SectionLion = ({ titleRef }: { titleRef: React.RefObject<HTMLDivElement> }
     }
     return (
         <>
-            <div className="relative flex flex-col items-baseline justify-center h-full">
+            <div className="flex flex-col items-baseline justify-center h-full">
 
                 <HighlightenTitle
                     text="LIKELION, 멋쟁이사자처럼"
                     ref={titleRef}
-                    className="sticky top-0 left-0"
+                    className="absolute top-189 left-128"
+                />
+                <HighlightenTitle
+                    text="LIKELION, 멋쟁이사자처럼"
+                    className='hidden'
                 />
                 <div className="mt-155 flex flex-row " >
                     <LIONBox
                         titleLetter="L"
                         titleWord="LEAD"
                         titleHanguel="주도적으로 이끌다"
-                        description="더 나은 방향을 향해, 도전하고 끊임없이 시도합니다."
+                        description={'더 나은 방향을 향해, 도전하고\n끊임없이 시도합니다.'}
                         className="mr-120"
                     />
                     <LIONBox
                         titleLetter="I"
                         titleWord="IMMERSE"
                         titleHanguel="몰입하다"
-                        description="하나에 깊게 몰두하며,
-끝까지 나아갑니다."
+                        description={'하나에 깊게 몰두하며,\n끝까지 나아갑니다.'}
                         className="mr-64"
                     />
                     <LIONBox
                         titleLetter="O"
                         titleWord="OPEN"
                         titleHanguel="열다"
-                        description="서로 다른 관점을 소통으로
-                이어가며, 함께 성장합니다."
+                        description={'서로 다른 관점을 소통으로\n이어가며, 함께 성장합니다.'}
                         className="mr-124"
                     />
                     <LIONBox
                         titleLetter="N"
                         titleWord="NETWORK"
                         titleHanguel="연결하다"
-                        description="팀워크와 협력을 통해
-                결과물을 창출합니다."
+                        description={'팀워크와 협력을 통해\n결과물을 창출합니다.'}
                     />
                 </div>
             </div>
@@ -396,7 +372,7 @@ const SectionAbout = ({ titleRef, containerRef }: { titleRef: React.RefObject<HT
         note: string
     }) => {
         return (
-            <div className="rounded-15 relative flex h-645 w-394 flex-col items-baseline justify-baseline bg-amber-950 bg-[url('/images/about_image.png')] bg-cover bg-center px-32 py-64">
+            <div className="rounded-15 relative flex h-645 w-394 flex-col items-baseline justify-baseline bg-amber-950 bg-[url('/images/about_image.png')] bg-cover bg-center px-32 py-64 z-2">
                 <div className="absolute top-422 flex flex-col justify-center gap-16">
                     <div>
                         <span className="font-pretendard text-32 text-sub-seoultech-blue bg-pri-white leading-none font-bold tracking-[-0.96px] whitespace-pre-line">
@@ -414,166 +390,173 @@ const SectionAbout = ({ titleRef, containerRef }: { titleRef: React.RefObject<HT
         )
     }
 
-    return (<>
-        <div className="flex flex-col items-baseline justify-center h-full" ref={containerRef}>
-            <HighlightenTitle
-                text="가능성을 현실로, 도전을 성장으로."
-                ref={titleRef}
-            />
-            <p className="font-pretendard text-32 text-pri-black mt-42 font-medium whitespace-pre-line">
-                국내 121개 대학 지점을 보유한 대학생 연합 IT 벤처 창업
-                동아리
-                <br />
-                멋쟁이사자처럼 대학을 소개합니다 👏
-            </p>
-            <div className="mt-155 flex flex-row gap-48">
-                <AboutBox
-                    title="과기대 멋대,
+    return (
+        <>
+            <div className="flex flex-col items-baseline justify-center h-full" ref={containerRef}>
+                <HighlightenTitle
+                    text="가능성을 현실로, 도전을 성장으로."
+                    ref={titleRef}
+                    className="absolute top-189 left-128 z-1"
+                />
+
+                <HighlightenTitle
+                    text="가능성을 현실로, 도전을 성장으로."
+                    className='hidden'
+                />
+                <p className="font-pretendard text-32 text-pri-black mt-42 font-medium whitespace-pre-line z-2">
+                    국내 121개 대학 지점을 보유한 대학생 연합 IT 벤처 창업
+                    동아리
+                    <br />
+                    멋쟁이사자처럼 대학을 소개합니다 👏
+                </p>
+                <div className="mt-155 flex flex-row gap-48">
+                    <AboutBox
+                        title="과기대 멋대,
                         SINCE"
-                    description="2024"
-                />
-                <AboutBox
-                    title="과기대 멋대와 함께한
+                        description="2024"
+                    />
+                    <AboutBox
+                        title="과기대 멋대와 함께한
                          아기사자들"
-                    description="55명"
-                />
-                <AboutBox
-                    title="과기대 멋대에서
+                        description="55명"
+                    />
+                    <AboutBox
+                        title="과기대 멋대에서
                         제작한 프로젝트들"
-                    description="NN개"
+                        description="NN개"
+                    />
+                </div>
+            </div>
+            <div className="flex flex-row gap-48 justify-end">
+                <PartBox
+                    part="기획 PM"
+                    logo={
+                        <img
+                            src={PM}
+                            alt="PM"
+                        />
+                    }
+                    tags={[
+                        '린스타트업 모델',
+                        '문제 정의',
+                        'IA',
+                        'BM',
+                        '플로우차트',
+                        '와이어프레임',
+                        '기능명세서'
+                    ]}
+                    description="서비스의 아이디어를 구체화하고, 어떤 기능이 필요한지 고민하며 팀원들과 협업해 프로젝트를 이끌어가는 역할을 해요."
+                    background={PartBG1}
+                />
+                <PartBox
+                    part="디자인 DESIGN"
+                    logo={
+                        <img
+                            src={Design}
+                            alt="Design"
+                        />
+                    }
+                    tags={[
+                        'UI/UX',
+                        'Figma',
+                        '디자인 시스템',
+                        '시각디자인 원칙',
+                        '브랜딩',
+                        '개발자와의 협업'
+                    ]}
+                    description="프로젝트에서 사용자들이 편리하게 이용할 수 있도록 UX/UI 디자인을 만들고, 서비스의 비주얼 아이덴티티를 구축하는 역할을 해요."
+                    background={PartBG2}
+                />
+                <PartBox
+                    part="백엔드 BACK-END"
+                    logo={
+                        <img
+                            src={Backend}
+                            alt="Backend"
+                        />
+                    }
+                    tags={[
+                        'NoSQL',
+                        'Mongo DB',
+                        'Spring',
+                        'Messaging Queue',
+                        'Redisson Lock'
+                    ]}
+                    description="서비스 요구에 맞는 API를 개발하고, 배포와 운영을 통해 서버와 DB를 효율적으로 관리해요. 프레임워크를 활용해 실제 서비스 운영에 필요한 인프라를 구현해요."
+                    background={PartBG3}
+                />
+                <PartBox
+                    part="프론트엔드 FRONT-END"
+                    logo={
+                        <img
+                            src={Frontend}
+                            alt="Frontend"
+                        />
+                    }
+                    tags={[
+                        'React Hook',
+                        'HTML',
+                        'CSS',
+                        'React Native',
+                        '서버 상태 관리'
+                    ]}
+                    description="사용자 인터페이스를 구현하고, 서버와의 통신을 통해 서비스를 구성해요. 웹 클라이언트 개발에 필요한 기술을 기초부터 심화까지 배워나가요."
+                    background={PartBG4}
+                />
+                <PartBox
+                    part="인공지능 AI"
+                    logo={
+                        <img
+                            src={AI}
+                            alt="AI"
+                        />
+                    }
+                    tags={[
+                        '감정분석',
+                        'YOLO',
+                        '데이터 전처리',
+                        '가상환경',
+                        'Colab'
+                    ]}
+                    description="데이터를 분석하여  AI 모델을 설계해요. 머신러닝과 딥러닝을 활용해 서비스 기능을 고도화하거나 자동화하는 기술을 다뤄요."
+                    background={PartBG5}
                 />
             </div>
-        </div>
-        <div className="flex flex-row gap-48 justify-end">
-            <PartBox
-                part="기획 PM"
-                logo={
-                    <img
-                        src={PM}
-                        alt="PM"
-                    />
-                }
-                tags={[
-                    '린스타트업 모델',
-                    '문제 정의',
-                    'IA',
-                    'BM',
-                    '플로우차트',
-                    '와이어프레임',
-                    '기능명세서'
-                ]}
-                description="서비스의 아이디어를 구체화하고, 어떤 기능이 필요한지 고민하며 팀원들과 협업해 프로젝트를 이끌어가는 역할을 해요."
-                background={PartBG1}
-            />
-            <PartBox
-                part="디자인 DESIGN"
-                logo={
-                    <img
-                        src={Design}
-                        alt="Design"
-                    />
-                }
-                tags={[
-                    'UI/UX',
-                    'Figma',
-                    '디자인 시스템',
-                    '시각디자인 원칙',
-                    '브랜딩',
-                    '개발자와의 협업'
-                ]}
-                description="프로젝트에서 사용자들이 편리하게 이용할 수 있도록 UX/UI 디자인을 만들고, 서비스의 비주얼 아이덴티티를 구축하는 역할을 해요."
-                background={PartBG2}
-            />
-            <PartBox
-                part="백엔드 BACK-END"
-                logo={
-                    <img
-                        src={Backend}
-                        alt="Backend"
-                    />
-                }
-                tags={[
-                    'NoSQL',
-                    'Mongo DB',
-                    'Spring',
-                    'Messaging Queue',
-                    'Redisson Lock'
-                ]}
-                description="서비스 요구에 맞는 API를 개발하고, 배포와 운영을 통해 서버와 DB를 효율적으로 관리해요. 프레임워크를 활용해 실제 서비스 운영에 필요한 인프라를 구현해요."
-                background={PartBG3}
-            />
-            <PartBox
-                part="프론트엔드 FRONT-END"
-                logo={
-                    <img
-                        src={Frontend}
-                        alt="Frontend"
-                    />
-                }
-                tags={[
-                    'React Hook',
-                    'HTML',
-                    'CSS',
-                    'React Native',
-                    '서버 상태 관리'
-                ]}
-                description="사용자 인터페이스를 구현하고, 서버와의 통신을 통해 서비스를 구성해요. 웹 클라이언트 개발에 필요한 기술을 기초부터 심화까지 배워나가요."
-                background={PartBG4}
-            />
-            <PartBox
-                part="인공지능 AI"
-                logo={
-                    <img
-                        src={AI}
-                        alt="AI"
-                    />
-                }
-                tags={[
-                    '감정분석',
-                    'YOLO',
-                    '데이터 전처리',
-                    '가상환경',
-                    'Colab'
-                ]}
-                description="데이터를 분석하여  AI 모델을 설계해요. 머신러닝과 딥러닝을 활용해 서비스 기능을 고도화하거나 자동화하는 기술을 다뤄요."
-                background={PartBG5}
-            />
-        </div>
-        <div className="flex flex-row gap-48">
-            <AboutImageBox
-                image={''}
-                title="정기 세션"
-                description="기초부터 실천까지!
+            <div className="flex flex-row gap-48">
+                <AboutImageBox
+                    image={''}
+                    title="정기 세션"
+                    description="기초부터 실천까지!
 과기대 멋대만의 자료를 통해
 실습 중심의 스터디를 진행해요."
-                note="매주 목요일 오후 7시 - 오후 9시 (시험기간 제외)"
-            />
-            <AboutImageBox
-                image={''}
-                title="아이디어톤"
-                description="멋쟁이사자처럼 대학 중앙에서 주관하는 행사로,
+                    note="매주 목요일 오후 7시 - 오후 9시 (시험기간 제외)"
+                />
+                <AboutImageBox
+                    image={''}
+                    title="아이디어톤"
+                    description="멋쟁이사자처럼 대학 중앙에서 주관하는 행사로,
 머릿속에만 있던 아이디어를 구체화하고
 결과물의 형태로 꺼내보는 여정이에요."
-                note="5월 중 진행"
-            />
-            <AboutImageBox
-                image={''}
-                title="중앙해커톤"
-                description="팀과 함께 성장하는 협업의 경험
+                    note="5월 중 진행"
+                />
+                <AboutImageBox
+                    image={''}
+                    title="중앙해커톤"
+                    description="팀과 함께 성장하는 협업의 경험
 짧은 시간 안에 함께 완성해가는 협업 중심의
 프로젝트예요."
-                note="7월 - 8월 중 진행"
-            />
-            <AboutImageBox
-                image={''}
-                title="데모데이"
-                description="런칭부터 검증까지, 완성도를 향해 나아가는ㅡ
+                    note="7월 - 8월 중 진행"
+                />
+                <AboutImageBox
+                    image={''}
+                    title="데모데이"
+                    description="런칭부터 검증까지, 완성도를 향해 나아가는ㅡ
 기획, 개발, 릴리즈, 그리고 그 이후까지.
 더 나은 결과를 위한 전 과정을 함께 경험해요."
-                note="12월 중 진행"
-            />
-        </div>
-    </>
+                    note="12월 중 진행"
+                />
+            </div>
+        </>
     )
 }
 const CarouselControl = () => {
@@ -587,9 +570,9 @@ const CarouselControl = () => {
     )
 }
 
-const SectionLayout = ({ children, containerRef }: { children: React.ReactNode, containerRef: React.RefObject<HTMLDivElement> }) => {
+const SectionLayout = ({ children, containerRef, className }: { children: React.ReactNode, containerRef?: React.RefObject<HTMLDivElement>, className?: string }) => {
     return (
-        <section className="main-section flex h-screen w-fit flex-row items-end gap-128 bg-[#F8F8F8] pl-128 pt-189 pb-128 pr-64 relative" ref={containerRef}>
+        <section className={cn("main-section flex h-screen w-fit flex-row items-end justify-end gap-128 bg-[oklch(96.7%_0.002869_84.6)] pl-128 pt-189 pb-128 pr-64 relative", className)} ref={containerRef}>
             {children}
         </section>
     )
