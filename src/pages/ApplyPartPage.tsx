@@ -35,6 +35,11 @@ export default function ApplyPartPage() {
         }
     }, [allQuestions.length, formData.answers, updateFormData]);
 
+    // 모든 질문 답변이 채워졌는지 확인
+    const isAllQuestionsAnswered = React.useMemo(() => {
+        return formData.answers.every(answer => answer.trim() !== '');
+    }, [formData.answers]);
+
     const handleEdit = () => {
         navigate('/apply');
     };
@@ -49,6 +54,17 @@ export default function ApplyPartPage() {
 
     const handlePortfolioChange = (idx: number, value: string) => {
         updatePortfolioLink(idx, value);
+    };
+
+    const handleSave = () => {
+        // 저장 로직 구현
+        console.log('저장하기 버튼 클릭됨');
+    };
+
+    const handleSubmit = () => {
+        if (!isAllQuestionsAnswered) return;
+        // 제출 로직 구현
+        console.log('제출하기 버튼 클릭됨');
     };
 
     if (!partData) {
@@ -72,8 +88,22 @@ export default function ApplyPartPage() {
             <div className="flex-1 h-full flex flex-col">
                 {/* 버튼 영역: InfoSection과 같은 y축에서 시작, 오른쪽 정렬 */}
                 <div className="flex justify-end items-center mt-[17.5vh] mb-8 gap-16 pr-316 pb-72">
-                    <button className="bg-sub_seoultech_blue text-white font-bold rounded-full px-16 py-8 text-20 leading-[30px] tracking-[-0.6px]">저장하기</button>
-                    <button className="bg-sub_seoultech_red text-white font-bold rounded-full px-16 py-8 text-20 leading-[30px] tracking-[-0.6px]">제출하기</button>
+                    <button
+                        className="bg-sub_seoultech_blue text-white font-bold rounded-full px-16 py-8 text-20 leading-[30px] tracking-[-0.6px] cursor-pointer"
+                        onClick={handleSave}
+                    >
+                        저장하기
+                    </button>
+                    <button
+                        className={`font-bold rounded-full px-16 py-8 text-20 leading-[30px] tracking-[-0.6px] ${isAllQuestionsAnswered
+                            ? 'bg-sub_seoultech_red text-white cursor-pointer'
+                            : 'bg-[#c8c8c8] text-white cursor-not-allowed'
+                            }`}
+                        onClick={handleSubmit}
+                        disabled={!isAllQuestionsAnswered}
+                    >
+                        제출하기
+                    </button>
                 </div>
                 {/* 질문 카드(가로 스크롤) 영역 */}
                 <div className="flex-1 flex items-center">

@@ -37,6 +37,28 @@ export default function ApplyPage() {
         updateFormData({ selectedPart: part });
     };
 
+    // 모든 필수 입력 필드가 채워졌는지 확인
+    const isFormComplete = React.useMemo(() => {
+        return (
+            formData.name.trim() !== '' &&
+            formData.phone.trim() !== '' &&
+            formData.studentId.trim() !== '' &&
+            formData.email.trim() !== '' &&
+            formData.department.trim() !== '' &&
+            formData.selectedPart !== ''
+        );
+    }, [formData]);
+
+    const handleButtonClick = () => {
+        if (!isFormComplete) return;
+
+        console.log('버튼 클릭됨');
+        console.log('선택된 파트:', formData.selectedPart);
+        const url = `/apply/part?part=${encodeURIComponent(formData.selectedPart)}`;
+        console.log('이동할 URL:', url);
+        navigate(url);
+    };
+
     return (
         <div className="w-full h-screen flex flex-col bg-white">
             {/* 상단 타이틀 */}
@@ -111,17 +133,41 @@ export default function ApplyPage() {
             </div>
             {/* 우측 하단 버튼 */}
             <div className="flex w-full justify-end items-end pr-[8vw] mt-auto mb-[11vh]">
-                <AnimatedButton
-                    text="파트별 지원서 작성하기"
-                    color="#E74C2E"
-                    onClick={() => {
-                        console.log('버튼 클릭됨');
-                        console.log('선택된 파트:', formData.selectedPart);
-                        const url = `/apply/part?part=${encodeURIComponent(formData.selectedPart)}`;
-                        console.log('이동할 URL:', url);
-                        navigate(url);
-                    }}
-                />
+                {isFormComplete ? (
+                    <AnimatedButton
+                        text="파트별 지원서 작성하기"
+                        color="#E74C2E"
+                        onClick={handleButtonClick}
+                    />
+                ) : (
+                    <div className="relative flex items-center font-bold text-[24px] leading-[36px] tracking-[-0.72px] px-0 py-0 bg-transparent border-none outline-none cursor-not-allowed">
+                        <span
+                            className="absolute right-0 top-1/2 -translate-y-1/2"
+                            style={{
+                                width: 44,
+                                height: 44,
+                                borderRadius: 9999,
+                                background: '#c8c8c8',
+                                marginRight: 16,
+                            }}
+                        />
+                        <span className="flex items-center relative z-16" style={{ padding: '0 16px 0 0' }}>
+                            <span
+                                style={{
+                                    color: '#c8c8c8',
+                                    marginRight: 12,
+                                }}
+                            >
+                                파트별 지원서 작성하기
+                            </span>
+                            <span className="flex items-center justify-center" style={{ width: 44, height: 44 }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                    <path d="M10.6465 20.8535L8.66895 18.876L15.708 11.8359H0.396484V9.03906H15.583L8.66895 2.12402L10.6465 0.146484L21 10.5L10.6465 20.8535Z" fill="#F5F4F2" />
+                                </svg>
+                            </span>
+                        </span>
+                    </div>
+                )}
             </div>
         </div>
     );
