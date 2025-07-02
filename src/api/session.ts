@@ -1,6 +1,9 @@
 import { apiClient } from './client'
 import type {
-    SessionGetResponse,
+    SessionAssignmentDetailResponse,
+    SessionListResponse,
+    SessionAssignmentSubmissionRequest,
+    SessionAssignmentSubmissionResponse,
     SessionQuizCreateRequest,
     SessionQuizCreateResponse
 } from '@/types/session'
@@ -8,22 +11,30 @@ import type {
 // 1. 세션 과제 상세 조회
 export async function getSessionAssignmentDetail(
     assignmentId: string
-): Promise<SessionGetResponse> {
-    const res = await apiClient.get<SessionGetResponse>(
+): Promise<SessionListResponse> {
+    const res = await apiClient.get<SessionListResponse>(
         `/session/assignment/${assignmentId}`
     )
     return res.data
 }
 
 // 2. 세션 과제 페이지 조회
-export async function getSessionAssignmentPage(part: string): Promise<any> {
-    const res = await apiClient.get(`/session/assignment/${part}`, {})
+export async function getSessionAssignmentPage(
+    part: string
+): Promise<SessionListResponse> {
+    const res = await apiClient.get<SessionListResponse>(
+        `/session/assignment/${part}`
+    )
     return res.data
 }
 
 // 3. 세션 상세 조회
-export async function getSessionDetail(sessionId: string): Promise<any> {
-    const res = await apiClient.get(`/session/${sessionId}`)
+export async function getSessionDetail(
+    sessionId: string
+): Promise<SessionAssignmentDetailResponse> {
+    const res = await apiClient.get<SessionAssignmentDetailResponse>(
+        `/session/${sessionId}`
+    )
     return res.data
 }
 
@@ -31,14 +42,14 @@ export async function getSessionDetail(sessionId: string): Promise<any> {
 export async function postSessionAssignmentSubmission(
     part: string,
     assignmentId: string,
-    fileUrl: string
-): Promise<any> {
+    fileUrl: string,
+    content?: string
+): Promise<SessionAssignmentSubmissionResponse> {
     const formData = new FormData()
     formData.append('assignmentId', assignmentId)
     formData.append('fileUrl', fileUrl)
-    // content는 optional
-    // formData.append('content', content)
-    const res = await apiClient.post(
+    if (content) formData.append('content', content)
+    const res = await apiClient.post<SessionAssignmentSubmissionResponse>(
         `/session/assignment/${part}/submission`,
         formData,
         {
