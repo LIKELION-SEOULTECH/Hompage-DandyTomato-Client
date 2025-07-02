@@ -106,7 +106,13 @@ export default plugin(function ({ matchUtilities, theme }) {
             //gap
             'gap-x': (value: string) => ({ columnGap: remToVw(value) }),
             'gap-y': (value: string) => ({ rowGap: remToVh(value) }),
-            gap: (value: string) => ({ gap: remToVw(value) })
+            gap: (value: string) => ({ gap: remToVw(value) }),
+
+            // width
+            w: (value: string) => ({ width: remToVw(value) }),
+            h: (value: string) => ({ height: remToVh(value) }),
+            wvh: (value: string) => ({ width: toVw(value) }),
+            hvh: (value: string) => ({ height: toVh(value) })
         },
         { values: spacingScale }
     )

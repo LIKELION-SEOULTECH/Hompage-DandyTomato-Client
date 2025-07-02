@@ -1,6 +1,8 @@
 import { ToggleGroupButton } from '@/components/archive/ToggleGroupButton'
 import HighlightenTitle from '@/components/HighlightenTitle'
 import SessionResourceList from '@/components/session/SessionResourceList'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 export default function SessionResourcesPage() {
     const items = [
@@ -15,25 +17,32 @@ export default function SessionResourcesPage() {
         { week: 9, title: '과제 9', assignmentState: '과제 없음' },
         { week: 10, title: '과제 10', assignmentState: '기한 만료' }
     ]
-
+    const [searchParams, setSearchParams] = useSearchParams()
+    const sessionType = searchParams.get('sessionType')
+    const [part, setPart] = useState(sessionType || 'all')
+    const handlePartChange = (part: string) => {
+        setPart(part)
+    }
     return (
         <div className="relative flex h-full w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128">
             <div className="flex flex-col gap-313">
-                <HighlightenTitle text="세션 자료" />
+                <HighlightenTitle text="세션 자료" className="text-nowrap" />
                 <div className="flex flex-col gap-52">
                     <p className="text-24 text-pri-black font-bold">
                         파트 구분
                     </p>
                     <ToggleGroupButton
+                        value={part}
+                        onValueChange={handlePartChange}
                         options={[
                             { label: '전체', value: 'all' },
                             { label: '기획 PM', value: 'pm' },
-                            { label: '백엔드 BACK-END', value: 'backend' },
+                            { label: '백엔드 BACK-END', value: 'be' },
                             {
                                 label: '프론트엔드 FRONT-END',
-                                value: 'frontend'
+                                value: 'fe'
                             },
-                            { label: '디자이너 DESIGNER', value: 'designer' },
+                            { label: '디자이너 DESIGNER', value: 'design' },
                             { label: '인공지능 AI', value: 'ai' }
                         ]}
                         className="text-sub-seoultech-red"

@@ -1,4 +1,4 @@
-import MainPage from '@/components/MainPage'
+import MainPage from '@/pages/MainPage'
 import { Route, Routes } from 'react-router-dom'
 import Layout from '@/components/layout/layout'
 import IntroductionPage from '@/pages/IntroductionPage'

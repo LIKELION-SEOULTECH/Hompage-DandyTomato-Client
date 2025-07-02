@@ -27,7 +27,7 @@ export default function ApplySection() {
     }
 
     return (
-        <div className="relative w-1610 flex items-start justify-between overflow-hidden">
+        <div className="relative w-screen flex items-start justify-between overflow-hidden">
             {/* 왼쪽 컨텐츠 */}
             <div className="flex flex-col items-start mt-[17.5vh] mb-[11vh] ml-15">
                 <HighlightenTitle text="지원하기" className='mb-78' />
