@@ -1,10 +1,14 @@
 'use client'
 
 import HighlightenTitle from "@/components/HighlightenTitle"
+import AnimatedButton from "@/components/ui/AnimatedButton"
 
-export default function IntroSection() {
+export default function IntroSection({ handleGoToEnd }: { handleGoToEnd: () => void }) {
     return (
-        <div className="w-screen h-screen flex items-center justify-center">
+        <div className="relative w-screen h-screen flex items-center justify-center">
+            <div className="absolute right-100 top-[19vh] z-50">
+                <AnimatedButton text="바로 지원하기" color="#F14B2D" onClick={handleGoToEnd} />
+            </div>
             <div className="flex w-full h-full items-center justify-between">
                 {/* 왼쪽: 배너 이미지 */}
                 <div className="w-4/9 h-full flex items-center justify-center overflow-hidden">

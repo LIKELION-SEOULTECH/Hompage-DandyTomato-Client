@@ -3,8 +3,12 @@
 import { useRef, useEffect, useState } from 'react'
 import ProcessBubble from '@/components/ui/introduction/ProcessBubble'
 import processLine from '@/assets/processLine.svg'
-import { motion } from 'framer-motion'
+import gsap from 'gsap'
+import { useGSAP } from '@gsap/react'
+import ScrollTrigger from 'gsap/ScrollTrigger'
 import HighlightenTitle from '@/components/HighlightenTitle'
+
+gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 // 단계 데이터
 const steps = [
@@ -77,11 +81,11 @@ const steps = [
 const tailOffset = 36 // 말풍선 내 꼬리의 left값(px)
 
 type RecruitProcessSectionProps = {
-    scrollerRef: React.RefObject<HTMLDivElement> | React.MutableRefObject<HTMLDivElement | null>;
+    scrollerRef: React.RefObject<HTMLDivElement>
 };
 
 // 말풍선이 오른쪽 뷰포트 끝에 닿을 때만 사라지도록 감지하는 커스텀 훅
-function useRightOutView(ref: React.RefObject<HTMLDivElement | null>, scrollRoot: HTMLDivElement | null, offset = 30) {
+function useRightOutView(ref: React.RefObject<HTMLDivElement | null>, containerRef: HTMLDivElement | null, offset = 30) {
     const [rightOut, setRightOut] = useState(false);
 
     useEffect(() => {
@@ -91,43 +95,46 @@ function useRightOutView(ref: React.RefObject<HTMLDivElement | null>, scrollRoot
             // 오른쪽 끝에서 offset(px) 이내로 닿으면 사라짐
             setRightOut(rect.right > (window.innerWidth - offset));
         }
-        const root: HTMLElement | Window = scrollRoot || window;
-        root.addEventListener('scroll', check, { passive: true });
+        const container: HTMLElement | Window = containerRef || window;
+        container.addEventListener('scroll', check, { passive: true });
         window.addEventListener('resize', check);
         check();
         return () => {
-            root.removeEventListener('scroll', check);
+            container.removeEventListener('scroll', check);
             window.removeEventListener('resize', check);
         };
-    }, [ref, scrollRoot, offset]);
+    }, [ref, containerRef, offset]);
 
     return rightOut;
 }
 
-function AnimatedBubble({ children, left, top, scrollRoot }: { children: React.ReactNode; left: number; top: number; scrollRoot: HTMLDivElement | null }) {
+function AnimatedBubble({ children, left, top, containerRef }: { children: React.ReactNode; left: number; top: number; containerRef: HTMLDivElement | null }) {
     const ref = useRef<HTMLDivElement>(null);
-    const rightOut = useRightOutView(ref, scrollRoot, 100);
+    const rightOut = useRightOutView(ref, containerRef, 100);
+
+    useGSAP(() => {
+        if (!ref.current) return;
+        gsap.to(ref.current, {
+            scale: rightOut ? 0.7 : 1,
+            opacity: rightOut ? 0 : 1,
+            duration: 0.7,
+            ease: 'elastic.out(1, 0.5)', // spring-like
+        });
+    }, [rightOut]);
+
     return (
-        <motion.div
+        <div
             ref={ref}
             className="absolute w-[180px] flex flex-col items-center"
             style={{ left, top }}
-            initial={{ scale: 0.7, opacity: 0 }}
-            animate={!rightOut ? { scale: 1, opacity: 1 } : { scale: 0.7, opacity: 0 }}
-            transition={{
-                duration: 0.7,
-                type: 'spring',
-                bounce: 0.5,
-            }}
         >
             {children}
-        </motion.div>
+        </div>
     );
 }
 
 export default function RecruitProcessSection({ scrollerRef }: RecruitProcessSectionProps) {
-    // scrollerRef.current가 null일 수 있으므로 안전하게 넘김
-    const scrollRoot = (scrollerRef && 'current' in scrollerRef ? scrollerRef.current : null) as HTMLDivElement | null;
+    const scrollRoot = scrollerRef.current;
     return (
         <div className="w-full min-h-screen flex justify-center overflow-x-auto">
             <div className="relative min-w-[2395px] flex flex-col items-start mt-[17.5vh] mb-[11vh]">
@@ -142,7 +149,7 @@ export default function RecruitProcessSection({ scrollerRef }: RecruitProcessSec
                             ? 20.8169 - 23.04 - 238 // 선의 y + 오프셋 - 말풍선 높이(대략)
                             : 20.8169 + 10.2779 + 50.83;
                         return (
-                            <AnimatedBubble key={idx} left={step.left - tailOffset} top={bubbleTop} scrollRoot={scrollRoot}>
+                            <AnimatedBubble key={idx} left={step.left - tailOffset} top={bubbleTop} containerRef={scrollRoot}>
                                 <ProcessBubble
                                     title={step.title}
                                     date={step.date}
