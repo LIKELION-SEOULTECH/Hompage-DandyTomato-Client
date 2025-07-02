@@ -6,7 +6,7 @@ import SharedButton from '@/components/SharedButton';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 import HighlightenTitle from '@/components/HighlightenTitle';
 import { useAuthZustandStore } from '@/stores/auth';
-import { postRecruitSubscribe } from '@/api/recruit';
+import { subscribeRecruit } from '@/api/recruit';
 
 export default function ApplySection() {
     const { accessToken, email } = useAuthZustandStore()
@@ -20,7 +20,7 @@ export default function ApplySection() {
             return
         }
         try {
-            const res = await postRecruitSubscribe(email, accessToken)
+            const res = await subscribeRecruit({ email })
         } catch (e) {
             console.log('구독 요청에 실패했습니다.')
         }
