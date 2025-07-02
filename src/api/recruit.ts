@@ -26,6 +26,18 @@ export async function postRecruitDraft(
     return res.data
 }
 
+export async function postRecruitSubscribe(email: string, accessToken: string): Promise<{ is_subscriped: boolean }> {
+    const res = await apiClient.post(
+        '/recruit/subscribe',
+        { email },
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+    return res.data.data
 export async function getRecruitResult(
     applicationId: number
 ): Promise<RecruitResultResponse> {

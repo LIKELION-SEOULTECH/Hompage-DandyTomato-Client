@@ -105,6 +105,16 @@ export const handlers = [
             })
         }
     ),
+    http.post(`${baseURL}/recruit/subscribe`, async ({ request }) => {
+        // 항상 구독 성공 응답 반환
+        return new HttpResponse(
+            JSON.stringify({
+                status: 'success',
+                data: { is_subscriped: true }
+            }),
+            { status: 201, headers: { 'Content-Type': 'application/json' } }
+        )
+    }),
     ...memberHandlers,
     ...sessionHandlers,
     ...archiveHandlers
