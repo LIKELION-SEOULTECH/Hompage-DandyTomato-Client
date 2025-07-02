@@ -11,6 +11,8 @@ interface GalleryCardProps {
     date?: string
     description?: string
     tag?: string[]
+    width?: string
+    height?: string
     // Add other props like title, imageUrl, etc. as needed
 }
 
@@ -21,7 +23,9 @@ const GalleryCard: React.FC<GalleryCardProps> = ({
     title = '활동이름',
     date = '2025.01.01',
     description = '간단한 설명',
-    tag = ['해쉬태그']
+    tag = ['해쉬태그'],
+    width,
+    height
 }) => {
     const [isHovered, setIsHovered] = useState(false)
     return (
@@ -33,8 +37,10 @@ const GalleryCard: React.FC<GalleryCardProps> = ({
                 setIsHovered(false)
             }}
             className={cn(
-                'bg-sub-seoultech-red flex items-center justify-center overflow-hidden rounded-[15px]',
-                className
+                'bg-sub-seoultech-red flex items-center justify-center overflow-hidden rounded-[15px] aspect-video',
+                className,
+                `w-[${width}]`,
+                `h-[${height}]`
             )}
             style={style}>
             <div
