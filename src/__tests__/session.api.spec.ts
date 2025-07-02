@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import {
-    getSessionAssignmentDetail,
     getSessionAssignmentPage,
     getSessionDetail,
     postSessionAssignmentSubmission,
+    updateSessionAssignment,
     postSessionQuiz
 } from '@/api/session'
 import type {
@@ -11,29 +11,22 @@ import type {
     SessionQuizCreateResponse
 } from '@/types/session'
 
-// 1. 세션 과제 상세 조회 (GET /session/assignment/:assignmentId)
-describe('getSessionAssignmentDetail', () => {
-    it('세션 과제 상세 조회 성공 (200)', async () => {
-        const res = await getSessionAssignmentDetail('1')
-        expect(Array.isArray(res.sessions[0].assignments)).toBe(true)
-        expect(res.sessions[0].assignments[0]).toHaveProperty(
-            'id',
-            'assignment-1'
-        )
-        expect(res.sessions[0].assignments[0]).toHaveProperty('title', '과제1')
-        expect(res.sessions[0].assignments[0]).toHaveProperty(
-            'description',
-            '과제1 설명'
-        )
-    })
-})
+
 
 // 2. 세션 과제 페이지 조회
 describe('getSessionAssignmentPage', () => {
     it('세션 과제 페이지 조회 성공 (200)', async () => {
         const res = await getSessionAssignmentPage('frontend')
-        expect(res.sessions[0]).toHaveProperty('title', 'frontend 세션')
-        expect(Array.isArray(res.sessions[0].assignments)).toBe(true)
+        expect(res.status).toBe('success')
+        expect(res.data?.sessions[0]).toHaveProperty('title', 'frontend 세션 1주차')
+        expect(res.data?.sessions[0]).toHaveProperty('week', 1)
+        expect(res.data?.sessions[0]).toHaveProperty('isSubmitted', true)
+    })
+    
+    it('세션 과제 페이지 조회 - 주차 필터링 (200)', async () => {
+        const res = await getSessionAssignmentPage('frontend', 2)
+        expect(res.status).toBe('success')
+        expect(res.data?.sessions[0]).toHaveProperty('week', 2)
     })
 })
 
@@ -41,86 +34,107 @@ describe('getSessionAssignmentPage', () => {
 describe('getSessionDetail', () => {
     it('세션 상세 조회 성공 (200)', async () => {
         const res = await getSessionDetail('session-1')
-        expect(res).toHaveProperty('id', 'session-1')
-        expect(res).toHaveProperty('title')
-        expect(res).toHaveProperty('content')
-        expect(Array.isArray(res.assignments)).toBe(true)
+        expect(res.status).toBe('success')
+        expect(res.data?.session).toHaveProperty('id', 'session-1')
+        expect(res.data?.session).toHaveProperty('title', '기획 실습 - 인터뷰 질문 만들기')
+        expect(res.data?.session).toHaveProperty('year', 13)
+        expect(res.data?.session).toHaveProperty('part', 'BACKEND')
+        expect(Array.isArray(res.data?.session.resources)).toBe(true)
     })
     it('세션 상세 조회 실패 (404)', async () => {
         await expect(getSessionDetail('not-found')).rejects.toBeTruthy()
     })
 })
 
-// 4. 세션 과제 제출 (POST /session/assignment/:part/submission)
+// 4. 세션 과제 제출 (POST /session/:assignmentId/assignment)
 describe('postSessionAssignmentSubmission', () => {
-    const part = 'frontend'
     const assignmentId = 'assignment-1'
-    const fileUrl = 'https://example.com/file.pdf'
+    const links = 'www.example.com, www.github.com'
+    
     it('세션 과제 제출 성공 (201)', async () => {
         const res = await postSessionAssignmentSubmission(
-            part,
             assignmentId,
-            fileUrl
+            links
         )
         expect(res.status).toBe('success')
-        expect(res.data).toHaveProperty('submission')
-        expect(res.data.submission).toHaveProperty('assignmentId', assignmentId)
-        expect(res.data.submission).toHaveProperty('fileUrl', fileUrl)
+        expect(res.data).toHaveProperty('message')
+        expect(res.data?.message).toBe('정상적으로 등록되었습니다')
     })
-    it('세션 과제 제출 실패 (400)', async () => {
+    
+    it('세션 과제 제출 실패 (400) - links 누락', async () => {
         await expect(
-            postSessionAssignmentSubmission(part, '', fileUrl)
-        ).rejects.toMatchObject({
-            response: { status: 400 }
-        })
-        await expect(
-            postSessionAssignmentSubmission(part, assignmentId, '')
+            postSessionAssignmentSubmission(assignmentId, '')
         ).rejects.toMatchObject({
             response: { status: 400 }
         })
     })
-    it('세션 과제 제출 실패 (잘못된 파일 URL)', async () => {
-        await expect(
-            postSessionAssignmentSubmission(part, assignmentId, 'not-a-url')
-        ).rejects.toMatchObject({
-            response: { status: 400 }
-        })
-    })
+    
     it('세션 과제 제출 실패 (404)', async () => {
         await expect(
-            postSessionAssignmentSubmission(part, 'not-found', fileUrl)
+            postSessionAssignmentSubmission('not-found', links)
         ).rejects.toMatchObject({
             response: { status: 404 }
         })
     })
+    
     it('세션 과제 제출 실패 (만료된 과제)', async () => {
         await expect(
-            postSessionAssignmentSubmission(part, 'expired', fileUrl)
+            postSessionAssignmentSubmission('expired', links)
         ).rejects.toMatchObject({
             response: { status: 400 }
         })
     })
+    
     it('세션 과제 제출 실패 (이미 제출된 과제)', async () => {
         await expect(
-            postSessionAssignmentSubmission(part, 'already-submitted', fileUrl)
+            postSessionAssignmentSubmission('already-submitted', links)
         ).rejects.toMatchObject({
             response: { status: 409 }
         })
     })
-    it('세션 과제 제출 실패 (파일 크기 초과)', async () => {
+})
+
+// 5. 세션 과제 수정 (PUT /session/:assignmentId/assignment)
+describe('updateSessionAssignment', () => {
+    const assignmentId = 'assignment-1'
+    const links = 'www.example.com, www.github.com'
+    
+    it('세션 과제 수정 성공 (201)', async () => {
+        const res = await updateSessionAssignment(
+            assignmentId,
+            links
+        )
+        expect(res.status).toBe('success')
+        expect(res.data).toHaveProperty('message')
+        expect(res.data?.message).toBe('세션 과제가 정상적으로 수정되었습니다')
+    })
+    
+    it('세션 과제 수정 실패 (400) - links 누락', async () => {
         await expect(
-            postSessionAssignmentSubmission(
-                part,
-                assignmentId,
-                'https://example.com/large-file.pdf'
-            )
+            updateSessionAssignment(assignmentId, '')
+        ).rejects.toMatchObject({
+            response: { status: 400 }
+        })
+    })
+    
+    it('세션 과제 수정 실패 (404)', async () => {
+        await expect(
+            updateSessionAssignment('not-found', links)
+        ).rejects.toMatchObject({
+            response: { status: 404 }
+        })
+    })
+    
+    it('세션 과제 수정 실패 (만료된 과제)', async () => {
+        await expect(
+            updateSessionAssignment('expired', links)
         ).rejects.toMatchObject({
             response: { status: 400 }
         })
     })
 })
 
-// 5. 복습 퀴즈 생성 요청
+// 6. 복습 퀴즈 생성 요청
 describe('postSessionQuiz', () => {
     const req: SessionQuizCreateRequest = {
         sessionIds: ['session-1', 'session-2']

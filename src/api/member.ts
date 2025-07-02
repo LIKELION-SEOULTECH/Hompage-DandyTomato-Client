@@ -1,59 +1,45 @@
 import type {
-    MemberPostRequest,
-    MemberResponse,
     MemberListParams,
-    MemberListResponse
+    MemberListResponse,
+    MemberDetailResponse,
+    UpdateMyProfileRequest,
+    UpdateMyProfileResponse
 } from '@/types/member'
 import { apiClient } from './client'
 
-export async function postMember(
-    data: MemberPostRequest
-): Promise<MemberResponse> {
-    const formData = new FormData()
-    Object.entries(data).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-            formData.append(key, value as any)
-        }
-    })
-    const response = await apiClient.post<MemberResponse>('/member', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    })
-    return response.data
-}
-
+//1. 멤버 소개 페이지 조회 (ALL 권한) - 굳
 export async function getMembers(
     params: MemberListParams = {}
 ): Promise<MemberListResponse> {
-    const queryParams = new URLSearchParams()
-    if (params.page) queryParams.append('page', params.page.toString())
-    if (params.size) queryParams.append('size', params.size.toString())
-    if (params.part) queryParams.append('part', params.part)
-    if (params.year) queryParams.append('year', params.year.toString())
-    if (params.keyword) queryParams.append('keyword', params.keyword)
-    const response = await apiClient.get<MemberListResponse>(
-        `/member?${queryParams.toString()}`
-    )
-    return response.data
-}
-
-export async function getMember(memberId: string): Promise<MemberResponse> {
-    const response = await apiClient.get<MemberResponse>(`/member/${memberId}`)
-    return response.data
-}
-
-export async function updateMember(
-    memberId: string,
-    data: Partial<MemberPostRequest>
-): Promise<MemberResponse> {
-    const formData = new FormData()
-    Object.entries(data).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-            formData.append(key, value as any)
-        }
+    const res = await apiClient.get<MemberListResponse>('/member', {
+        params
     })
-    const response = await apiClient.patch<MemberResponse>(
+    return res.data
+}
+
+//2. 멤버 상세 조회 (ALL 권한) - 굳
+export async function getMemberDetail(memberId: string): Promise<MemberDetailResponse> {
+    const res = await apiClient.get<MemberDetailResponse>(`/member/${memberId}`)
+    return res.data
+}
+
+//3. 내 프로필 수정 (MEMBER 권한 + 본인만) - 굳
+export async function updateMyProfile(
+    memberId: string,
+    data: UpdateMyProfileRequest
+): Promise<UpdateMyProfileResponse> {
+    const formData = new FormData()
+    
+    // 필수 필드
+    formData.append('id', data.id)
+    if (data.name) formData.append('name', data.name)
+    if (data.major) formData.append('major', data.major)
+    if (data.introduce) formData.append('introduce', data.introduce)
+    if (data.links) formData.append('links', data.links)
+    if (data.profileImg) formData.append('profileImg', data.profileImg) 
+    if (data.email) formData.append('email', data.email)
+    
+    const res = await apiClient.put<UpdateMyProfileResponse>(
         `/member/${memberId}`,
         formData,
         {
@@ -62,9 +48,6 @@ export async function updateMember(
             }
         }
     )
-    return response.data
+    return res.data
 }
 
-export async function deleteMember(memberId: string): Promise<void> {
-    await apiClient.delete(`/member/${memberId}`)
-}

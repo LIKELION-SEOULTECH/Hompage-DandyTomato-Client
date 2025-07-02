@@ -5,58 +5,60 @@ import type {
     SessionAssignmentSubmissionRequest,
     SessionAssignmentSubmissionResponse,
     SessionQuizCreateRequest,
-    SessionQuizCreateResponse
+    SessionQuizCreateResponse,
+    SessionAssignmentPageResponse,
+    SessionDetailResponse,
+    SessionAssignmentUpdateResponse
 } from '@/types/session'
 
-// 1. 세션 과제 상세 조회
-export async function getSessionAssignmentDetail(
-    assignmentId: string
-): Promise<SessionListResponse> {
-    const res = await apiClient.get<SessionListResponse>(
-        `/session/assignment/${assignmentId}`
-    )
-    return res.data
-}
 
-// 2. 세션 과제 페이지 조회
+// 1. 세션 과제 페이지 조회 (MEMBER 권한 필요)
 export async function getSessionAssignmentPage(
-    part: string
-): Promise<SessionListResponse> {
-    const res = await apiClient.get<SessionListResponse>(
-        `/session/assignment/${part}`
+    part: string,
+    week?: number
+): Promise<SessionAssignmentPageResponse> {
+    const params: any = {}
+    if (week !== undefined) {
+        params.week = week
+    }
+    
+    const res = await apiClient.get<SessionAssignmentPageResponse>(
+        `/session/assignment/${part}`,
+        { params }
     )
     return res.data
 }
 
-// 3. 세션 상세 조회
+// 2. 세션 상세 조회 (MEMBER 권한 필요)
 export async function getSessionDetail(
     sessionId: string
-): Promise<SessionAssignmentDetailResponse> {
-    const res = await apiClient.get<SessionAssignmentDetailResponse>(
+): Promise<SessionDetailResponse> {
+    const res = await apiClient.get<SessionDetailResponse>(
         `/session/${sessionId}`
     )
     return res.data
 }
 
-// 4. 세션 과제 제출
+// 3. 세션 과제 제출 (MEMBER 권한 필요)
 export async function postSessionAssignmentSubmission(
-    part: string,
     assignmentId: string,
-    fileUrl: string,
-    content?: string
+    links: string
 ): Promise<SessionAssignmentSubmissionResponse> {
-    const formData = new FormData()
-    formData.append('assignmentId', assignmentId)
-    formData.append('fileUrl', fileUrl)
-    if (content) formData.append('content', content)
     const res = await apiClient.post<SessionAssignmentSubmissionResponse>(
-        `/session/assignment/${part}/submission`,
-        formData,
-        {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }
+        `/session/${assignmentId}/assignment`,
+        { links }
+    )
+    return res.data
+}
+
+// 4. 세션 과제 수정 (MEMBER 권한 필요)
+export async function updateSessionAssignment(
+    assignmentId: string,
+    links: string
+): Promise<SessionAssignmentUpdateResponse> {
+    const res = await apiClient.put<SessionAssignmentUpdateResponse>(
+        `/session/${assignmentId}/assignment`,
+        { links }
     )
     return res.data
 }

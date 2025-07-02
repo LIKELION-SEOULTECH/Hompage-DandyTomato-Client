@@ -39,8 +39,11 @@ export const sessionHandlers = [
             )
         }
     ),
-    // 2. 세션 과제 페이지 조회
+    // 2. 세션 과제 페이지 조회 (명세서 기반)
     http.get(`${baseURL}/session/assignment/:part`, ({ request, params }) => {
+        const url = new URL(request.url)
+        const week = url.searchParams.get('week')
+        
         // 파트 유효성 검사
         if (
             !params.part ||
@@ -74,101 +77,95 @@ export const sessionHandlers = [
             )
         }
 
-        // 정상 응답
+        // 정상 응답 (명세서 구조에 맞게 수정)
         return HttpResponse.json(
             {
-                sessions: [
-                    {
-                        id: 'session-1',
-                        title: `${params.part} 세션`,
-                        content: `${params.part} 세션 내용`,
-                        assignments: [
-                            {
-                                id: 'assignment-1',
-                                title: '과제1',
-                                description: '과제1 설명',
-                                started_at: '2024-01-01T10:00:00Z',
-                                ended_at: '2024-01-01T12:00:00Z',
-                                status: 'ONGOING'
-                            },
-                            {
-                                id: 'assignment-2',
-                                title: '과제2',
-                                description: '과제2 설명',
-                                started_at: '2024-01-02T10:00:00Z',
-                                ended_at: '2024-01-02T12:00:00Z',
-                                status: 'COMPLETED'
-                            }
-                        ]
-                    }
-                ]
+                status: 'success',
+                data: {
+                    sessions: [
+                        {
+                            id: 'session-1',
+                            week: week ? parseInt(week) : 1,
+                            title: `${params.part} 세션 1주차`,
+                            started_at: '2024-01-01T10:00:00Z',
+                            part: String(params.part).toUpperCase(),
+                            isSubmitted: true,
+                            ended_at: '2024-01-01T12:00:00Z',
+                            status: 'ONGOING'
+                        },
+                        {
+                            id: 'session-2',
+                            week: week ? parseInt(week) : 2,
+                            title: `${params.part} 세션 2주차`,
+                            started_at: '2024-01-08T10:00:00Z',
+                            part: String(params.part).toUpperCase(),
+                            isSubmitted: false,
+                            ended_at: '2024-01-08T12:00:00Z',
+                            status: 'ASSIGNED'
+                        }
+                    ]
+                }
             },
             { status: 200 }
         )
     }),
 
-    // 3. 세션 상세 페이지 조회
+    // 3. 세션 상세 페이지 조회 (명세서 기반)
     http.get(`${baseURL}/session/:sessionId`, ({ request, params }) => {
         if (params.sessionId === 'not-found') {
             return HttpResponse.json(
                 {
-                    code: 'NOT_FOUND',
-                    message: '세션을 찾을 수 없습니다.'
+                    status: 'error',
+                    error: {
+                        code: 'NOT_FOUND',
+                        message: '세션을 찾을 수 없습니다.',
+                        details: null
+                    }
                 },
                 { status: 404 }
             )
         }
+        
         return HttpResponse.json({
-            id: params.sessionId,
-            title: '세션 제목',
-            content: '세션 내용',
-            assignments: [
-                {
-                    id: 'assignment-1',
-                    title: '과제1',
-                    description: '과제1 설명',
-                    started_at: '2024-06-01',
-                    ended_at: '2024-06-02',
-                    status: 'ONGOING'
+            status: 'success',
+            data: {
+                session: {
+                    id: String(params.sessionId),
+                    year: 13,
+                    part: 'BACKEND',
+                    title: '기획 실습 - 인터뷰 질문 만들기',
+                    assignment_description: '과제설명',
+                    assignment_links: 'link1, link2, link3',
+                    created_at: '2025-04-01T09:00:00',
+                    ended_at: '2025-04-01T11:00:00',
+                    resources: [
+                        {
+                            file_key: 'session/1234/20250701-uuid-자료.pdf',
+                            mime_type: 'application/pdf',
+                            presigned_url: 'https://s3-...amazonaws.com/...?X-Amz-Signature=...',
+                            expire_at: 1720000000000
+                        }
+                    ]
                 }
-            ]
+            }
         })
     }),
-    // 4. 세션 과제 제출
+    // 4. 세션 과제 제출 (명세서 기반)
     http.post(
-        `${baseURL}/session/assignment/:part/submission`,
+        `${baseURL}/session/:assignmentId/assignment`,
         async ({ request, params }) => {
             try {
-                const formData = await request.formData()
-                const assignmentId = formData.get('assignmentId') as string
-                const content = formData.get('content') as string
-                const fileUrl = formData.get('fileUrl') as string
+                const body = await request.json() as { links: string }
+                const { links } = body
 
                 // 필수 필드 검사
-                if (!assignmentId || !fileUrl) {
+                if (!links) {
                     return HttpResponse.json(
                         {
                             status: 'error',
                             error: {
                                 code: 'INVALID_REQUEST',
-                                message: '필수 필드가 누락되었습니다.',
-                                details: null
-                            }
-                        },
-                        { status: 400 }
-                    )
-                }
-
-                // URL 형식 검사
-                try {
-                    new URL(fileUrl)
-                } catch {
-                    return HttpResponse.json(
-                        {
-                            status: 'error',
-                            error: {
-                                code: 'INVALID_URL_FORMAT',
-                                message: '유효하지 않은 URL 형식입니다.',
+                                message: 'links 필드가 누락되었습니다.',
                                 details: null
                             }
                         },
@@ -177,7 +174,7 @@ export const sessionHandlers = [
                 }
 
                 // 과제 존재 여부 검사
-                if (assignmentId === 'not-found') {
+                if (params.assignmentId === 'not-found') {
                     return HttpResponse.json(
                         {
                             status: 'error',
@@ -192,7 +189,7 @@ export const sessionHandlers = [
                 }
 
                 // 과제 제출 기한 검사
-                if (assignmentId === 'expired') {
+                if (params.assignmentId === 'expired') {
                     return HttpResponse.json(
                         {
                             status: 'error',
@@ -207,7 +204,7 @@ export const sessionHandlers = [
                 }
 
                 // 이미 제출 여부 검사
-                if (assignmentId === 'already-submitted') {
+                if (params.assignmentId === 'already-submitted') {
                     return HttpResponse.json(
                         {
                             status: 'error',
@@ -221,36 +218,12 @@ export const sessionHandlers = [
                     )
                 }
 
-                // 파일 크기 검사
-                if (fileUrl.includes('large-file')) {
-                    return HttpResponse.json(
-                        {
-                            status: 'error',
-                            error: {
-                                code: 'FILE_TOO_LARGE',
-                                message: '파일 크기가 너무 큽니다. (최대 50MB)',
-                                details: null
-                            }
-                        },
-                        { status: 400 }
-                    )
-                }
-
                 // 정상 응답
                 return HttpResponse.json(
                     {
                         status: 'success',
                         data: {
-                            submission: {
-                                id: `sub-${Date.now()}`,
-                                assignmentId: assignmentId,
-                                sessionId: params.part,
-                                memberId: 'member-123',
-                                submission_type: 'FILE',
-                                content: content || null,
-                                fileUrl: fileUrl,
-                                submittedAt: new Date().toISOString()
-                            }
+                            message: '정상적으로 등록되었습니다'
                         }
                     },
                     { status: 201 }
@@ -270,7 +243,87 @@ export const sessionHandlers = [
             }
         }
     ),
-    // 5. 복습 퀴즈 생성 요청
+
+    // 5. 세션 과제 수정 (PUT)
+    http.put(
+        `${baseURL}/session/:assignmentId/assignment`,
+        async ({ request, params }) => {
+            try {
+                const body = await request.json() as { links: string }
+                const { links } = body
+
+                // 필수 필드 검사
+                if (!links) {
+                    return HttpResponse.json(
+                        {
+                            status: 'error',
+                            error: {
+                                code: 'INVALID_REQUEST',
+                                message: 'links 필드가 누락되었습니다.',
+                                details: null
+                            }
+                        },
+                        { status: 400 }
+                    )
+                }
+
+                // 과제 존재 여부 검사
+                if (params.assignmentId === 'not-found') {
+                    return HttpResponse.json(
+                        {
+                            status: 'error',
+                            error: {
+                                code: 'ASSIGNMENT_NOT_FOUND',
+                                message: '과제를 찾을 수 없습니다.',
+                                details: null
+                            }
+                        },
+                        { status: 404 }
+                    )
+                }
+
+                // 과제 제출 기한 검사
+                if (params.assignmentId === 'expired') {
+                    return HttpResponse.json(
+                        {
+                            status: 'error',
+                            error: {
+                                code: 'ASSIGNMENT_DEADLINE_PASSED',
+                                message: '과제 제출 기한이 지났습니다.',
+                                details: null
+                            }
+                        },
+                        { status: 400 }
+                    )
+                }
+
+                // 정상 응답
+                return HttpResponse.json(
+                    {
+                        status: 'success',
+                        data: {
+                            message: '세션 과제가 정상적으로 수정되었습니다'
+                        }
+                    },
+                    { status: 201 }
+                )
+            } catch (error) {
+                return HttpResponse.json(
+                    {
+                        status: 'error',
+                        error: {
+                            code: 'INTERNAL_ERROR',
+                            message: '서버 내부 오류가 발생했습니다.',
+                            details: null
+                        }
+                    },
+                    { status: 500 }
+                )
+            }
+        }
+    ),
+
+    // 6. 복습 퀴즈 생성 요청
     http.post(`${baseURL}/session/quiz`, async ({ request }) => {
         const body = await request.json()
         if (

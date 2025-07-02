@@ -13,7 +13,7 @@ export async function getPresignedUrl(
     fileType: string
 ): Promise<PresignedUrlResponse> {
     const res = await apiClient.post<PresignedUrlResponse>(
-        '/api/v1/presigned-upload',
+        '/presigned-upload',
         {
             fileKey: `${directory}/${uuidv4()}/${fileName}`,
             mimeType: fileType

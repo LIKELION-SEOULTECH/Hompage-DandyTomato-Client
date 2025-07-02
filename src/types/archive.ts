@@ -37,27 +37,7 @@ export interface ArchiveGalleryListResponse {
     error?: ArchiveError
 }
 
-// 갤러리 등록 요청
-export interface ArchiveGalleryPostRequest {
-    title: string
-    subtitle: string
-    content: string
-    image_urls: string[]
-    project_url?: string
-    thumbnail: File
-    images?: File[]
-    team_members: string[]
-    uploaded_by: string
-}
 
-// 갤러리 등록 응답
-export interface ArchiveGalleryPostResponse {
-    status: 'success' | 'error'
-    data?: {
-        gallery: ArchiveGalleryItem
-    }
-    error?: ArchiveError
-}
 
 // 프로젝트 조회 요청
 export interface ArchiveProjectListParams {
@@ -86,6 +66,9 @@ export interface ArchiveProjectItem {
     description: string
 }
 
+
+
+
 // 프로젝트 목록 응답
 export interface ArchiveProjectListResponse {
     status: 'success' | 'error'
@@ -101,17 +84,39 @@ export interface ArchiveProjectListResponse {
     error?: ArchiveError
 }
 
-// 프로젝트 등록 요청 (FormData)
-// (명세서에 따라 FormData 필드명/타입 맞춰야 함)
-
-// 프로젝트 등록 응답
-export interface ArchiveProjectPostResponse {
+// 프로젝트 상세 조회 응답
+export interface ArchiveProjectDetailResponse {
     status: 'success' | 'error'
-    data?: {
-        project: ArchiveProjectItem
+    data: {
+        id: string
+        title: string
+        subtitle: string
+        project_url?: string
+        started_at: string
+        finished_at: string
+        images: {
+            fileKey: string
+            mimeType: string
+            size: number
+            presignedUrl: string
+            expireAt: number
+        }[]
+        team_members: string[]
+        team_name: string
+        description: string
+        years: number
+        category: 'IDEA_THON' | 'CENTRAL_HACKTHON' | 'LONG_PROJECT' | 'ETC'
+        project_type: string
+        is_excellent: boolean
+        uploaded_at: string
     }
     error?: ArchiveError
 }
+
+// 프로젝트 등록 요청 (FormData)
+// (명세서에 따라 FormData 필드명/타입 맞춰야 함)
+
+
 
 // 에러 구조
 export interface ArchiveError {

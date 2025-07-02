@@ -1,29 +1,29 @@
 import { apiClient } from './client'
 import type { LoginSuccessResponse, LoginErrorResponse } from '@/types/auth'
 
-// 로그인
+// Google OAuth 로그인 - 굳
 export async function login(
-    email: string,
-    password: string
+    code: string,
+    redirect_uri: string
 ): Promise<LoginSuccessResponse | LoginErrorResponse> {
     const res = await apiClient.post<LoginSuccessResponse | LoginErrorResponse>(
-        '/auth/login',
-        { email, password }
+        'auth/google-login',
+        { code, redirect_uri }
     )
     return res.data
 }
 
-// 로그아웃
+// 로그아웃 - 굳
 export async function logout(): Promise<void> {
-    await apiClient.post('/auth/logout')
+    await apiClient.post('auth/logout')
 }
 
-// 토큰 갱신
+// 토큰 갱신 - 굳
 export async function refreshToken(
     refreshToken: string
 ): Promise<LoginSuccessResponse | LoginErrorResponse> {
     const res = await apiClient.post<LoginSuccessResponse | LoginErrorResponse>(
-        '/auth/refresh',
+        'auth/refresh',
         { refresh_token: refreshToken }
     )
     return res.data

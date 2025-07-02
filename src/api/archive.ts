@@ -2,14 +2,12 @@ import { apiClient } from './client'
 import type {
     ArchiveGalleryListParams,
     ArchiveGalleryListResponse,
-    ArchiveGalleryPostRequest,
-    ArchiveGalleryPostResponse,
     ArchiveProjectListParams,
     ArchiveProjectListResponse,
-    ArchiveProjectPostResponse
+    ArchiveProjectDetailResponse
 } from '@/types/archive'
 
-// 1. 갤러리 조회
+// 1. 갤러리 게시물 조회 - 굳
 export async function getArchiveGallery(
     params: ArchiveGalleryListParams
 ): Promise<ArchiveGalleryListResponse> {
@@ -20,22 +18,9 @@ export async function getArchiveGallery(
     return res.data
 }
 
-// 2. 갤러리 게시 (ADMIN)
-export async function postArchiveGallery(
-    data: ArchiveGalleryPostRequest,
-    token: string
-): Promise<ArchiveGalleryPostResponse> {
-    const res = await apiClient.post<ArchiveGalleryPostResponse>(
-        '/archive/gallery',
-        data,
-        {
-            headers: { Authorization: token }
-        }
-    )
-    return res.data
-}
 
-// 3. 프로젝트 조회
+
+// 2. 프로젝트 게시물 조회 - 굳
 export async function getArchiveProjects(
     params: ArchiveProjectListParams
 ): Promise<ArchiveProjectListResponse> {
@@ -46,20 +31,13 @@ export async function getArchiveProjects(
     return res.data
 }
 
-// 4. 프로젝트 게시 (ADMIN)
-export async function postArchiveProject(
-    formData: FormData,
-    token: string
-): Promise<ArchiveProjectPostResponse> {
-    const res = await apiClient.post<ArchiveProjectPostResponse>(
-        '/archive/projects',
-        formData,
-        {
-            headers: {
-                Authorization: token,
-                'Content-Type': 'multipart/form-data'
-            }
-        }
+//3. 프로젝트 게시물 상세조회 - 굳
+export async function getArchiveProjectDetail(
+    projectId: string
+): Promise<ArchiveProjectDetailResponse> {
+    const res = await apiClient.get<ArchiveProjectDetailResponse>(
+        `/archive/projects/${projectId}`
     )
     return res.data
 }
+
