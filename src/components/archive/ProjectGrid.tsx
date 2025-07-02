@@ -5,23 +5,18 @@ export default function ProjectGrid({ projectItems }: { projectItems: any[] }) {
     const columns = Math.ceil(projectItems.length / rows) + 1
     return (
         <div
-            className="absolute top-[280px] left-32 grid gap-16"
+            className="grid h-full grid-rows-2 grid-flow-col-dense gap-16 w-fit overflow-clip pr-100"
             style={{
-                gridTemplateColumns: `repeat(${columns}, 500px)`,
                 gridTemplateRows: `repeat(${rows}, minmax(286px, 1fr))`,
-                gridAutoFlow: 'column dense',
-
-                // height: `100%`
-                width: `${columns * 500}px`
-            }}>
+                gridAutoColumns: 'max-content'
+            }}
+        >
             {projectItems.map((item, index) => {
                 return (
-                    <>
-                        <ProjectCard
-                            key={item.id}
-                            index={index}
-                        />
-                    </>
+                    <ProjectCard
+                        key={item.id}
+                        index={index}
+                    />
                 )
             })}
         </div>

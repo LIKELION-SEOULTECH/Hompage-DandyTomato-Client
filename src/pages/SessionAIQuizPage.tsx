@@ -35,7 +35,7 @@ export default function SessionAIQuizPage() {
                     </div>
                 </div>
 
-                <div className="flex w-auto flex-row gap-128">
+                <div className="flex w-auto flex-row gap-128 pr-100">
                     {Array.from({ length: 5 }).map((_, index) => (
                         <div className="flex w-690 flex-col gap-52">
                             <div className="flex flex-col gap-24">

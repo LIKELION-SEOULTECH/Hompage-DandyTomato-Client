@@ -15,7 +15,7 @@ export default function MemberItem({
 }) {
     return (
         <div
-            className="rounded-15 relative h-286 w-286 overflow-hidden bg-transparent"
+            className="rounded-15 relative h-full w-full aspect-square overflow-hidden bg-transparent"
             onClick={onClick}>
             {/* 이미지 */}
             <img

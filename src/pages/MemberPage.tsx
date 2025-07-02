@@ -3,9 +3,7 @@ import HighlightenTitle from '@/components/HighlightenTitle'
 import MemberCard from '@/components/member/MemberCard'
 import MemberItem from '@/components/member/MemberItem'
 import useHorizontalScroll from '@/hooks/useHorizontalScroll'
-import { useGSAP } from '@gsap/react'
-import GSAPTimeline from 'gsap'
-import { RefObject, useEffect, useRef, useState } from 'react'
+import { RefObject, useRef, useState } from 'react'
 import gsap from 'gsap'
 export default function MemberPage() {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -135,12 +133,12 @@ export default function MemberPage() {
                     className="text-nowrap"
                 />
                 <section
-                    className="grid w-full gap-36"
+                    className="grid w-fit h-fit gap-36 pr-100"
                     style={{
-                        gridTemplateRows: `repeat(2, 1fr)`,
+                        gridTemplateRows: `repeat(286px, max-content)`,
                         gridTemplateColumns: `repeat(${Math.ceil(
                             members.length / 2
-                        )}, minmax(286px, 1fr))`
+                        )}, minmax(286px, max-content))`
                     }}>
                     {members.map(member => (
                         <MemberItem

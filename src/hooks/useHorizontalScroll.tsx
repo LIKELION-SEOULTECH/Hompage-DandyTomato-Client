@@ -12,7 +12,7 @@ export default function useHorizontalScroll(
         () => {
             const sections = gsap.utils.toArray('.main-section')
             const totalWidth =
-                scrollRef.current.scrollWidth - window.innerWidth
+                containerRef.current.scrollWidth - window.innerWidth
             gsap.to(scrollRef.current, {
                 x: -totalWidth,
                 ease: 'none',

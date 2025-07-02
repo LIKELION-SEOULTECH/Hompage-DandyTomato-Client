@@ -40,13 +40,13 @@ export default function GalleryGrid({ galleryItems }: { galleryItems: any[] }) {
     }
     return (
         <div
-            className="absolute top-[280px] left-32 grid gap-16"
+            className="grid gap-16 pr-100"
             style={{
                 // gridTemplateColumns: `repeat(${galleryItems.length}, 1fr)`,
                 gridTemplateRows: `repeat(${rows}, minmax(200px, 1fr))`,
                 gridAutoFlow: 'column dense',
 
-                // height: `100%`
+                height: `100%`,
                 width: `${galleryItems.length * 200}px`
             }}>
             {galleryItems.map((item, index) => {

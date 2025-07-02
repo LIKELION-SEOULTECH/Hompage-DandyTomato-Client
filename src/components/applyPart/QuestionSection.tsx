@@ -29,7 +29,7 @@ export default function QuestionSection({
     scrollRef,
 }: QuestionSectionProps) {
     return (
-        <div className="flex flex-row gap-128 w-fit h-full items-end justify-center pb-128" ref={scrollRef}>
+        <div className="flex flex-row gap-128 w-fit h-full items-end justify-center pb-128 pr-100" ref={scrollRef}>
             {questions.map((question, idx) => (
                 <QuestionAnswerBox
                     question={question.text}

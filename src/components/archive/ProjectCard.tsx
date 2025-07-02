@@ -30,7 +30,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 setIsHovered(false)
             }}
             className={cn(
-                'bg-sub-seoultech-red flex items-center justify-center overflow-hidden rounded-[15px]',
+                'bg-sub-seoultech-red flex items-center justify-center overflow-hidden rounded-[15px] w-full h-full aspect-[16/9]',
                 className
             )}
             style={style}>
