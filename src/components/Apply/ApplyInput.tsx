@@ -13,13 +13,13 @@ type ApplyInputProps = {
 export default function ApplyInput({ label, name, value, onChange, placeholder, type = 'text', width }: ApplyInputProps) {
     return (
         <div style={{ width }}>
-            <div className="text-[24px] font-bold mb-16 leading-36 tracking-[-0.72px]">{label}</div>
+            <div className="text-[24px] font-bold mb-16 leading-36 tracking-[-0.72px] text-pri-black">{label}</div>
             <input
                 type={type}
                 name={name}
                 value={value}
                 onChange={onChange}
-                className="bg-gray rounded-[15px] p-16 w-full focus:outline-none"
+                className="bg-pri-gray-1 rounded-[15px] p-16 w-full focus:outline-none"
                 placeholder={placeholder}
                 style={{
                     color: 'var(--sub_seoultech_blue, #0B4066)',
@@ -33,4 +33,7 @@ export default function ApplyInput({ label, name, value, onChange, placeholder, 
             />
         </div>
     );
-} 
+}
+
+
+

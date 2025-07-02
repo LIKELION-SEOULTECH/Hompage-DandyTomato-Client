@@ -4,6 +4,7 @@ import ApplyInput from '@/components/Apply/ApplyInput';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 import { useApplyFormStore } from '@/stores/applyForm';
+import { ToggleGroupButton } from '@/components/archive/ToggleGroupButton';
 
 const parts = [
     '기획 PM',
@@ -14,19 +15,9 @@ const parts = [
 ];
 
 export default function ApplyPage() {
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
-    const initialPart = params.get('part') || parts[0];
     const navigate = useNavigate();
 
     const { formData, updateFormData } = useApplyFormStore();
-
-    // URL 파라미터가 있으면 selectedPart 업데이트
-    React.useEffect(() => {
-        if (initialPart && initialPart !== formData.selectedPart) {
-            updateFormData({ selectedPart: initialPart });
-        }
-    }, [initialPart, formData.selectedPart, updateFormData]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -111,23 +102,8 @@ export default function ApplyPage() {
                     </div>
                     {/* 우측 지원 파트 */}
                     <div className="flex flex-col items-start min-w-[260px]">
-                        <div className="text-[24px] font-bold mb-16 leading-36 tracking-[-0.72px]">지원 파트</div>
-                        <div className="flex flex-col gap-[20px]">
-                            {parts.map((part) => (
-                                <button
-                                    key={part}
-                                    onClick={() => handlePartChange(part)}
-                                    className={cn(
-                                        'flex flex-col justify-center items-center px-12 py-[6px] rounded-50 border-2 text-sm font-semibold whitespace-nowrap font-pretendard self-start',
-                                        formData.selectedPart === part
-                                            ? 'bg-sub-seoultech-red text-pri-white border-sub-seoultech-red'
-                                            : 'text-sub-seoultech-red border-sub-seoultech-red bg-pri-white'
-                                    )}
-                                >
-                                    {part}
-                                </button>
-                            ))}
-                        </div>
+                        <div className="text-[24px] font-bold mb-16 leading-36 tracking-[-0.72px] text-pri-black">지원 파트</div>
+                        <ToggleGroupButton options={parts.map(part => ({ label: part, value: part }))} value={formData.selectedPart} onValueChange={handlePartChange} />
                     </div>
                 </div>
             </div>
