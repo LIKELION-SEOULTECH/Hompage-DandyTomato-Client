@@ -7,7 +7,7 @@ export default function ProjectGrid({ projectItems }: { projectItems: any[] }) {
         <div
             className="grid h-full grid-rows-2 grid-flow-col-dense gap-16 w-fit overflow-clip pr-100"
             style={{
-                gridTemplateRows: `repeat(${rows}, minmax(286px, 1fr))`,
+                gridTemplateRows: `repeat(${rows}, 1fr)`,
                 gridAutoColumns: 'max-content'
             }}
         >

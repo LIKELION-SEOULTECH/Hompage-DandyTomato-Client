@@ -133,12 +133,11 @@ export default function MemberPage() {
                     className="text-nowrap"
                 />
                 <section
-                    className="grid w-fit h-fit gap-36 pr-100"
+                    className="grid w-fit h-full gap-36 pr-100"
                     style={{
-                        gridTemplateRows: `repeat(286px, max-content)`,
                         gridTemplateColumns: `repeat(${Math.ceil(
                             members.length / 2
-                        )}, minmax(286px, max-content))`
+                        )},  max-content)`
                     }}>
                     {members.map(member => (
                         <MemberItem
