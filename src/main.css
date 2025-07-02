@@ -150,6 +150,7 @@ body {
     overflow-wrap: anywhere;
     letter-spacing: -0.03em;
     line-height: 1.5;
+    font-family: 'Pretendard Variable', sans-serif;
 }
 .hide-scrollbar {
     -ms-overflow-style: none;
@@ -175,9 +176,9 @@ body {
 }
 
 .scrollbar-hide {
-    -ms-overflow-style: none;  
-    scrollbar-width: none;   
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;             
-  }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}

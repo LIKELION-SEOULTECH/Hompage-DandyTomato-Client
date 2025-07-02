@@ -1,3 +1,4 @@
+import HighlightenTitle from '@/components/HighlightenTitle'
 import { cn } from '@/lib/utils'
 
 type ReviewBoxProps = {
@@ -10,18 +11,16 @@ export default function ReviewBox({ title, content, className }: ReviewBoxProps)
     return (
         <div
             className={cn(
-                'flex flex-col items-start gap-[10px] p-[36px] rounded-15 bg-gray w-422 ',
+                'flex flex-col items-start gap-[10px] p-[36px] rounded-15 bg-pri-gray-1 w-422 ',
                 className
             )}
         >
-            <div className="flex h-[28px] justify-center items-center gap-[10px] bg-white px-2 rounded">
-                <h3 className="text-sub_seoultech_red font-pretendard text-[24px] font-bold leading-[36px] tracking-[-0.72px]">
-                    {title}
-                </h3>
-            </div>
-            <p className="text-black font-pretendard text-[16px] font-medium leading-[24px] tracking-[-0.48px] whitespace-pre-wrap">
+
+            <HighlightenTitle text={title} className="text-24 text-sub-seoultech-red font-bold leading-[36px] tracking-[-0.72px] bg-pri-white" />
+            <p className="text-pri-black font-pretendard text-[16px] font-medium leading-[24px] tracking-[-0.48px] whitespace-pre-wrap">
                 {content}
             </p>
+
         </div>
     )
 }

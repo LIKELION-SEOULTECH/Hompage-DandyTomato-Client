@@ -187,7 +187,7 @@ export default function StickerRain() {
             {/* 시안 1 */}
             <div
                 id="overlay"
-                className="pointer-events-none inset-0 z-10 bg-white opacity-1 transition-opacity duration-1000"
+                className="pointer-events-none inset-0 z-10 bg-pri-white opacity-1 transition-opacity duration-1000"
             />
             <div className="absolute inset-0 z-20 flex h-full w-full items-center justify-center">
                 <div

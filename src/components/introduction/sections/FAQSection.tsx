@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { faqList } from '@/constants/faq'
 import FAQItem from '@/components/ui/introduction/FAQItem'
 import { cn } from '@/lib/utils'
+import HighlightenTitle from '@/components/HighlightenTitle'
+import { ToggleGroupButton } from '@/components/archive/ToggleGroupButton'
 
 const categories = [
     '전체',
@@ -28,27 +30,12 @@ export default function FAQSection() {
         <div className="flex w-auto gap-193 bg-white ">
             {/* 왼쪽 필터 */}
             <div className="flex flex-col min-w-[180px]  mt-[17.5vh] mb-[11vh]">
-                <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard">
-                    FAQ
-                </h2>
-                <p className="text-[20px] font-bold leading-[30px] tracking-[-0.6px] text-[#0A0E11] font-pretendard mt-[23.7vh]">
+                <HighlightenTitle text="FAQ" />
+                <p className="text-20 font-bold leading-[30px] tracking-[-0.6px] text-pri-black font-pretendard mt-257">
                     필터 구분
                 </p>
-                <div className="h-full flex flex-col justify-between items-start mt-[4.8vh]">
-                    {categories.map(category => (
-                        <button
-                            key={category}
-                            onClick={() => setSelectedCategory(category)}
-                            className={cn(
-                                'flex flex-col justify-center items-center px-12 py-[6px] rounded-50 border-2 text-sm font-semibold whitespace-nowrap font-pretendard self-start',
-                                selectedCategory === category
-                                    ? 'bg-sub_seoultech_red text-white border-sub_seoultech_red'
-                                    : 'text-sub_seoultech_red border-sub_seoultech_red bg-white'
-                            )}
-                        >
-                            {category}
-                        </button>
-                    ))}
+                <div className="h-full flex flex-col justify-between items-start mt-52">
+                    <ToggleGroupButton options={categories.map(category => ({ label: category, value: category }))} value={selectedCategory} onValueChange={setSelectedCategory} itemClassName='text-16 font-bold' />
                 </div>
             </div>
 

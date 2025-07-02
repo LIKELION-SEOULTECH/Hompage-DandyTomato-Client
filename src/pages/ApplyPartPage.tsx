@@ -69,14 +69,14 @@ export default function ApplyPartPage() {
 
     if (!partData) {
         return (
-            <div className="w-full h-screen flex items-center justify-center bg-white">
+            <div className="w-full h-screen flex items-center justify-center bg-pri-white">
                 <div className="text-2xl text-red-500 font-bold">존재하지 않는 파트입니다.</div>
             </div>
         );
     }
 
     return (
-        <div className="w-screen h-screen flex bg-white">
+        <div className="w-screen h-screen flex bg-pri-white">
             {/* 왼쪽 InfoSection */}
             <div className="max-w-[600px] min-w-[600px] h-full flex">
                 <div className="w-full mt-[17.5vh] mb-[11vh] ml-[8vw]">
@@ -88,22 +88,8 @@ export default function ApplyPartPage() {
             <div className="flex-1 h-full flex flex-col">
                 {/* 버튼 영역: InfoSection과 같은 y축에서 시작, 오른쪽 정렬 */}
                 <div className="flex justify-end items-center mt-[17.5vh] mb-8 gap-16 pr-316 pb-72">
-                    <button
-                        className="bg-sub_seoultech_blue text-white font-bold rounded-full px-16 py-8 text-20 leading-[30px] tracking-[-0.6px] cursor-pointer"
-                        onClick={handleSave}
-                    >
-                        저장하기
-                    </button>
-                    <button
-                        className={`font-bold rounded-full px-16 py-8 text-20 leading-[30px] tracking-[-0.6px] ${isAllQuestionsAnswered
-                            ? 'bg-sub_seoultech_red text-white cursor-pointer'
-                            : 'bg-[#c8c8c8] text-white cursor-not-allowed'
-                            }`}
-                        onClick={handleSubmit}
-                        disabled={!isAllQuestionsAnswered}
-                    >
-                        제출하기
-                    </button>
+                    <button className="bg-sub_seoultech_blue text-white font-bold rounded-full px-16 py-8 text-20 leading-[30px] tracking-[-0.6px]">저장하기</button>
+                    <button className="bg-sub_seoultech_red text-white font-bold rounded-full px-16 py-8 text-20 leading-[30px] tracking-[-0.6px]">제출하기</button>
                 </div>
                 {/* 질문 카드(가로 스크롤) 영역 */}
                 <div className="flex-1 flex items-center">

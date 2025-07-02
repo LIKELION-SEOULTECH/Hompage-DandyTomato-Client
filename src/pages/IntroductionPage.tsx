@@ -45,12 +45,12 @@ export default function IntroductionPage() {
     }, [])
 
     return (
-        <div className="relative bg-white">
+        <div className="relative bg-pri-white">
             <div ref={dummyRef}></div>
 
             <div
                 ref={containerRef}
-                className="flex h-screen fixed top-0 left-0 z-40 bg-white"
+                className="flex h-screen fixed top-0 left-0 z-40 bg-pri-white"
             >
                 <section className="recruit-section w-screen h-screen flex ">
                     <IntroSection />

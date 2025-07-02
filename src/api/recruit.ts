@@ -1,9 +1,7 @@
 import { apiClient } from './client'
 import type {
     RecruitApplicationRequest,
-    RecruitApplicationResponse,
-    RecruitDraftRequest,
-    RecruitResultResponse
+    RecruitApplicationResponse
 } from '../types/recruit'
 
 export async function postRecruitApplication(
@@ -26,7 +24,10 @@ export async function postRecruitDraft(
     return res.data
 }
 
-export async function postRecruitSubscribe(email: string, accessToken: string): Promise<{ is_subscriped: boolean }> {
+export async function postRecruitSubscribe(
+    email: string,
+    accessToken: string
+): Promise<{ is_subscribed: boolean }> {
     const res = await apiClient.post(
         '/recruit/subscribe',
         { email },
@@ -38,6 +39,8 @@ export async function postRecruitSubscribe(email: string, accessToken: string): 
         }
     )
     return res.data.data
+}
+
 export async function getRecruitResult(
     applicationId: number
 ): Promise<RecruitResultResponse> {

@@ -1,5 +1,7 @@
 'use client'
 
+import HighlightenTitle from "@/components/HighlightenTitle"
+
 export default function IntroSection() {
     return (
         <div className="w-screen h-screen flex items-center justify-center">
@@ -16,21 +18,17 @@ export default function IntroSection() {
                 {/* 오른쪽: 콘텐츠 */}
                 <div className="w-5/9 h-full pb-[11vh] flex flex-col gap-6">
                     <div className="flex flex-col gap-16  mt-[17.5vh]">
-                        <span className="text-64 font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard">
-                            14기 아기사자
-                        </span>
-                        <span className="text-64 font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard">
-                            리크루팅 진행중
-                        </span>
+                        <HighlightenTitle text="14기 아기사자" />
+                        <HighlightenTitle text="리크루팅 진행중" />
                     </div>
 
                     {/* 일정 */}
-                    <p className="text-32 font-bold text-black leading-48 tracking-[-0.96px] pt-[3.8%]">
+                    <p className="text-32 font-bold text-black  pt-[3.8%]">
                         2026.00.00. - 2026.00.00.
                     </p>
 
                     {/* 설명 */}
-                    <div className="text-20 text-black leading-relaxed space-y-4 traking-[-0.6px] leading-30 mt-auto">
+                    <div className="text-20 text-pri-black font-medium   mt-auto">
                         <p>
                             멋쟁이사자처럼 대학은 국내 최대 규모의 IT 창업 동아리로, “내 아이디어를 내 손으로 실현하자!”는<br />
                             모토로 비전공자/전공자 구분 없이 자신이 원하는 IT 서비스를 구현할 수 있도록 각종 행사와 스터디,<br />

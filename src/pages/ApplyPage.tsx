@@ -60,10 +60,10 @@ export default function ApplyPage() {
     };
 
     return (
-        <div className="w-full h-screen flex flex-col bg-white">
+        <div className="w-full h-screen flex flex-col bg-pri-white">
             {/* 상단 타이틀 */}
             <div className="mt-[17.5vh] mb-[11vh] flex flex-col w-full px-0">
-                <h1 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard px-6 py-2 ml-[8vw]">
+                <h1 className="text-[64px] font-bold text-pri-white bg-sub-seoultech-red w-fit leading-76 tracking-[-1.92px] font-pretendard px-6 py-2 ml-[8vw]">
                     지원하기
                 </h1>
                 {/* 메인 컨텐츠 */}
@@ -120,8 +120,8 @@ export default function ApplyPage() {
                                     className={cn(
                                         'flex flex-col justify-center items-center px-12 py-[6px] rounded-50 border-2 text-sm font-semibold whitespace-nowrap font-pretendard self-start',
                                         formData.selectedPart === part
-                                            ? 'bg-sub_seoultech_red text-white border-sub_seoultech_red'
-                                            : 'text-sub_seoultech_red border-sub_seoultech_red bg-white'
+                                            ? 'bg-sub-seoultech-red text-pri-white border-sub-seoultech-red'
+                                            : 'text-sub-seoultech-red border-sub-seoultech-red bg-pri-white'
                                     )}
                                 >
                                     {part}

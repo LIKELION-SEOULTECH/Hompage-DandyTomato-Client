@@ -12,7 +12,7 @@ export default function SharedButton({
     return (
         <ShadButton
             className={cn(
-                'text-20 text-pri-white bg-sub-seoultech-red rounded-15 px-16 py-8 font-bold',
+                'text-20 text-pri-white bg-sub-seoultech-red rounded-15 px-16 py-8 font-bold h-fit w-fit',
                 className
             )}
             {...props}>

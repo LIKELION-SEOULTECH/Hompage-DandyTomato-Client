@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from 'react'
 import ProcessBubble from '@/components/ui/introduction/ProcessBubble'
 import processLine from '@/assets/processLine.svg'
 import { motion } from 'framer-motion'
+import HighlightenTitle from '@/components/HighlightenTitle'
 
 // 단계 데이터
 const steps = [
@@ -12,7 +13,7 @@ const steps = [
         date: '2026.00.00. (금) - 2026.00.00. (금)',
         highlight: false,
         isTop: true,
-        titleColor: 'text-sub_seoultech_red',
+        titleColor: 'text-sub-seoultech-red',
         left: 137.775 + 18, // 첫 마커 중심 (x + width/2)
     },
     {
@@ -20,7 +21,7 @@ const steps = [
         date: '2026.00.00. (금)',
         highlight: false,
         isTop: false,
-        titleColor: 'text-sub_seoultech_red',
+        titleColor: 'text-sub-seoultech-red',
         left: 378.375 + 10, // 두번째 마커 중심 (x + width/2)
     },
     {
@@ -28,7 +29,7 @@ const steps = [
         date: '2026.00.00. (금) - 2026.00.00. (금)',
         highlight: false,
         isTop: true,
-        titleColor: 'text-sub_seoultech_red',
+        titleColor: 'text-sub-seoultech-red',
         left: 752.66 + 10, // 세번째 마커 중심
     },
     {
@@ -36,7 +37,7 @@ const steps = [
         date: '2026.00.00. (금)',
         highlight: true,
         isTop: false,
-        titleColor: 'text-sub_seoultech_red',
+        titleColor: 'text-sub-seoultech-red',
         left: 974.944 + 10, // 네번째 마커 중심
     },
     {
@@ -44,7 +45,7 @@ const steps = [
         date: '2026.00.00. (금) - 2026.00.00. (금)',
         highlight: false,
         isTop: true,
-        titleColor: 'text-sub_seoultech_blue',
+        titleColor: 'text-sub-seoultech-blue',
         left: 1351.54 + 18, // 다섯번째 마커 중심
     },
     {
@@ -52,7 +53,7 @@ const steps = [
         date: '2026.00.00. (금)',
         highlight: false,
         isTop: false,
-        titleColor: 'text-sub_seoultech_blue',
+        titleColor: 'text-sub-seoultech-blue',
         left: 1609.14 + 10, // 여섯번째 마커 중심
     },
     {
@@ -60,7 +61,7 @@ const steps = [
         date: '2026.00.00. (금) - 2026.00.00. (금)',
         highlight: false,
         isTop: true,
-        titleColor: 'text-sub_seoultech_blue',
+        titleColor: 'text-sub-seoultech-blue',
         left: 1970.42 + 10, // 일곱번째 마커 중심
     },
     {
@@ -68,7 +69,7 @@ const steps = [
         date: '2026.00.00. (금)',
         highlight: true,
         isTop: false,
-        titleColor: 'text-sub_seoultech_blue',
+        titleColor: 'text-sub-seoultech-blue',
         left: 2210.71 + 10, // 여덟번째 마커 중심
     },
 ]
@@ -128,11 +129,9 @@ export default function RecruitProcessSection({ scrollerRef }: RecruitProcessSec
     // scrollerRef.current가 null일 수 있으므로 안전하게 넘김
     const scrollRoot = (scrollerRef && 'current' in scrollerRef ? scrollerRef.current : null) as HTMLDivElement | null;
     return (
-        <div className="w-full min-h-screen bg-white flex justify-center overflow-x-auto">
+        <div className="w-full min-h-screen flex justify-center overflow-x-auto">
             <div className="relative min-w-[2395px] flex flex-col items-start mt-[17.5vh] mb-[11vh]">
-                <h2 className="text-[64px] font-bold text-white bg-sub_seoultech_red w-fit leading-76 tracking-[-1.92px] font-pretendard mb-20">
-                    14기 모집 절차
-                </h2>
+                <HighlightenTitle text="14기 모집 절차" />
                 <div className="relative w-[2395px] h-[139px] mt-[30vh]">
                     {/* SVG 타임라인+마커 */}
                     <img src={processLine} alt="process line" className="absolute left-0 top-0 w-[2395px] h-[139px] select-none pointer-events-none" draggable={false} />
