@@ -3,7 +3,9 @@ import HighlightenTitle from '@/components/HighlightenTitle'
 import SharedButton from '@/components/SharedButton'
 import ArrowIcon from '@/assets/icons/FileUploadIcon.svg'
 import EditInput from '@/components/EditInput'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { RefObject } from 'react'
+import useVerticalScroll from '@/hooks/useVerticalScroll'
 
 interface QuestionBlock {
     question: string
@@ -43,16 +45,27 @@ export default function RecruitQuestionAdminPage() {
             [selectedCategory]: [...(prev[selectedCategory] || []), newBlock]
         }))
     }
-
+    const handleDeleteBlock = (index: number) => {
+        const newBlocks = [...questionBlock]
+        newBlocks.splice(index, 1)
+        setQuestionBlocksByCategory(prev => ({
+            ...prev,
+            [selectedCategory]: newBlocks
+        }))
+    }
+    const containerRef = useRef<HTMLDivElement>(null)
+    const scrollRef = useRef<HTMLDivElement>(null)
+    useVerticalScroll(containerRef as RefObject<HTMLDivElement>, scrollRef as RefObject<HTMLDivElement>, [questionBlock])
     return (
-        <div className="relative flex h-full w-full flex-row justify-between gap-164 pt-185 pr-100 pl-128">
+        <div ref={containerRef} className="relative flex h-screen w-full flex-row justify-between gap-164 pt-185 pr-100 pl-128 overflow-y-hidden">
             <div className="flex flex-col gap-313">
-                <div className='flex flex-row gap-16'>
-                    <HighlightenTitle
-                        text="지원서 질문 작성"
-                        className="text-nowrap"
-                    />
-                </div>
+
+                <HighlightenTitle
+                    text="지원서 질문 작성"
+                    className="text-nowrap"
+                />
+
+
                 <div className="flex flex-col gap-16">
                     <p className="text-24 text-pri-black font-bold">구분</p>
                     <ToggleGroupButton
@@ -63,20 +76,31 @@ export default function RecruitQuestionAdminPage() {
                     />
                 </div>
             </div>
-            <div className="flex w-full flex-col gap-16">
-                {questionBlock.map((block, index) => (
-                    <QuestionBlock
-                        key={index}
-                        block={block}
-                        onChange={(newBlock) => handleBlockChange(newBlock, index)}
-                    />
-                ))}
-                <SharedButton
-                    className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8"
-                    onClick={handleAddBlock}>
-                    질문 블럭 추가
-                </SharedButton>
+            <div className="flex w-full flex-col gap-16 items-end">
+
+                <div className='flex flex-row gap-16 w-full z-100'>
+                    <SharedButton
+                        className="rounded-50 text-pri-white bg-sub-seoultech-red h-auto w-fit border-2 px-16 py-8 "
+                        onClick={handleAddBlock}>
+                        질문 블럭 추가
+                    </SharedButton>
+                    <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8" onClick={() => { }}>
+                        저장하기
+                    </SharedButton>
+                </div>
+                <div ref={scrollRef} className="h-fit w-full z-10 relative flex flex-col gap-16 items-end pb-64 ">
+                    {questionBlock.map((block, index) => (
+                        <QuestionBlock
+                            key={index}
+                            block={block}
+                            index={index}
+                            onChange={(newBlock) => handleBlockChange(newBlock, index)}
+                            onDelete={() => handleDeleteBlock(index)}
+                        />
+                    ))}
+                </div>
             </div>
+            <div className="flex h-300 w-full -z-10 bg-gradient-to-b from-background to-transparent absolute top-0" />
         </div>
     )
 }
@@ -98,7 +122,7 @@ const Layout = ({
     )
 }
 
-const QuestionBlock = ({ block, onChange }: { block: QuestionBlock, onChange: (block: QuestionBlock) => void }) => {
+const QuestionBlock = ({ block, onChange, index, onDelete }: { block: QuestionBlock, onChange: (block: QuestionBlock) => void, index: number, onDelete: () => void }) => {
     return (
         <div className="flex w-full flex-row gap-64">
             <Layout
@@ -119,6 +143,12 @@ const QuestionBlock = ({ block, onChange }: { block: QuestionBlock, onChange: (b
                     onChange={(value) => onChange({ ...block, limit: value })}
                 />
             </Layout>
+            {/* 삭제 */}
+            <div className='flex flex-row gap-16 items-end'>
+                <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-red h-fit w-fit border-2 px-16 py-8" onClick={onDelete}>
+                    삭제
+                </SharedButton>
+            </div>
         </div>
     )
 }

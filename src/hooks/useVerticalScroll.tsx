@@ -6,7 +6,8 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 export default function useVerticalScroll(
     containerRef: React.RefObject<HTMLDivElement>,
-    scrollRef: React.RefObject<HTMLDivElement> = containerRef
+    scrollRef: React.RefObject<HTMLDivElement> = containerRef,
+    dependencies: any[] = []
 ) {
     useGSAP(
         () => {
@@ -25,7 +26,8 @@ export default function useVerticalScroll(
             })
         },
         {
-            scope: containerRef.current || scrollRef.current
+            scope: containerRef.current || scrollRef.current,
+            dependencies
         }
     )
 }

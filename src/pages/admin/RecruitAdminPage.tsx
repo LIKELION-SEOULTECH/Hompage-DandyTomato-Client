@@ -47,12 +47,16 @@ export default function RecruitAdminPage() {
                 </div>
             </div>
             <div className="flex h-full w-full flex-col items-end gap-115">
-                <div className="flex flex-row gap-16">
+                <div className="flex flex-row gap-16 justify-between w-full">
+                    <div className='flex flex-row gap-16'>
+                        <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8" onClick={() => { }}>
+                            합격 여부 저장
+                        </SharedButton>
+                        <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-red h-auto w-fit border-2 px-16 py-8">
+                            합격 여부 전송하기
+                        </SharedButton></div>
                     <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8" onClick={() => navigate('/admin/recruit/question')}>
                         질문 작성하기
-                    </SharedButton>
-                    <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-red h-auto w-fit border-2 px-16 py-8">
-                        합격 여부 전송하기
                     </SharedButton>
                 </div>
                 <div ref={scrollRef} className="flex h-fit w-full -z-10">
