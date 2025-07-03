@@ -3,7 +3,10 @@ import HighlightenTitle from '@/components/HighlightenTitle'
 import SharedButton from '@/components/SharedButton'
 import ArrowIcon from '@/assets/icons/FileUploadIcon.svg'
 import { useNavigate } from 'react-router-dom'
-import { useApplicants, usePromotePassedApplicants, useSendPassNotification } from '@/query/admin'
+    useApplicants,
+    usePromotePassedApplicants,
+    useSendPassNotification
+} from '@/query/admin'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useRef } from 'react'
@@ -20,13 +23,15 @@ export default function RecruitAdminPage() {
         { name: '박영수', acceptState: '합불 여부 입력' },
         { name: '박영수', acceptState: '합불 여부 입력' },
         { name: '박영수', acceptState: '합불 여부 입력' },
-        { name: '박영수', acceptState: '합불 여부 입력' },
+        { name: '박영수', acceptState: '합불 여부 입력' }
     ]
     const containerRef = useRef<HTMLDivElement>(null)
     const scrollRef = useRef<HTMLDivElement>(null)
-    useVerticalScroll(containerRef as RefObject<HTMLDivElement>, scrollRef as RefObject<HTMLDivElement>)
+    useVerticalScroll(
+        containerRef as RefObject<HTMLDivElement>,
+        scrollRef as RefObject<HTMLDivElement>
+    )
 
-export default function RecruitAdminPage() {
     const [selectedPart, setSelectedPart] = useState('all')
     const [selectedRound, setSelectedRound] = useState('1')
 
@@ -35,8 +40,10 @@ export default function RecruitAdminPage() {
         round: selectedRound
     })
 
-    const { mutate: promoteApplicants, isPending: isPromoting } = usePromotePassedApplicants()
-    const { mutate: sendNotification, isPending: isSending } = useSendPassNotification()
+    const { mutate: promoteApplicants, isPending: isPromoting } =
+        usePromotePassedApplicants()
+    const { mutate: sendNotification, isPending: isSending } =
+        useSendPassNotification()
 
     const applicants = applicantsData?.data?.applicants || []
 
@@ -56,7 +63,9 @@ export default function RecruitAdminPage() {
     }
 
     return (
-        <div ref={containerRef} className="relative flex h-screen w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128 overflow-y-hidden">
+        <div
+            ref={containerRef}
+            className="relative flex h-screen w-full flex-row justify-end gap-164 overflow-y-hidden pt-185 pr-100 pl-128">
             <div className="flex flex-col gap-313">
                 <HighlightenTitle
                     text="지원서 관리"
@@ -71,7 +80,10 @@ export default function RecruitAdminPage() {
                             { label: '전체', value: 'all' },
                             { label: '기획 PM', value: 'pm' },
                             { label: '백엔드 BACK-END', value: 'backend' },
-                            { label: '프론트엔드 FRONT-END', value: 'frontend' },
+                            {
+                                label: '프론트엔드 FRONT-END',
+                                value: 'frontend'
+                            },
                             { label: '디자이너 DESIGNER', value: 'designer' },
                             { label: '인공지능 AI', value: 'ai' }
                         ]}
@@ -81,9 +93,7 @@ export default function RecruitAdminPage() {
                     />
                 </div>
                 <div className="flex flex-col gap-52">
-                    <p className="text-24 text-pri-black font-bold">
-                        기수
-                    </p>
+                    <p className="text-24 text-pri-black font-bold">기수</p>
                     <ToggleGroupButton
                         options={[
                             { label: '1차', value: '1' },
@@ -97,44 +107,48 @@ export default function RecruitAdminPage() {
                 </div>
             </div>
             <div className="flex h-full w-full flex-col items-end gap-115">
-                <div className="flex flex-row gap-16 justify-between w-full">
-                    <div className='flex flex-row gap-16'>
-                        <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8" onClick={() => { }} 
-                            >
+                <div className="flex w-full flex-row justify-between gap-16">
+                    <div className="flex flex-row gap-16">
+                        <SharedButton
+                            className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8"
+                            onClick={() => {}}>
                             합격 여부 저장
                         </SharedButton>
                         <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-red h-auto w-fit border-2 px-16 py-8">
                             합격 여부 전송하기
-                        </SharedButton></div>
-                    <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8" onClick={() => navigate('/admin/recruit/question')}>
+                        </SharedButton>
+                    </div>
+                    <SharedButton
+                        className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8"
+                        onClick={() => navigate('/admin/recruit/question')}>
                         질문 작성하기
                     </SharedButton>
                 </div>
-                <div ref={scrollRef} className="flex h-fit w-full -z-10">
-                <RecruitList
-                    items={applicants}
-                    isLoading={isLoading}
-                />
+                <div
+                    ref={scrollRef}
+                    className="-z-10 flex h-fit w-full">
+                    <RecruitList
+                        items={applicants}
+                        isLoading={isLoading}
+                    />
                 </div>
 
                 <div className="flex flex-row gap-16">
                     <SharedButton
                         className="rounded-50 text-pri-white bg-sub-seoultech-red h-auto w-fit border-2 px-16 py-8"
                         onClick={handlePromote}
-                        disabled={isPromoting}
-                    >
+                        disabled={isPromoting}>
                         {isPromoting ? '처리 중...' : '합격자 승격'}
                     </SharedButton>
                     <SharedButton
                         className="rounded-50 text-pri-white bg-sub-seoultech-green h-auto w-fit border-2 px-16 py-8"
                         onClick={handleSendNotification}
-                        disabled={isSending}
-                    >
+                        disabled={isSending}>
                         {isSending ? '발송 중...' : '합격자 메일 발송'}
                     </SharedButton>
                 </div>
             </div>
-            <div className="flex h-300 w-full -z-10 bg-gradient-to-b from-background to-transparent absolute top-0" />
+            <div className="from-background absolute top-0 -z-10 flex h-300 w-full bg-gradient-to-b to-transparent" />
         </div>
     )
 }
@@ -150,19 +164,27 @@ interface RecruitItemProps {
 function RecruitItem({ id, name, status, part, round }: RecruitItemProps) {
     const getStatusDisplayName = (status: string) => {
         switch (status) {
-            case 'PASS': return '합격'
-            case 'FAIL': return '불합격'
-            case 'PENDING': return '합불 여부 입력'
-            default: return status
+            case 'PASS':
+                return '합격'
+            case 'FAIL':
+                return '불합격'
+            case 'PENDING':
+                return '합불 여부 입력'
+            default:
+                return status
         }
     }
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'PASS': return 'text-sub-seoultech-blue'
-            case 'FAIL': return 'text-sub-seoultech-red'
-            case 'PENDING': return 'text-pri-gray-disabled'
-            default: return 'text-pri-gray-5'
+            case 'PASS':
+                return 'text-sub-seoultech-blue'
+            case 'FAIL':
+                return 'text-sub-seoultech-red'
+            case 'PENDING':
+                return 'text-pri-gray-disabled'
+            default:
+                return 'text-pri-gray-5'
         }
     }
 
@@ -186,7 +208,7 @@ function RecruitItem({ id, name, status, part, round }: RecruitItemProps) {
                 </div>
             </div>
 
-            <span className={cn("text-20 font-bold", getStatusColor(status))}>
+            <span className={cn('text-20 font-bold', getStatusColor(status))}>
                 {getStatusDisplayName(status)}
             </span>
         </div>
@@ -204,15 +226,16 @@ function RecruitList({
 }) {
     if (isLoading) {
         return (
-            <div className={cn('flex h-full w-full flex-col gap-16', className)}>
-                <div className="text-center text-pri-gray-5">로딩 중...</div>
+            <div
+                className={cn('flex h-full w-full flex-col gap-16', className)}>
+                <div className="text-pri-gray-5 text-center">로딩 중...</div>
             </div>
         )
     }
 
     return (
         <div className={cn('flex h-full w-full flex-col gap-16', className)}>
-            {items.map((applicant) => (
+            {items.map(applicant => (
                 <RecruitItem
                     key={applicant.id}
                     id={applicant.id}
@@ -223,7 +246,9 @@ function RecruitList({
                 />
             ))}
             {items.length === 0 && (
-                <div className="text-center text-pri-gray-5">지원자가 없습니다.</div>
+                <div className="text-pri-gray-5 text-center">
+                    지원자가 없습니다.
+                </div>
             )}
         </div>
     )
