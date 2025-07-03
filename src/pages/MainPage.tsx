@@ -50,7 +50,10 @@ import sticker16 from '@/assets/stickers/sticker16.png'
 import sticker17 from '@/assets/stickers/sticker17.svg'
 import slogun from '@/assets/stickers/slogun.png'
 import logo from '@/assets/stickers/logo.png'
-
+import DemoDay from '@/assets/images/DemoDay.png'
+import CentralHackerthon from '@/assets/images/CentralHackerthon.png'
+import Ideathon from '@/assets/images/Ideathon.png'
+import WeeklySession from '@/assets/images/WeeklySession.png'
 import { subscribeRecruit } from '@/api/recruit'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -371,7 +374,9 @@ const SectionAbout = ({ titleRef, containerRef }: { titleRef: React.RefObject<HT
         note: string
     }) => {
         return (
-            <div className="rounded-15 relative flex h-645 w-394 flex-col items-baseline justify-baseline bg-amber-950 bg-[url('/images/about_image.png')] bg-cover bg-center px-32 py-64 z-2">
+            <div className={cn(`rounded-15 relative flex h-645 w-394 flex-col items-baseline justify-baseline bg-pri-gray-1 overflow-hidden px-32 py-64 z-2`)}>
+                <img src={image} alt="title" className="absolute top-0 left-0 w-full h-full object-cover" />
+                <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-pri-black to-transparent h-234" />
                 <div className="absolute top-422 flex flex-col justify-center gap-16">
                     <div>
                         <span className="font-pretendard text-32 text-sub-seoultech-blue bg-pri-white leading-none font-bold tracking-[-0.96px] whitespace-pre-line">
@@ -523,7 +528,7 @@ const SectionAbout = ({ titleRef, containerRef }: { titleRef: React.RefObject<HT
             </div>
             <div className="flex flex-row gap-48">
                 <AboutImageBox
-                    image={''}
+                    image={WeeklySession}
                     title="정기 세션"
                     description="기초부터 실천까지!
 과기대 멋대만의 자료를 통해
@@ -531,7 +536,7 @@ const SectionAbout = ({ titleRef, containerRef }: { titleRef: React.RefObject<HT
                     note="매주 목요일 오후 7시 - 오후 9시 (시험기간 제외)"
                 />
                 <AboutImageBox
-                    image={''}
+                    image={Ideathon}
                     title="아이디어톤"
                     description="멋쟁이사자처럼 대학 중앙에서 주관하는 행사로,
 머릿속에만 있던 아이디어를 구체화하고
@@ -539,7 +544,7 @@ const SectionAbout = ({ titleRef, containerRef }: { titleRef: React.RefObject<HT
                     note="5월 중 진행"
                 />
                 <AboutImageBox
-                    image={''}
+                    image={CentralHackerthon}
                     title="중앙해커톤"
                     description="팀과 함께 성장하는 협업의 경험
 짧은 시간 안에 함께 완성해가는 협업 중심의
@@ -547,7 +552,7 @@ const SectionAbout = ({ titleRef, containerRef }: { titleRef: React.RefObject<HT
                     note="7월 - 8월 중 진행"
                 />
                 <AboutImageBox
-                    image={''}
+                    image={DemoDay}
                     title="데모데이"
                     description="런칭부터 검증까지, 완성도를 향해 나아가는ㅡ
 기획, 개발, 릴리즈, 그리고 그 이후까지.
