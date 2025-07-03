@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PartInfoSection from '../components/applyPart/PartInfoSection';
-import { partQuestion, commonQuestions } from '../constants/partQuestion';
+import { partQuestion } from '../constants/partQuestion';
 import QuestionSection from '../components/applyPart/QuestionSection';
 import { useApplyFormStore } from '@/stores/applyForm';
 import useHorizontalScroll from '@/hooks/useHorizontalScroll';
 import SharedButton from '@/components/SharedButton';
+import { useRecruitQuestions, useSaveApplication, useSubmitApplication } from '@/query/recruit';
 
 export default function ApplyPartPage() {
     const location = useLocation();
@@ -15,12 +16,58 @@ export default function ApplyPartPage() {
 
     const { formData, updateFormData, updateAnswer, updatePortfolioLink } = useApplyFormStore();
 
-    const partData = partQuestion.find((item) => item.name === part);
+    // 파트 이름 매핑
+    const partNameMap: { [key: string]: string } = {
+        '기획 PM': '기획 PM',
+        'AI': '인공지능 AI',
+        '백엔드': '백엔드 BACK-END',
+        '프론트엔드': '프론트엔드 FRONT-END',
+        '디자인': '디자인 DESIGN'
+    };
 
-    // 공통 질문과 파트별 질문을 합쳐서(공통→파트) type 정보도 같이 넘김
-    const commonQ = commonQuestions.map(q => ({ text: q.text, type: q.type }));
-    const partQ = partData ? partData.questions.map(q => ({ text: q.text, type: q.type })) : [];
-    const allQuestions = [...commonQ, ...partQ];
+    const mappedPartName = partNameMap[part] || part;
+    const partData = partQuestion.find((item) => item.name === mappedPartName);
+
+    // 파트 이름을 API 형식으로 변환
+    const getPartForAPI = (partName: string) => {
+        const partMap: { [key: string]: string } = {
+            '기획 PM': 'PLAN',
+            '인공지능 AI': 'AI',
+            '백엔드 BACK-END': 'BACKEND',
+            '프론트엔드 FRONT-END': 'FRONTEND',
+            '디자인 DESIGN': 'DESIGN'
+        };
+        const apiPart = partMap[partName];
+
+        // 유효한 파트인지 확인
+        const validParts = ['AI', 'BACKEND', 'FRONTEND', 'DESIGN', 'PLAN'];
+        if (!apiPart || !validParts.includes(apiPart)) {
+            console.warn(`Invalid part: ${partName}, using PLAN as default`);
+            return 'PLAN';
+        }
+
+        return apiPart;
+    };
+
+    const apiPart = getPartForAPI(part);
+    const { data: questionsData, isLoading, error } = useRecruitQuestions(apiPart);
+    const saveApplicationMutation = useSaveApplication();
+    const submitApplicationMutation = useSubmitApplication();
+
+    // API에서 받은 질문만 사용
+
+    let allQuestions: Array<{ text: string, type: 'part' }> = [];
+
+    if (error) {
+        // 에러가 있으면 빈 배열
+    } else if (isLoading || !questionsData) {
+        // 로딩 중이거나 데이터가 없으면 빈 배열
+    } else {
+        allQuestions = questionsData?.data?.questions?.map(q => ({
+            text: q.questionText,
+            type: 'part' as const
+        })) || [];
+    }
     const maxLength = 500;
     const scrollRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -28,7 +75,7 @@ export default function ApplyPartPage() {
     useHorizontalScroll(containerRef as React.RefObject<HTMLDivElement>, scrollRef as React.RefObject<HTMLDivElement>)
     // 질문 개수가 변경되면 answers 배열 크기 조정
     useEffect(() => {
-        if (formData.answers.length !== allQuestions.length) {
+        if (allQuestions.length > 0 && formData.answers.length !== allQuestions.length) {
             const newAnswers = Array(allQuestions.length).fill('');
             // 기존 답변 유지
             formData.answers.forEach((answer, index) => {
@@ -61,15 +108,65 @@ export default function ApplyPartPage() {
         updatePortfolioLink(idx, value);
     };
 
-    const handleSave = () => {
-        // 저장 로직 구현
-        console.log('저장하기 버튼 클릭됨');
+    const handleSave = async () => {
+        try {
+            // 질문-답변 데이터 준비
+            const partQuestions = allQuestions.map((question, index) => ({
+                question_id: `part-${index + 1}`,
+                answer: formData.answers[index] || ''
+            }));
+
+            const saveData = {
+                name: formData.name || '',
+                phone: formData.phone || '',
+                student_id: formData.studentId || '',
+                major: formData.department || '',
+                part: apiPart as 'AI' | 'BACKEND' | 'FRONTEND' | 'DESIGN' | 'PLAN',
+                portfolioUrl: formData.portfolioLinks.join(',') || '',
+                common_questions: [], // 공통 질문은 현재 없음
+                part_questions: partQuestions
+            };
+
+            await saveApplicationMutation.mutateAsync(saveData);
+            alert('지원서가 저장되었습니다.');
+        } catch (error) {
+            console.error('저장 실패:', error);
+            alert('저장에 실패했습니다.');
+        }
     };
 
-    const handleSubmit = () => {
-        if (!isAllQuestionsAnswered) return;
-        // 제출 로직 구현
-        console.log('제출하기 버튼 클릭됨');
+    const handleSubmit = async () => {
+        if (!isAllQuestionsAnswered) {
+            alert('모든 질문에 답변해주세요.');
+            return;
+        }
+
+        try {
+            // 질문-답변 데이터 준비
+            const partQuestions = allQuestions.map((question, index) => ({
+                question_id: `part-${index + 1}`,
+                answer: formData.answers[index] || ''
+            }));
+
+            const submitData = {
+                name: formData.name || '',
+                phone: formData.phone || '',
+                student_id: formData.studentId || '',
+                email: formData.email || '',
+                major: formData.department || '',
+                part: apiPart as 'AI' | 'BACKEND' | 'FRONTEND' | 'DESIGN' | 'PLAN',
+                portfolioUrl: formData.portfolioLinks.join(',') || '',
+                common_questions: [], // 공통 질문은 현재 없음
+                part_questions: partQuestions
+            };
+
+            await submitApplicationMutation.mutateAsync(submitData);
+            alert('지원서가 제출되었습니다.');
+            navigate('/apply'); // 제출 후 지원 페이지로 이동
+        } catch (error) {
+            console.error('제출 실패:', error);
+            alert('제출에 실패했습니다.');
+        }
     };
 
     if (!partData) {
@@ -80,15 +177,42 @@ export default function ApplyPartPage() {
         );
     }
 
+
+
+    if (error) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center bg-pri-white">
+                <div className="text-2xl text-red-500 font-bold">질문을 불러오는데 실패했습니다.</div>
+            </div>
+        );
+    }
+
+    // 로딩 중일 때 로딩 화면 표시
+    if (isLoading) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center bg-pri-white">
+                <div className="text-2xl text-blue-500 font-bold">질문을 불러오는 중...</div>
+            </div>
+        );
+    }
+
     return (
         <>
             {/* 버튼 영역 */}
             <div className="fixed top-[17.5vh] right-100 flex justify-end items-center gap-16 z-10">
-                <SharedButton className='bg-sub-seoultech-blue rounded-50'>
-                    저장하기
+                <SharedButton
+                    className='bg-sub-seoultech-blue rounded-50'
+                    onClick={handleSave}
+                    disabled={saveApplicationMutation.isPending}
+                >
+                    {saveApplicationMutation.isPending ? '저장 중...' : '저장하기'}
                 </SharedButton>
-                <SharedButton className='bg-sub-seoultech-red rounded-50'>
-                    제출하기
+                <SharedButton
+                    className='bg-sub-seoultech-red rounded-50'
+                    onClick={handleSubmit}
+                    disabled={submitApplicationMutation.isPending || !isAllQuestionsAnswered}
+                >
+                    {submitApplicationMutation.isPending ? '제출 중...' : '제출하기'}
                 </SharedButton>
 
             </div>
@@ -97,11 +221,11 @@ export default function ApplyPartPage() {
                 <PartInfoSection part={partData.name} description={partData.description} onEdit={handleEdit} />
                 <QuestionSection
                     questions={allQuestions}
-                    answers={formData.answers}
+                    answers={formData.answers || []}
                     onChange={handleAnswerChange}
                     maxLength={maxLength}
                     onSpellCheck={handleSpellCheck}
-                    portfolioLinks={formData.portfolioLinks}
+                    portfolioLinks={formData.portfolioLinks || []}
                     onPortfolioChange={handlePortfolioChange}
                     scrollRef={scrollRef as React.RefObject<HTMLDivElement>}
                 />

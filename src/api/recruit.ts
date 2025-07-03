@@ -77,7 +77,7 @@ export async function subscribeRecruit(data: SubscribeRequest): Promise<Subscrib
 
 // 맞춤법 교정 (외부 Docker 서비스)
 export async function correctText(data: CorrectTextRequest): Promise<CorrectTextResponse> {
-    const res = await fetch('http://localhost:5000', {
+    const res = await fetch('/api/v1/recruit/wordcorrect', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
