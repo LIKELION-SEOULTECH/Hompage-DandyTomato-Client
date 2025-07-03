@@ -16,7 +16,10 @@ export default function ProjectGrid({ projectItems, onClick }: { projectItems: a
                     <ProjectCard
                         key={item.id}
                         index={index}
-                        onClick={onClick}
+                        title={item.title}
+                        description={item.description}
+                        tag={item.tag}
+                        onClick={() => onClick(item.id)}
                     />
                 )
             })}

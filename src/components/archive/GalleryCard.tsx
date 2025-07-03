@@ -2,6 +2,10 @@ import { cn } from '@/lib/utils'
 import React, { useState } from 'react'
 import { Badge } from '../ui/badge'
 import TagBadge from './TagBadge'
+import WeeklySession from '@/assets/images/WeeklySession.png'
+import DemoDay from '@/assets/images/DemoDay.png'
+import CentralHackerthon from '@/assets/images/CentralHackerthon.png'
+import Ideathon from '@/assets/images/Ideathon.png'
 
 interface GalleryCardProps {
     className?: string
@@ -28,6 +32,11 @@ const GalleryCard: React.FC<GalleryCardProps> = ({
     height
 }) => {
     const [isHovered, setIsHovered] = useState(false)
+
+    // 예시 이미지 배열
+    const exampleImages = [WeeklySession, DemoDay, CentralHackerthon, Ideathon, WeeklySession, DemoDay, CentralHackerthon, Ideathon, WeeklySession, DemoDay]
+    const backgroundImage = exampleImages[index || 0]
+
     return (
         <div
             onMouseOver={() => {
@@ -37,12 +46,15 @@ const GalleryCard: React.FC<GalleryCardProps> = ({
                 setIsHovered(false)
             }}
             className={cn(
-                'bg-sub-seoultech-red flex items-center justify-center overflow-hidden rounded-[15px] aspect-video',
+                'flex items-center justify-center overflow-hidden rounded-[15px] aspect-video bg-cover bg-center',
                 className,
                 `w-[${width}]`,
                 `h-[${height}]`
             )}
-            style={style}>
+            style={{
+                ...style,
+                backgroundImage: `url(${backgroundImage})`
+            }}>
             <div
                 className={cn(
                     !isHovered && 'opacity-0',
@@ -56,12 +68,17 @@ const GalleryCard: React.FC<GalleryCardProps> = ({
                     <br /> {description}
                 </p>
                 <div className="flex flex-wrap gap-10">
-                    {tag.map(tag => (
+                    {Array.isArray(tag) ? tag.map(tagItem => (
+                        <TagBadge
+                            key={tagItem}
+                            tag={tagItem}
+                        />
+                    )) : (
                         <TagBadge
                             key={tag}
                             tag={tag}
                         />
-                    ))}
+                    )}
                 </div>
             </div>
         </div>
