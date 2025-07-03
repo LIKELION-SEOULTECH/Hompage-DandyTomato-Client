@@ -92,16 +92,17 @@ export default function GlobalNavigationButton() {
                     <NavigationMenuList className="text-20 text-sub-seoultech-blue rounded-50 flex cursor-pointer items-center justify-center gap-4 border-2 border-[oklch(36%_0.083495_245.3/0.2)] bg-[oklch(92.2%_0.005498_275/0.5)] px-6 py-6 font-bold">
                         <NavigationMenuList
                             className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50 flex flex-row items-center gap-64 px-30 py-10 transition-all duration-300"
-                            onMouseOver={() => {
-                                setIsSessionHover(true)
-                            }}
-                            onMouseOut={() => {
-                                setIsSessionHover(false)
-                            }}>
+                        // onMouseOver={() => {
+                        //     setIsSessionHover(true)
+                        // }}
+                        // onMouseOut={() => {
+                        //     setIsSessionHover(false)
+                        // }}
+                        >
                             <NavigationMenuItem className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50">
                                 <Link to="/session">SESSION</Link>
                             </NavigationMenuItem>
-                            {isSessionHover && (
+                            {/* {isSessionHover && (
                                 <>
                                     <NavigationMenuItem className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50">
                                         <Link
@@ -154,7 +155,7 @@ export default function GlobalNavigationButton() {
                                         </Link>
                                     </NavigationMenuItem>
                                 </>
-                            )}
+                            )} */}
                         </NavigationMenuList>
                         <NavigationMenuItem className="hover:bg-sub-seoultech-blue hover:text-pri-white rounded-50 px-30 py-10">
                             <Link to="/mypage">MY PAGE</Link>
@@ -172,7 +173,8 @@ export default function GlobalNavigationButton() {
                         </NavigationMenuItem>
                     </NavigationMenuList>
                 </NavigationMenu>
-            )}
-        </div>
+            )
+            }
+        </div >
     )
 }
