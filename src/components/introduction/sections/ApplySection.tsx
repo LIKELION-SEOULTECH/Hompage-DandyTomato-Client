@@ -7,6 +7,7 @@ import AnimatedButton from '@/components/ui/AnimatedButton';
 import HighlightenTitle from '@/components/HighlightenTitle';
 import { useAuthZustandStore } from '@/stores/auth';
 import { subscribeRecruit } from '@/api/recruit';
+import ApplySectionImg from '@/assets/introduction/ApplySectionImg.png';
 
 export default function ApplySection() {
     const { accessToken, email } = useAuthZustandStore()
@@ -54,7 +55,7 @@ export default function ApplySection() {
             {/* 오른쪽 배경 이미지 */}
             <div className="absolute right-0 top-0 w-1/2 h-full">
                 <img
-                    src="/assets/introduction/ApplySectionImg.png"
+                    src={ApplySectionImg}
                     alt="지원 섹션 이미지"
                     className="w-full h-full object-cover object-center opacity-80"
                 />

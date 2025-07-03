@@ -13,7 +13,7 @@ export default function AuthAdminPage() {
     return (
         <div className="relative flex h-full w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128">
             <div className="flex flex-col gap-313">
-                <HighlightenTitle text="권한 설정" />
+                <HighlightenTitle text="권한 설정" className='text-nowrap' />
                 <div className="flex flex-col gap-52">
                     <p className="text-24 text-pri-black font-bold">
                         파트 구분
@@ -44,6 +44,9 @@ export default function AuthAdminPage() {
                             { label: '2023', value: '2023' }
                         ]}
                     />
+                    <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8" onClick={() => { }}>
+                        저장하기
+                    </SharedButton>
                 </div>
                 <AuthList items={items} />
             </div>
@@ -92,6 +95,7 @@ function AuthItem({ name, authState }: AuthItemProps) {
 
 import { cn } from '@/lib/utils'
 import FilterButton from '@/components/archive/FilterButton'
+import SharedButton from '@/components/SharedButton'
 
 function AuthList({
     items,

@@ -595,8 +595,10 @@ const SectionRecruit = () => {
         // }
     }
     return (
-        <div className='w-screen h-full flex flex-row items-end justify-baseline gap-164'>
-            <img src={MainBanner} alt="" className=' object-left-top h-[100vh] top-0' />
+        <div className='w-screen h-full flex flex-row items-end justify-baseline gap-164 relative'>
+            <div className='relative w-498 h-screen pt-100'>
+                <img src={MainBanner} alt="" className='object-cover w-498' />
+            </div>
             <div className="flex flex-col items-start justify-between h-full w-fit">
                 <div>
                     <div className='flex flex-col items-start justify-center gap-16'>

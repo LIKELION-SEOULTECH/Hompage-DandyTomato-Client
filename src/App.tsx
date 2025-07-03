@@ -59,15 +59,15 @@ export default function App() {
                     />
                     <Route
                         element={<SessionResourcesPage />}
-                        path="/session-resources"
+                        path="/session"
                     />
                     <Route
                         element={<SessionAssignmentPage />}
-                        path="/session-assignment"
+                        path="/session/assignment"
                     />
                     <Route
                         element={<SessionAIQuizPage />}
-                        path="/session-ai-quiz"
+                        path="/session/ai-quiz"
                     />
                     <Route
                         element={<MemberPage />}
@@ -95,11 +95,11 @@ export default function App() {
                     />
                     <Route
                         element={<SessionUploadAdminPage />}
-                        path="/admin/session-upload"
+                        path="/admin/session/upload"
                     />
                     <Route
                         element={<RecruitQuestionAdminPage />}
-                        path="/admin/recruit-question"
+                        path="/admin/recruit/question"
                     />
                 </Route>
             </Routes>

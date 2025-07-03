@@ -185,16 +185,21 @@ export default function ArchiveAdminPage() {
         <div className="relative flex h-full w-full flex-col gap-82 pt-185 pr-100 pl-128">
             <div className="flex flex-row items-start justify-between">
                 <HighlightenTitle text={`${type} 업로드`} />
-                <ToggleGroupButton
-                    className="flex-row"
-                    itemClassName="font-bold text-20"
-                    value={type}
-                    onValueChange={value => setType(value)}
-                    options={[
-                        { label: '프로젝트', value: '프로젝트' },
-                        { label: '갤러리', value: '갤러리' }
-                    ]}
-                />
+                <div className='flex flex-row gap-16'>
+                    <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8" onClick={() => { }}>
+                        저장하기
+                    </SharedButton>
+                    <ToggleGroupButton
+                        className="flex-row"
+                        itemClassName="font-bold text-20"
+                        value={type}
+                        onValueChange={value => setType(value)}
+                        options={[
+                            { label: '프로젝트', value: '프로젝트' },
+                            { label: '갤러리', value: '갤러리' }
+                        ]}
+                    />
+                </div>
             </div>
             {type === '프로젝트' && (
                 <div className="flex h-full w-full flex-row justify-between gap-64">
@@ -242,7 +247,7 @@ export default function ArchiveAdminPage() {
                                                             )
                                                             console.log(
                                                                 projectImages.length -
-                                                                    1,
+                                                                1,
                                                                 projectImageSelected,
                                                                 projectImages
                                                             )
@@ -428,7 +433,7 @@ export default function ArchiveAdminPage() {
                                         className={cn(
                                             'rounded-50 border-sub-seoultech-red text-sub-seoultech-red h-auto w-fit border-2 bg-transparent px-16 py-8',
                                             projectIsExcellent &&
-                                                'border-sub-seoultech-red text-pri-white bg-sub-seoultech-red'
+                                            'border-sub-seoultech-red text-pri-white bg-sub-seoultech-red'
                                         )}
                                         onClick={() =>
                                             projectDispatch({

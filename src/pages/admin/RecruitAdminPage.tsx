@@ -2,8 +2,10 @@ import { ToggleGroupButton } from '@/components/archive/ToggleGroupButton'
 import HighlightenTitle from '@/components/HighlightenTitle'
 import SharedButton from '@/components/SharedButton'
 import ArrowIcon from '@/assets/icons/FileUploadIcon.svg'
+import { useNavigate } from 'react-router-dom'
 
 export default function RecruitAdminPage() {
+    const navigate = useNavigate()
     const items = [
         { name: '김철수', acceptState: '합격' },
         { name: '이영희', acceptState: '불합격' },
@@ -39,7 +41,7 @@ export default function RecruitAdminPage() {
             </div>
             <div className="flex h-full w-full flex-col items-end gap-115">
                 <div className="flex flex-row gap-16">
-                    <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8">
+                    <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8" onClick={() => navigate('/admin/recruit/question')}>
                         질문 작성하기
                     </SharedButton>
                     <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-red h-auto w-fit border-2 px-16 py-8">

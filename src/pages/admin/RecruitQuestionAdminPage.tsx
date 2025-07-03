@@ -11,55 +11,69 @@ interface QuestionBlock {
     type: 'text' | 'select'
 }
 
+const CATEGORY_OPTIONS = [
+    { label: '공통 질문', value: 'common' },
+    { label: '포트폴리오', value: 'portfolio' },
+    { label: '기획 PM', value: 'pm' },
+    { label: '백엔드 BACK-END', value: 'backend' },
+    { label: '프론트엔드 FRONT-END', value: 'frontend' },
+    { label: '디자이너 DESIGNER', value: 'designer' },
+    { label: '인공지능 AI', value: 'ai' }
+]
+
 export default function RecruitQuestionAdminPage() {
-    const [questionBlock, setQuestionBlock] = useState<QuestionBlock[]>([])
+    const [selectedCategory, setSelectedCategory] = useState(CATEGORY_OPTIONS[0].value)
+    const [questionBlocksByCategory, setQuestionBlocksByCategory] = useState<{ [key: string]: QuestionBlock[] }>({})
+
+    const questionBlock = questionBlocksByCategory[selectedCategory] || []
+
+    const handleBlockChange = (block: QuestionBlock, index: number) => {
+        const newBlocks = [...questionBlock]
+        newBlocks[index] = block
+        setQuestionBlocksByCategory(prev => ({
+            ...prev,
+            [selectedCategory]: newBlocks
+        }))
+    }
+
+    const handleAddBlock = () => {
+        const newBlock = { question: '', limit: '', type: 'text' as const }
+        setQuestionBlocksByCategory(prev => ({
+            ...prev,
+            [selectedCategory]: [...(prev[selectedCategory] || []), newBlock]
+        }))
+    }
 
     return (
         <div className="relative flex h-full w-full flex-row justify-between gap-164 pt-185 pr-100 pl-128">
             <div className="flex flex-col gap-313">
-                <HighlightenTitle
-                    text="지원서 질문 작성"
-                    className="text-nowrap"
-                />
+                <div className='flex flex-row gap-16'>
+                    <HighlightenTitle
+                        text="지원서 질문 작성"
+                        className="text-nowrap"
+                    />
+                </div>
                 <div className="flex flex-col gap-16">
                     <p className="text-24 text-pri-black font-bold">구분</p>
                     <ToggleGroupButton
-                        options={[
-                            { label: '공통 질문', value: 'common' },
-                            { label: '포트폴리오', value: 'portfolio' },
-                            { label: '기획 PM', value: 'pm' },
-                            { label: '백엔드 BACK-END', value: 'backend' },
-                            {
-                                label: '프론트엔드 FRONT-END',
-                                value: 'frontend'
-                            },
-                            {
-                                label: '디자이너 DESIGNER',
-                                value: 'designer'
-                            },
-                            { label: '인공지능 AI', value: 'ai' }
-                        ]}
+                        options={CATEGORY_OPTIONS}
                         className="text-sub-seoultech-red"
+                        value={selectedCategory}
+                        onValueChange={setSelectedCategory}
                     />
                 </div>
             </div>
             <div className="flex w-full flex-col gap-16">
-                {questionBlock.map(block => (
+                {questionBlock.map((block, index) => (
                     <QuestionBlock
-                        key={block.question}
+                        key={index}
                         block={block}
+                        onChange={(newBlock) => handleBlockChange(newBlock, index)}
                     />
                 ))}
                 <SharedButton
                     className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit border-2 px-16 py-8"
-                    onClick={() => {
-                        const newBlock = {
-                            question: '',
-                            limit: '',
-                            type: 'text'
-                        }
-                        setQuestionBlock([...questionBlock, newBlock])
-                    }}>
+                    onClick={handleAddBlock}>
                     질문 블럭 추가
                 </SharedButton>
             </div>
@@ -84,7 +98,7 @@ const Layout = ({
     )
 }
 
-const QuestionBlock = ({ block }: { block: QuestionBlock }) => {
+const QuestionBlock = ({ block, onChange }: { block: QuestionBlock, onChange: (block: QuestionBlock) => void }) => {
     return (
         <div className="flex w-full flex-row gap-64">
             <Layout
@@ -93,7 +107,7 @@ const QuestionBlock = ({ block }: { block: QuestionBlock }) => {
                 <EditInput
                     placeholder="질문을 입력해주세요"
                     value={block.question}
-                    onChange={() => {}}
+                    onChange={(value) => onChange({ ...block, question: value })}
                 />
             </Layout>
             <Layout
@@ -101,8 +115,8 @@ const QuestionBlock = ({ block }: { block: QuestionBlock }) => {
                 className="flex-1/4">
                 <EditInput
                     placeholder="글자수 제한을 입력해주세요"
-                    value={block.question}
-                    onChange={() => {}}
+                    value={block.limit}
+                    onChange={(value) => onChange({ ...block, limit: value })}
                 />
             </Layout>
         </div>

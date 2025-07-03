@@ -2,8 +2,10 @@ import { ToggleGroupButton } from '@/components/archive/ToggleGroupButton'
 import HighlightenTitle from '@/components/HighlightenTitle'
 import SessionResourceList from '@/components/session/SessionResourceList'
 import SharedButton from '@/components/SharedButton'
+import { useNavigate } from 'react-router-dom'
 
 export default function SessionAdminPage() {
+    const navigate = useNavigate()
     const items = [
         { week: 1, title: '과제 1', assignmentState: '과제 할당됨' },
         { week: 2, title: '과제 2', assignmentState: '과제 진행 중' },
@@ -20,7 +22,7 @@ export default function SessionAdminPage() {
     return (
         <div className="relative flex h-full w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128">
             <div className="flex flex-col gap-313">
-                <HighlightenTitle text="세션 관리" />
+                <HighlightenTitle text="세션 관리" className='text-nowrap' />
                 <div className="flex flex-col gap-52">
                     <p className="text-24 text-pri-black font-bold">
                         파트 구분
@@ -42,7 +44,7 @@ export default function SessionAdminPage() {
                 </div>
             </div>
             <div className="flex h-full w-full flex-col items-end gap-115">
-                <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-red h-auto w-fit border-2 px-16 py-8">
+                <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-red h-auto w-fit border-2 px-16 py-8" onClick={() => navigate('/admin/session/upload')}>
                     자료 업로드
                 </SharedButton>
                 <SessionResourceList items={items} />
