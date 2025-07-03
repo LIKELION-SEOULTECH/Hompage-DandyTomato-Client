@@ -1,10 +1,10 @@
 import { cn } from '@/lib/utils'
-import Instagram from '@/assets/icons/links/instagramIcon.svg'
-import Notion from '@/assets/icons/links/notionIcon.svg'
-import Behance from '@/assets/icons/links/behanceIcon.svg'
-import Github from '@/assets/icons/links/githubIcon.svg'
-import Tistory from '@/assets/icons/links/tistoryIcon.svg'
-import Youtube from '@/assets/icons/links/youtubeIcon.svg'
+import Instagram from '@/assets/icons/links/InstagramIcon.svg'
+import Notion from '@/assets/icons/links/NotionIcon.svg'
+import Behance from '@/assets/icons/links/BehanceIcon.svg'
+import Github from '@/assets/icons/links/GithubIcon.svg'
+import Tistory from '@/assets/icons/links/TistoryIcon.svg'
+import Youtube from '@/assets/icons/links/YoutubeIcon.svg'
 import DefaultLink from '@/assets/icons/links/LinkIcon.svg'
 
 export default function LinkIcon({ link }: { link: string }) {
