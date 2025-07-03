@@ -55,6 +55,7 @@ import CentralHackerthon from '@/assets/images/CentralHackerthon.png'
 import Ideathon from '@/assets/images/Ideathon.png'
 import WeeklySession from '@/assets/images/WeeklySession.png'
 import { subscribeRecruit } from '@/api/recruit'
+import { useNavigate } from 'react-router-dom'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 // 실제 섹션별 컴포넌트는 추후 분리/구현
@@ -124,7 +125,7 @@ export default function MainPage() {
                         trigger: aboutTitleRef.current, // 타이틀이 화면 상단에 닿을 때
                         containerAnimation: tween,
                         start: `left 10%`, // 타이틀이 화면 상단에 닿을 때
-                        end: () => `${aboutWidth + window.innerWidth / 2} left`,// 원하는 지점까지
+                        end: () => `${aboutWidth + window.innerWidth} left`,// 원하는 지점까지
                         pin: true,
                         pinSpacing: false, // 섹션이 밀리지 않게
                         scrub: 0,
@@ -136,17 +137,7 @@ export default function MainPage() {
         },
         [isComplete]
     )
-    const handleSubscribe = async () => {
-        // if (!isLoggedIn) {
-        //     navigate('/login')
-        //     return
-        // }
-        // try {
-        //     const res = await subscribeRecruit({ email })
-        // } catch (e) {
-        //     console.log('구독 요청에 실패했습니다.')
-        // }
-    }
+
 
     return (
         <div
@@ -163,53 +154,10 @@ export default function MainPage() {
                 <SectionAbout titleRef={aboutTitleRef} containerRef={aboutContainerRef} />
             </SectionLayout>
             <SectionLayout className='bg-[oklch(96.7%_0.002869_84.6)]' containerRef={projectContainerRef}>
-                <div className="flex flex-col items-baseline justify-center">
-                    <HighlightenTitle
-                        text="프로젝트"
-                        className="mt-61"
-                    />
-                    <p className="font-pretendard text-32 text-pri-black mt-42 leading-[150%] tracking-[-0.96px] whitespace-pre-line">
-                        아이디어톤, 중앙해커톤, 그리고 장기 프로젝트까지!
-                        <br />
-                        과기대 멋대의 다양한 프로젝트를 확인해보세요 ✨
-                    </p>
-                </div>
+                <SectionProject />
             </SectionLayout>
             <SectionLayout>
-                <div className='w-screen h-full flex flex-row items-end justify-baseline gap-164'>
-                    <img src={MainBanner} alt="" className=' object-left-top h-[100vh] top-0' />
-                    <div className="flex flex-col items-start justify-between h-full w-fit">
-                        <div>
-                            <div className='flex flex-col items-start justify-center gap-16'>
-                                <HighlightenTitle text="함께 성장할 14기를" />
-                                <HighlightenTitle text="모집합니다!" />
-                            </div>
-
-                            <div className='flex flex-col items-start justify-center gap-28 mt-68'>
-                                <AnimatedButton text="모집 페이지로 이동하기" color="#0B4066" onClick={() => navigate('/apply')} />
-
-                                <SharedButton onClick={handleSubscribe} className='px-16 py-8 rounded-50'>
-                                    모집 알림 받기
-                                </SharedButton>
-                            </div>
-
-                        </div>
-
-
-                        <div className="flex gap-24 flex-row">
-                            <div className="flex items-center gap-10 bg-[#E4E5E9] p-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
-                                <img src={InstaIcon} alt="인스타그램" className="w-20 h-20" /> @likelion_st
-                            </div>
-                            <div className="flex items-center gap-10 bg-[#E4E5E9] p-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
-                                <img src={KakaoIcon} alt="카카오톡" className="w-20 h-20" /> @ajh1215hoo
-                            </div>
-                            <div className="flex items-center gap-10 bg-[#E4E5E9] px-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
-                                <img src={ContactIcon} alt="이메일" className="w-20 h-20" /> seoultech.likelion@gmail.com
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <SectionRecruit />
             </SectionLayout>
         </div>
     )
@@ -569,6 +517,118 @@ const SectionLayout = ({ children, containerRef, className, style }: { children:
         <section className={cn("main-section flex h-screen w-fit flex-row items-end justify-end gap-128 bg-[oklch(96.7%_0.002869_84.6)] pl-128 pt-189 pb-128 pr-64 relative", className)} ref={containerRef} style={style}>
             {children}
         </section>
+    )
+}
+const SectionProject = () => {
+    const navigate = useNavigate()
+    const images = [DemoDay, Ideathon, CentralHackerthon, WeeklySession]
+    const VerticalInfiniteCarousel = () => {
+        const containerRef = useRef<HTMLDivElement>(null)
+
+        useEffect(() => {
+            const container = containerRef.current
+            if (!container) return
+
+            let animationFrame: number
+            let start: number | null = null
+            const speed = 60 // px per second
+
+            function animateScroll(timestamp: number) {
+                if (!start) start = timestamp
+                const elapsed = timestamp - start
+                const totalHeight = container.scrollHeight / 2
+
+                // 현재 위치 계산
+                const y = (elapsed / 1000) * speed % totalHeight
+                container.style.transform = `translateY(-${y}px)`
+
+                animationFrame = requestAnimationFrame(animateScroll)
+            }
+
+            animationFrame = requestAnimationFrame(animateScroll)
+            return () => cancelAnimationFrame(animationFrame)
+        }, [])
+
+        // 이미지를 2번 반복해서 무한 스크롤 효과
+        return (
+            <div className="overflow-hidden h-screen self-center w-fit relative">
+                <div ref={containerRef} className="flex flex-col gap-48">
+                    {[...images, ...images].map((src, i) => (
+                        <div key={i} className="flex flex-col items-center justify-center rounded-15 overflow-hidden">
+                            <img src={src} alt={`carousel-${i}`} className="w-708 h-398 object-cover aspect-video rounded-15" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )
+    }
+    return (
+        <div className='flex flex-row items-baseline justify-between w-screen h-full'>
+            `<div className="flex flex-col items-baseline h-full w-fit justify-start">
+                <HighlightenTitle
+                    text="프로젝트"
+                />
+                <p className="text-32 text-pri-black mt-42 whitespace-pre-line">
+                    아이디어톤, 중앙해커톤, 그리고 장기 프로젝트까지!
+                    <br />
+                    과기대 멋대의 다양한 프로젝트를 확인해보세요 ✨
+                </p>
+                <AnimatedButton
+                    className='mt-68'
+                    text="더 많은 프로젝트 보러가기" color="#0B4066" onClick={() => navigate('/project')} />
+            </div>
+
+            <VerticalInfiniteCarousel />
+        </div>
+    )
+}
+const SectionRecruit = () => {
+    const handleSubscribe = async () => {
+        // if (!isLoggedIn) {
+        //     navigate('/login')
+        //     return
+        // }
+        // try {
+        //     const res = await subscribeRecruit({ email })
+        // } catch (e) {
+        //     console.log('구독 요청에 실패했습니다.')
+        // }
+    }
+    return (
+        <div className='w-screen h-full flex flex-row items-end justify-baseline gap-164'>
+            <img src={MainBanner} alt="" className=' object-left-top h-[100vh] top-0' />
+            <div className="flex flex-col items-start justify-between h-full w-fit">
+                <div>
+                    <div className='flex flex-col items-start justify-center gap-16'>
+                        <HighlightenTitle text="함께 성장할 14기를" />
+                        <HighlightenTitle text="모집합니다!" />
+                    </div>
+
+                    <div className='flex flex-col items-start justify-center gap-28 mt-68'>
+                        <AnimatedButton text="모집 페이지로 이동하기" color="#0B4066" onClick={() => navigate('/apply')} />
+
+                        <SharedButton onClick={handleSubscribe} className='px-16 py-8 rounded-50'>
+                            모집 알림 받기
+                        </SharedButton>
+                    </div>
+
+                </div>
+
+
+                <div className="flex gap-24 flex-row">
+                    <div className="flex items-center gap-10 bg-[#E4E5E9] p-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
+                        <img src={InstaIcon} alt="인스타그램" className="w-20 h-20" /> @likelion_st
+                    </div>
+                    <div className="flex items-center gap-10 bg-[#E4E5E9] p-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
+                        <img src={KakaoIcon} alt="카카오톡" className="w-20 h-20" /> @ajh1215hoo
+                    </div>
+                    <div className="flex items-center gap-10 bg-[#E4E5E9] px-24 rounded-15 font-pretendard text-[#032B49] font-bold tracking-[-0.6px] text-sub_seoultech_blue">
+                        <img src={ContactIcon} alt="이메일" className="w-20 h-20" /> seoultech.likelion@gmail.com
+                    </div>
+                </div>
+            </div>
+        </div>
+
     )
 }
 function StickerRain({ onCompleteHandler }: { onCompleteHandler: () => void }) {

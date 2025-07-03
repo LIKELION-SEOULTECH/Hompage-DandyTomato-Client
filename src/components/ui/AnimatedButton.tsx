@@ -1,13 +1,15 @@
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface AnimatedButtonProps {
     text: string;
     color: string; // 배경색 (hex, tailwind, etc)
     onClick?: () => void;
+    className?: string;
 }
 
-export default function AnimatedButton({ text, color, onClick }: AnimatedButtonProps) {
+export default function AnimatedButton({ text, color, onClick, className }: AnimatedButtonProps) {
     const [hovered, setHovered] = useState(false);
     const controls = useAnimation();
     const textRef = useRef<HTMLSpanElement>(null);
@@ -59,7 +61,7 @@ export default function AnimatedButton({ text, color, onClick }: AnimatedButtonP
         <button
             type="button"
             onClick={onClick}
-            className="relative flex items-center font-bold text-[24px] leading-[36px] tracking-[-0.72px] px-0 py-0 bg-transparent border-none outline-none cursor-pointer"
+            className={cn("relative flex items-center font-bold text-[24px] leading-[36px] tracking-[-0.72px] px-0 py-0 bg-transparent border-none outline-none cursor-pointer", className)}
             style={{ color: hovered ? '#fff' : color, transition: 'color 0.2s' }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
