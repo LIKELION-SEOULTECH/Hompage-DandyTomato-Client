@@ -1,9 +1,10 @@
 import { ToggleGroupButton } from '@/components/archive/ToggleGroupButton'
 import HighlightenTitle from '@/components/HighlightenTitle'
 import SessionResourceList from '@/components/session/SessionResourceList'
+import AnimatedButton from '@/components/ui/AnimatedButton'
 import useVerticalScroll from '@/hooks/useVerticalScroll'
 import { RefObject, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 export default function SessionResourcesPage() {
     const items = [
@@ -18,20 +19,23 @@ export default function SessionResourcesPage() {
         { week: 9, title: '과제 9', assignmentState: '과제 없음' },
         { week: 10, title: '과제 10', assignmentState: '기한 만료' }
     ]
-    const [searchParams, setSearchParams] = useSearchParams()
-    const sessionType = searchParams.get('sessionType')
-    const [part, setPart] = useState(sessionType || 'all')
+    const [sessionType, setSessionType] = useState('resources')
+    const [part, setPart] = useState('all')
     const handlePartChange = (part: string) => {
         setPart(part)
     }
     const containerRef = useRef<HTMLDivElement>(null)
     const scrollRef = useRef<HTMLDivElement>(null)
     useVerticalScroll(containerRef as RefObject<HTMLDivElement>, scrollRef as RefObject<HTMLDivElement>)
+    const handleSessionTypeChange = (sessionType: string) => {
+        setSessionType(sessionType)
+    }
+    const navigate = useNavigate()
     return (
         <div ref={containerRef} className="relative flex h-screen w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128 overflow-y-hidden">
-            <div className="flex flex-col gap-313">
+            <div className="flex flex-col justify-between">
                 <HighlightenTitle text="세션 자료" className="text-nowrap" />
-                <div className="flex flex-col gap-52">
+                <div className="flex flex-col gap-52 ">
                     <p className="text-24 text-pri-black font-bold">
                         파트 구분
                     </p>
@@ -59,6 +63,9 @@ export default function SessionResourcesPage() {
                         { label: '세션 자료', value: 'resources' },
                         { label: 'AI QUIZ', value: 'ai-quiz' }
                     ]}
+                    value={sessionType}
+                    onValueChange={handleSessionTypeChange}
+
                     className="text-sub-seoultech-red flex-row"
                     itemClassName="px-16 py-8 h-auto"
                 />
@@ -66,6 +73,17 @@ export default function SessionResourcesPage() {
                     <SessionResourceList items={items} />
                 </div>
             </div>
+            {sessionType === 'ai-quiz' && (
+                <AnimatedButton
+                    className="absolute bottom-128 right-100 z-100 "
+                    text="과제 제출"
+                    color="#E74C2E"
+                    onClick={() => {
+                        navigate('/session/ai-quiz')
+                    }}
+                >
+                </AnimatedButton>
+            )}
             <div className="flex h-300 w-full -z-10 bg-gradient-to-b from-background to-transparent absolute top-0" />
         </div>
     )

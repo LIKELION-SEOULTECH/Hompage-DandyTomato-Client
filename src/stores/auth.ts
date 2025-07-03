@@ -13,11 +13,13 @@ interface AuthState {
     setTokens: (tokens: JwtTokens) => void
     setEmail: (email: string) => void
     logout: () => void
+    login: () => void
+    isLogin: () => boolean
 }
 
 export const useAuthZustandStore = create<AuthState>()(
     persist(
-        ((set: Parameters<StateCreator<AuthState>>[0]) => ({
+        ((set, get) => ({
             accessToken: '',
             refreshToken: '',
             email: '',
@@ -32,6 +34,12 @@ export const useAuthZustandStore = create<AuthState>()(
             },
             logout: () => {
                 set({ accessToken: '', refreshToken: '', email: '' })
+            },
+            login: () => {
+                set({ accessToken: '123', refreshToken: '123', email: '123' })
+            },
+            isLogin: () => {
+                return !!get().accessToken
             }
         })) as StateCreator<AuthState>,
         {
