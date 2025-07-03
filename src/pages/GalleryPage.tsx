@@ -5,7 +5,12 @@ import { useRef, useState } from 'react'
 import GalleryGrid from '@/components/archive/GalleryGrid'
 
 const ArchivePage = () => {
-    const [galleryItems, setGalleryItems] = useState<any[]>(Array.from({ length: 10 }, (_, i) => ({ id: i + 1 })))
+    const [galleryItems, setGalleryItems] = useState<any[]>(Array.from({ length: 10 }, (_, i) => ({
+        id: i + 1,
+        title: `갤러리 ${i + 1}`,
+        description: `갤러리 ${i + 1}에 대한 설명입니다.`,
+        tag: ['정기세션', '중앙활동', '자체활동', '친목활동'][i % 4]
+    })))
 
     const containerRef = useRef<HTMLDivElement>(null)
     const scrollRef = useRef<HTMLDivElement>(null)

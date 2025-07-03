@@ -55,6 +55,9 @@ export default function GalleryGrid({ galleryItems, scrollRef }: { galleryItems:
                                 gridRowEnd: pos.gridRowEnd
                             }}
                             index={index}
+                            title={item.title}
+                            description={item.description}
+                            tag={item.tag}
                         />
                     </>
                 )

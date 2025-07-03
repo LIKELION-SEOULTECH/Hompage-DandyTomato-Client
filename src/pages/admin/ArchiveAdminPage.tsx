@@ -182,7 +182,7 @@ export default function ArchiveAdminPage() {
         fileInput.click()
     }
     return (
-        <div className="relative flex h-full w-full flex-col gap-82 pt-185 pr-100 pl-128">
+        <div className="relative flex h-full w-full flex-col gap-82 pt-185 pr-100 pl-128 pb-40">
             <div className="flex flex-row items-start justify-between">
                 <HighlightenTitle text={`${type} 업로드`} />
                 <div className='flex flex-row gap-16'>

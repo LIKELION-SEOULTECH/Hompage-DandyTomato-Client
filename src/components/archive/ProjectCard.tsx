@@ -1,6 +1,9 @@
 import { cn } from '@/lib/utils'
 import React, { useState } from 'react'
 import TagBadge from './TagBadge'
+import DemoDay from '@/assets/images/DemoDay.png'
+import CentralHackerthon from '@/assets/images/CentralHackerthon.png'
+import Ideathon from '@/assets/images/Ideathon.png'
 
 interface ProjectCardProps {
     className?: string
@@ -23,6 +26,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     onClick
 }) => {
     const [isHovered, setIsHovered] = useState(false)
+
+    // 예시 이미지 배열
+    const exampleImages = [DemoDay, CentralHackerthon, Ideathon, DemoDay, CentralHackerthon, Ideathon, DemoDay, CentralHackerthon, Ideathon, DemoDay]
+    const backgroundImage = exampleImages[index || 0]
+
     return (
         <div
             onClick={onClick}
@@ -33,10 +41,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 setIsHovered(false)
             }}
             className={cn(
-                'bg-sub-seoultech-red flex items-center justify-center overflow-hidden rounded-[15px] w-full h-full aspect-[16/9]',
+                'flex items-center justify-center overflow-hidden rounded-[15px] w-full h-full aspect-[16/9] bg-cover bg-center',
                 className
             )}
-            style={style}>
+            style={{
+                ...style,
+                backgroundImage: `url(${backgroundImage})`
+            }}>
             <div
                 className={cn(
                     !isHovered && 'opacity-0',
@@ -49,12 +60,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     {description}
                 </p>
                 <div className="flex flex-wrap gap-10">
-                    {tag.map(tag => (
+                    {Array.isArray(tag) ? tag.map(tagItem => (
+                        <TagBadge
+                            key={tagItem}
+                            tag={tagItem}
+                        />
+                    )) : (
                         <TagBadge
                             key={tag}
                             tag={tag}
                         />
-                    ))}
+                    )}
                 </div>
             </div>
         </div>
