@@ -123,307 +123,47 @@ export default function StickerRain() {
     const containerRef = useRef(null)
     // 시안 1
 
-    // useEffect(() => {
-    //     const stickers1 = stickers.slice(0, stickers.length / 2)
-    //     const stickers2 = stickers.slice(stickers.length / 2)
-
-    //     stickers1.forEach(({ id, x, y }, index) => {
-    //         const el = containerRef.current.querySelector(`#${id}`)
-
-    //         gsap.set(el, {
-    //             x: x + 500,
-    //             y,
-    //             opacity: 0
-    //         })
-
-    //         gsap.to(el, {
-    //             x,
-    //             opacity: 1,
-    //             ease: 'back.out',
-    //             duration: 0.7,
-    //             delay: Math.random() * 0.4 + index * 0.05 // 랜덤 + 살짝 시간차
-    //         })
-    //     })
-
-    //     stickers2.forEach(({ id, x, y }, index) => {
-    //         const el = containerRef.current.querySelector(`#${id}`)
-
-    //         gsap.set(el, {
-    //             x,
-    //             y: y - 500,
-    //             opacity: 0
-    //         })
-
-    //         gsap.to(el, {
-    //             y,
-    //             opacity: 1,
-    //             ease: 'back.out',
-    //             duration: 0.7,
-    //             delay: Math.random() * 0.4 + index * 0.05
-    //         })
-    //     })
-
-    //     // 1. 오버레이 페이드인
-    //     gsap.delayedCall(1.5, () => {
-    //         gsap.to('#overlay', {
-    //             opacity: 0.6,
-    //             duration: 1,
-    //             onComplete: () => {
-    //                 // 2. 중앙 슬로건/로고 등장
-    //                 gsap.to('#finalReveal', {
-    //                     opacity: 1,
-    //                     scale: 1,
-    //                     duration: 1.2,
-    //                     delay: 0.5,
-    //                     ease: 'back.out'
-    //                 })
-    //             }
-    //         })
-    //     })
-    // }, [])
-
-    // 시안 2
-
-    // useEffect(() => {
-    //     const animations = []
-
-    //     stickers.forEach(({ id, x, y, rotation }) => {
-    //         const el = containerRef.current.querySelector(`#${id}`)
-
-    //         const startX = `${Math.random() * 100}%`
-    //         const startY = `${Math.random() * 100}%`
-
-    //         gsap.set(el, {
-    //             x: startX,
-    //             y: startY,
-    //             scale: 0,
-    //             opacity: 0,
-    //             rotate: rotation + Math.random() * 60 - 30
-    //         })
-
-    //         animations.push(
-    //             gsap.to(el, {
-    //                 x,
-    //                 y,
-    //                 scale: 1,
-    //                 opacity: 1,
-    //                 rotate: rotation,
-    //                 ease: 'power2.out',
-    //                 duration: 1,
-    //                 delay: Math.random() * 0.5
-    //             })
-    //         )
-    //     })
-
-    //     gsap.delayedCall(2, () => {
-    //         // 배경 어둡게
-    //         gsap.to('#overlay', {
-    //             backgroundColor: 'rgba(0,0,0,0.7)',
-    //             opacity: 1,
-    //             duration: 1.2
-    //         })
-
-    //         // 슬로건 + 로고 등장
-    //         gsap.to('#finalReveal', {
-    //             opacity: 1,
-    //             scale: 1,
-    //             duration: 1.4,
-    //             ease: 'power3.out',
-    //             delay: 1.5,
-    //             onComplete: () => {
-    //                 // 약간 흔들리는 느낌
-    //                 gsap.to('#finalReveal', {
-    //                     y: '-2px',
-    //                     repeat: -1,
-    //                     yoyo: true,
-    //                     duration: 1,
-    //                     ease: 'sine.inOut'
-    //                 })
-    //             }
-    //         })
-    //     })
-    // }, [])
-
-    // 시안3
-
-    // const stickerGroups = {
-    //     floatInLeft: ['sticker01', 'sticker03', 'sticker09', 'sticker14'],
-    //     bounceFromBottom: ['sticker02', 'sticker06', 'sticker10', 'sticker15'],
-    //     spinDropTop: [
-    //         'sticker04',
-    //         'sticker05',
-    //         'sticker07',
-    //         'sticker08',
-    //         'sticker11',
-    //         'sticker12',
-    //         'sticker13',
-    //         'sticker16'
-    //     ]
-    // }
-
-    // useEffect(() => {
-    //     const playGroup = (ids, effectFn) => {
-    //         ids.forEach(id => {
-    //             const el = containerRef.current.querySelector(`#${id}`)
-    //             const sticker = stickers.find(s => s.id === id)
-    //             if (el && sticker) effectFn(el, sticker)
-    //         })
-    //     }
-
-    //     // Float-in from left
-    //     playGroup(stickerGroups.floatInLeft, (el, { x, y, rotation }) => {
-    //         gsap.set(el, { x: '-100%', y, opacity: 0, rotate: rotation })
-    //         gsap.to(el, {
-    //             x,
-    //             opacity: 1,
-    //             duration: 1.4,
-    //             ease: 'power2.out',
-    //             delay: Math.random() * 0.6
-    //         })
-    //     })
-
-    //     // Bounce up from bottom
-    //     playGroup(stickerGroups.bounceFromBottom, (el, { x, y, rotation }) => {
-    //         gsap.set(el, { x, y: '120%', opacity: 0, rotate: rotation })
-    //         gsap.to(el, {
-    //             y,
-    //             opacity: 1,
-    //             duration: 1,
-    //             ease: 'bounce.out',
-    //             delay: Math.random() * 0.5
-    //         })
-    //     })
-
-    //     // Spin + drop from top
-    //     playGroup(stickerGroups.spinDropTop, (el, { x, y, rotation }) => {
-    //         gsap.set(el, {
-    //             x,
-    //             y: '-150%',
-    //             rotate: rotation + 360,
-    //             opacity: 0
-    //         })
-    //         gsap.to(el, {
-    //             y,
-    //             rotate: rotation,
-    //             opacity: 1,
-    //             duration: 0.9,
-    //             ease: 'back.out',
-    //             delay: Math.random() * 0.4
-    //         })
-    //     })
-
-    //     // 다음 단계 (overlay + 슬로건 등)는 이전 코드 그대로 사용
-    //     gsap.delayedCall(2, () => {
-    //         // 배경 어둡게
-    //         gsap.to('#overlay', {
-    //             backgroundColor: 'rgba(0,0,0,0.7)',
-    //             opacity: 1,
-    //             duration: 1.2
-    //         })
-
-    //         // 슬로건 + 로고 등장
-    //         gsap.to('#finalReveal', {
-    //             opacity: 1,
-    //             scale: 1,
-    //             duration: 1.4,
-    //             ease: 'power3.out',
-    //             delay: 1.5,
-    //             onComplete: () => {
-    //                 // 약간 흔들리는 느낌
-    //                 gsap.to('#finalReveal', {
-    //                     y: '-2px',
-    //                     repeat: -1,
-    //                     yoyo: true,
-    //                     duration: 1,
-    //                     ease: 'sine.inOut'
-    //                 })
-    //             }
-    //         })
-    //     })
-    // }, [])
-
-    // 시안 4
-    // useEffect(() => {
-    //     const centerX = '50%'
-    //     const centerY = '50%'
-
-    //     stickers.forEach(({ id, x, y, rotation }) => {
-    //         const el = containerRef.current.querySelector(`#${id}`)
-
-    //         gsap.set(el, {
-    //             left: centerX,
-    //             top: centerY,
-    //             scale: 0.3,
-    //             opacity: 0,
-    //             rotate: 0
-    //         })
-
-    //         gsap.to(el, {
-    //             left: x,
-    //             top: y,
-    //             scale: 1,
-    //             rotate: rotation,
-    //             opacity: 1,
-    //             duration: 3,
-    //             ease: 'expo.out',
-    //             delay: Math.random() * 0.3
-    //         })
-    //     })
-
-    //     // 다음 단계 (overlay + 슬로건 등)는 이전 코드 그대로 사용
-    //     gsap.delayedCall(2, () => {
-    //         // 배경 어둡게
-    //         gsap.to('#overlay', {
-    //             backgroundColor: 'rgba(0,0,0,0.7)',
-    //             opacity: 1,
-    //             duration: 1.2
-    //         })
-
-    //         // 슬로건 + 로고 등장
-    //         gsap.to('#finalReveal', {
-    //             opacity: 1,
-    //             scale: 1,
-    //             duration: 1.4,
-    //             ease: 'power3.out',
-    //             delay: 1.5,
-    //             onComplete: () => {
-    //                 // 약간 흔들리는 느낌
-    //                 gsap.to('#finalReveal', {
-    //                     y: '-2px',
-    //                     repeat: -1,
-    //                     yoyo: true,
-    //                     duration: 1,
-    //                     ease: 'sine.inOut'
-    //                 })
-    //             }
-    //         })
-    //     })
-    // }, [])
-    // 시안 5
     useEffect(() => {
-        stickers.forEach(({ id, x, y, rotation }) => {
+        const stickers1 = stickers.slice(0, stickers.length / 2)
+        const stickers2 = stickers.slice(stickers.length / 2)
+
+        stickers1.forEach(({ id, x, y }, index) => {
             const el = containerRef.current.querySelector(`#${id}`)
 
-            // 초기 위치는 좀 더 멀리, 스케일은 10배
             gsap.set(el, {
-                x: `${parseFloat(x) + (Math.random() - 0.5) * 50}%`,
-                y: `${parseFloat(y) + (Math.random() - 0.5) * 50}%`,
-                scale: 4,
-                opacity: 0,
-                rotate: rotation + (Math.random() * 60 - 30)
+                x: x + 500,
+                y,
+                opacity: 0
             })
 
             gsap.to(el, {
                 x,
-                y,
-                scale: 1,
                 opacity: 1,
-                rotate: rotation,
-                ease: 'bounce.out',
-                duration: 1.1,
-                delay: Math.random() * 0.5
+                ease: 'back.out',
+                duration: 0.7,
+                delay: Math.random() * 0.4 + index * 0.05 // 랜덤 + 살짝 시간차
             })
         })
+
+        stickers2.forEach(({ id, x, y }, index) => {
+            const el = containerRef.current.querySelector(`#${id}`)
+
+            gsap.set(el, {
+                x,
+                y: y - 500,
+                opacity: 0
+            })
+
+            gsap.to(el, {
+                y,
+                opacity: 1,
+                ease: 'back.out',
+                duration: 0.7,
+                delay: Math.random() * 0.4 + index * 0.05
+            })
+        })
+
+        // 1. 오버레이 페이드인
         gsap.delayedCall(1.5, () => {
             gsap.to('#overlay', {
                 opacity: 0.6,
@@ -443,15 +183,15 @@ export default function StickerRain() {
     }, [])
 
     return (
-        <div>
+        <div className="h-screen w-screen">
             {/* 시안 1 */}
             <div
                 id="overlay"
-                className="pointer-events-none absolute inset-0 z-10 bg-white opacity-1 transition-opacity duration-1000"
+                className="pointer-events-none inset-0 z-10 bg-pri-white opacity-1 transition-opacity duration-1000"
             />
             <div className="absolute inset-0 z-20 flex h-full w-full items-center justify-center">
                 <div
-                    className="flex scale-95 flex-col items-center space-y-4 opacity-0"
+                    className="relative flex scale-95 flex-col items-center space-y-4 opacity-0"
                     id="finalReveal">
                     <img
                         src={logo}
@@ -463,20 +203,6 @@ export default function StickerRain() {
                     />
                 </div>
             </div>
-            {/* 시안2 */}
-            {/* <div
-                id="overlay"
-                className="absolute inset-0 z-10 bg-black/0 opacity-0 backdrop-blur-md transition-opacity duration-1000"
-            />
-
-            <div className="absolute inset-0 z-20 flex items-center justify-center">
-                <div
-                    id="finalReveal"
-                    className="flex scale-95 flex-col items-center space-y-4 opacity-0">
-                    <img src={slogun} />
-                    <img src={logo} />
-                </div>
-            </div> */}
 
             <div
                 className="relative h-screen w-auto"
