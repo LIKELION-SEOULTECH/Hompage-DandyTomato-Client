@@ -77,12 +77,25 @@ export function useCorrectText() {
     })
 }
 
+// 맞춤법 검사
+export function useSpellCheck() {
+    return useMutation({
+        mutationFn: (data: CorrectTextRequest) => correctText(data),
+        onError: (error) => {
+            console.error('맞춤법 검사 실패:', error)
+        }
+    })
+}
+
 // 지원서 질문 조회
 export function useRecruitQuestions(part: string) {
     return useQuery({
         queryKey: ['recruit-questions', part],
         queryFn: () => getRecruitQuestions(part),
-        enabled: !!part,
-        staleTime: 10 * 60 * 1000, // 10분
+        staleTime: 1 * 60 * 1000, // 1분으로 단축
+        gcTime: 5 * 60 * 1000, // 5분
+        refetchOnWindowFocus: false, // 윈도우 포커스 시 리페치 비활성화
+        retry: 1, // 재시도 횟수 제한
+        retryDelay: 1000, // 재시도 간격
     })
 }

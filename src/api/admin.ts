@@ -4,7 +4,6 @@ import type {
     GetApplicantsParams,
     GetApplicantDetailParams,
     UpdateMemberRoleParams,
-    ExpelMemberParams,
     UpdateMemberProfileRequest,
     RecruitQuestionPostRequest,
     RecruitQuestionPostResponse,
@@ -107,11 +106,7 @@ export async function updateMemberRole({
     return res.data
 }
 
-// 멤버 제명 (DELETE) -  굳
-export async function expelMember({ memberId}: ExpelMemberParams) {
-    const res = await apiClient.delete(`/admin/member/${memberId}`)
-    return res.data
-}
+
 
 // 멤버 프로필 수정 (PATCH) - 굳
 export async function updateMemberProfile(
@@ -197,10 +192,11 @@ export async function deleteProjectPost(projectId: string) {
 
 // 지원서 질문 항목 업로드 (POST) - ADMIN 권한 필요
 export async function uploadRecruitQuestions(
+    part: string,
     body: RecruitQuestionPostRequest
 ): Promise<RecruitQuestionPostResponse> {
     const res = await apiClient.post<RecruitQuestionPostResponse>(
-        '/admin/recruit/question',
+        `/admin/recruit/question?part=${part}`,
         body
     )
     return res.data

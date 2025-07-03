@@ -1,24 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { login, logout, refreshToken } from '@/api/auth'
-
-// 로그인
-export function useLogin() {
-    const queryClient = useQueryClient()
-    
-    return useMutation({
-        mutationFn: ({ code, redirect_uri }: { code: string; redirect_uri: string }) => 
-            login(code, redirect_uri),
-        onSuccess: (data) => {
-            // 로그인 성공 시 관련 쿼리 무효화
-            queryClient.invalidateQueries({ queryKey: ['auth'] })
-            queryClient.invalidateQueries({ queryKey: ['user'] })
-            console.log('로그인 성공:', data)
-        },
-        onError: (error) => {
-            console.error('로그인 실패:', error)
-        }
-    })
-}
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
+import { logout, refreshToken, getGoogleLoginUrl } from '@/api/auth'
 
 // 로그아웃
 export function useLogout() {
@@ -42,7 +23,7 @@ export function useRefreshToken() {
     const queryClient = useQueryClient()
     
     return useMutation({
-        mutationFn: (token: string) => refreshToken(token),
+        mutationFn: refreshToken,
         onSuccess: (data) => {
             // 토큰 갱신 성공 시 인증 관련 쿼리 무효화
             queryClient.invalidateQueries({ queryKey: ['auth'] })
@@ -53,5 +34,15 @@ export function useRefreshToken() {
             // 토큰 갱신 실패 시 로그아웃 처리
             queryClient.clear()
         }
+    })
+}
+
+// Google 로그인 URL 가져오기
+export function useGoogleLoginUrl() {
+    return useQuery({
+        queryKey: ['auth', 'googleLoginUrl'],
+        queryFn: getGoogleLoginUrl,
+        staleTime: 5 * 60 * 1000, // 5분
+        gcTime: 10 * 60 * 1000, // 10분
     })
 } 

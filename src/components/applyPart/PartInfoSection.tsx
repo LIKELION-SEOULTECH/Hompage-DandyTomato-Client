@@ -8,7 +8,7 @@ interface PartInfoSectionProps {
     onEdit: () => void;
 }
 
-export default function PartInfoSection({ part, description, onEdit }: PartInfoSectionProps) {
+export default React.memo(function PartInfoSection({ part, description, onEdit }: PartInfoSectionProps) {
     return (
         <div className='min-w-500  w-fit h-full flex flex-row z-100'>
             <div className="flex flex-col items-start justify-between h-full w-fit text-nowrap bg-[oklch(96.7%_0.002869_84.6)] pl-128 pt-189 pb-128">
@@ -30,4 +30,4 @@ export default function PartInfoSection({ part, description, onEdit }: PartInfoS
 
         </div>
     );
-} 
+}); 

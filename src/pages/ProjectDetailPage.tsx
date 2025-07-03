@@ -2,12 +2,12 @@ import TagBadge from '@/components/archive/TagBadge'
 import HighlightenTitle from '@/components/HighlightenTitle'
 
 interface ProjectDetailPageProps {
-    title: string
-    description: string
-    tag: string[]
-    teamName: string
-    parts: string[]
-    members: string[]
+    title?: string
+    description?: string
+    tag?: string[]
+    teamName?: string
+    parts?: string[]
+    members?: string[]
 }
 
 export default function ProjectDetailPage({
@@ -17,7 +17,7 @@ export default function ProjectDetailPage({
     teamName = '사자육남매',
     parts = ['BE', 'FE', 'PM', 'DESIGN'],
     members = ['김리사', '노경인', '박진홍', '이주승']
-}: ProjectDetailPageProps) {
+}: ProjectDetailPageProps = {}) {
     return (
         <div>
             <div className="flex flex-col justify-between">

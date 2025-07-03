@@ -18,7 +18,7 @@ interface QuestionSectionProps {
     scrollRef: React.RefObject<HTMLDivElement>;
 }
 
-export default function QuestionSection({
+export default React.memo(function QuestionSection({
     questions,
     answers,
     onChange,
@@ -32,8 +32,9 @@ export default function QuestionSection({
         <div className="flex flex-row gap-128 w-fit h-full items-end justify-center pb-128 pr-100" ref={scrollRef}>
             {questions.map((question, idx) => (
                 <QuestionAnswerBox
+                    key={`${question.type}-${idx}`}
                     question={question.text}
-                    value={answers[idx]}
+                    value={answers[idx] || ''}
                     onChange={e => onChange(idx, e.target.value)}
                     maxLength={maxLength}
                     onSubmit={() => onSpellCheck(idx)}
@@ -47,4 +48,4 @@ export default function QuestionSection({
             />
         </div>
     );
-} 
+}); 

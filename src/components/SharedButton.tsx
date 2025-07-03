@@ -5,11 +5,13 @@ export default function SharedButton({
     children,
     className,
     onClick,
+    disabled,
     ...props
 }: {
     children: React.ReactNode
     className?: string
     onClick?: () => void
+    disabled?: boolean
 }) {
     return (
         <ShadButton
@@ -18,6 +20,7 @@ export default function SharedButton({
                 className
             )}
             onClick={onClick}
+            disabled={disabled}
             {...props}>
             {children}
         </ShadButton>
