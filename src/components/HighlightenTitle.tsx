@@ -13,7 +13,7 @@ export default function HighlightenTitle({
         <h1
             ref={ref}
             className={cn(
-                'font-pretendard text-pri-white bg-sub-seoultech-red text-64 w-fit leading-none font-bold tracking-[-1.92px]',
+                'font-pretendard text-pri-white bg-sub-seoultech-red text-64 w-fit leading-none font-bold tracking-[-1.92px] break-keep-all',
                 className
             )}>
             {text}

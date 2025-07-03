@@ -54,15 +54,14 @@ export default function ProcessBubble({
 
             {/* 말풍선 본체 */}
             <div
-                className="rounded-xl shadow-md w-fit text-left whitespace-nowrap px-[36px] py-[36px] gap-10"
+                className="rounded-xl w-fit text-left whitespace-nowrap px-[36px] py-[36px] gap-10"
                 style={{
                     backgroundColor: bgColor,
                     color: textColor,
                 }}
             >
                 <div
-                    className={`text-[32px] font-bold leading-[48px] tracking-[-0.96px] ${highlight ? 'text-sub_seoultech_blue' : ''}`}
-                    style={titleColor ? { color: titleColor } : {}}
+                    className={`text-[32px] font-bold leading-[48px] tracking-[-0.96px] ${highlight ? 'text-sub_seoultech_blue' : ''} ${titleColor || ''}`}
                 >
                     {renderedTitle}
                 </div>
