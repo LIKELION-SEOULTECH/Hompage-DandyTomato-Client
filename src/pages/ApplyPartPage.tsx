@@ -6,7 +6,7 @@ import QuestionSection from '../components/applyPart/QuestionSection';
 import { useApplyFormStore } from '@/stores/applyForm';
 import useHorizontalScroll from '@/hooks/useHorizontalScroll';
 import SharedButton from '@/components/SharedButton';
-import { useRecruitQuestions, useSaveApplication, useSubmitApplication } from '@/query/recruit';
+import { useSaveApplication, useSubmitApplication } from '@/query/recruit';
 
 export default function ApplyPartPage() {
     const location = useLocation();
@@ -50,29 +50,20 @@ export default function ApplyPartPage() {
     };
 
     const apiPart = getPartForAPI(part);
-    const { data: questionsData, isLoading, error } = useRecruitQuestions(apiPart);
+
+    // constants에서 질문 가져오기
+    const allQuestions = partData?.questions || [];
+
+    // API 훅 추가
     const saveApplicationMutation = useSaveApplication();
     const submitApplicationMutation = useSubmitApplication();
 
-    // API에서 받은 질문만 사용
-
-    let allQuestions: Array<{ text: string, type: 'part' }> = [];
-
-    if (error) {
-        // 에러가 있으면 빈 배열
-    } else if (isLoading || !questionsData) {
-        // 로딩 중이거나 데이터가 없으면 빈 배열
-    } else {
-        allQuestions = questionsData?.data?.questions?.map(q => ({
-            text: q.questionText,
-            type: 'part' as const
-        })) || [];
-    }
     const maxLength = 500;
     const scrollRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useHorizontalScroll(containerRef as React.RefObject<HTMLDivElement>, scrollRef as React.RefObject<HTMLDivElement>)
+
     // 질문 개수가 변경되면 answers 배열 크기 조정
     useEffect(() => {
         if (allQuestions.length > 0 && formData.answers.length !== allQuestions.length) {
@@ -88,9 +79,7 @@ export default function ApplyPartPage() {
     }, [allQuestions.length, formData.answers, updateFormData]);
 
     // 모든 질문 답변이 채워졌는지 확인
-    const isAllQuestionsAnswered = React.useMemo(() => {
-        return formData.answers.every(answer => answer.trim() !== '');
-    }, [formData.answers]);
+    const isAllQuestionsAnswered = formData.answers.every(answer => answer.trim() !== '');
 
     const handleEdit = () => {
         navigate('/apply');
@@ -162,7 +151,7 @@ export default function ApplyPartPage() {
 
             await submitApplicationMutation.mutateAsync(submitData);
             alert('지원서가 제출되었습니다.');
-            navigate('/apply'); // 제출 후 지원 페이지로 이동
+            navigate('/recruit'); // 제출 후 /recruit 페이지로 이동
         } catch (error) {
             console.error('제출 실패:', error);
             alert('제출에 실패했습니다.');
@@ -173,25 +162,6 @@ export default function ApplyPartPage() {
         return (
             <div className="w-full h-screen flex items-center justify-center bg-pri-white">
                 <div className="text-2xl text-red-500 font-bold">존재하지 않는 파트입니다.</div>
-            </div>
-        );
-    }
-
-
-
-    if (error) {
-        return (
-            <div className="w-full h-screen flex items-center justify-center bg-pri-white">
-                <div className="text-2xl text-red-500 font-bold">질문을 불러오는데 실패했습니다.</div>
-            </div>
-        );
-    }
-
-    // 로딩 중일 때 로딩 화면 표시
-    if (isLoading) {
-        return (
-            <div className="w-full h-screen flex items-center justify-center bg-pri-white">
-                <div className="text-2xl text-blue-500 font-bold">질문을 불러오는 중...</div>
             </div>
         );
     }
@@ -214,7 +184,6 @@ export default function ApplyPartPage() {
                 >
                     {submitApplicationMutation.isPending ? '제출 중...' : '제출하기'}
                 </SharedButton>
-
             </div>
             <div className="flex flex-row w-fit h-screen items-start" ref={containerRef}>
                 {/* 왼쪽 InfoSection */}
@@ -229,7 +198,6 @@ export default function ApplyPartPage() {
                     onPortfolioChange={handlePortfolioChange}
                     scrollRef={scrollRef as React.RefObject<HTMLDivElement>}
                 />
-
             </div>
         </>
     );

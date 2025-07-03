@@ -20,10 +20,7 @@ export interface UpdateMemberRoleParams {
     role: string
 }
 
-// 멤버 제명
-export interface ExpelMemberParams {
-    memberId: string
-}
+
 
 // 멤버 프로필 수정 요청
 export interface UpdateMemberProfileRequest {

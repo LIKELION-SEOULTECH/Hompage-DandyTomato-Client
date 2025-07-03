@@ -7,7 +7,6 @@ import {
     promotePassedApplicants,
     sendPassNotification,
     updateMemberRole,
-    expelMember,
     updateMemberProfile,
     uploadSessionAssignment,
     updateSessionAssignment,
@@ -24,7 +23,6 @@ import type {
     GetApplicantsParams,
     GetApplicantDetailParams,
     UpdateMemberRoleParams,
-    ExpelMemberParams,
     UpdateMemberProfileRequest,
     PromotePassedApplicantsBody,
     SessionAssignmentUploadRequest,
@@ -128,21 +126,7 @@ export function useUpdateMemberRole() {
     })
 }
 
-// 멤버 제명
-export function useExpelMember() {
-    const queryClient = useQueryClient()
-    return useMutation({
-        mutationFn: ({ memberId }: ExpelMemberParams) => expelMember({ memberId }),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['admin-members'] })
-            queryClient.invalidateQueries({ queryKey: ['members'] })
-            alert('멤버가 제명되었습니다.')
-        },
-        onError: (error) => {
-            console.error('멤버 제명 실패:', error)
-        }
-    })
-}
+
 
 // 멤버 프로필 수정
 export function useUpdateMemberProfile() {
@@ -287,7 +271,8 @@ export function useDeleteProjectPost() {
 export function useUploadRecruitQuestions() {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (body: RecruitQuestionPostRequest) => uploadRecruitQuestions(body),
+        mutationFn: ({ part, body }: { part: string; body: RecruitQuestionPostRequest }) =>
+            uploadRecruitQuestions(part, body),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['recruit-questions'] })
         },

@@ -92,10 +92,10 @@ export function useRecruitQuestions(part: string) {
     return useQuery({
         queryKey: ['recruit-questions', part],
         queryFn: () => getRecruitQuestions(part),
-        enabled: !!part,
         staleTime: 1 * 60 * 1000, // 1분으로 단축
         gcTime: 5 * 60 * 1000, // 5분
         refetchOnWindowFocus: false, // 윈도우 포커스 시 리페치 비활성화
-        refetchOnMount: false, // 마운트 시 리페치 비활성화 (캐시된 데이터 사용)
+        retry: 1, // 재시도 횟수 제한
+        retryDelay: 1000, // 재시도 간격
     })
 }

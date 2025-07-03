@@ -9,6 +9,7 @@ export default defineConfig({
         alias: [{ find: '@', replacement: '/src' }]
     },
     server: {
+        port: 5173,
         proxy: {
             '/api/v1/recruit/wordcorrect': {
                 target: 'http://localhost:5001',
