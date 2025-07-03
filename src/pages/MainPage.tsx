@@ -1,7 +1,6 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import StickerRain from '@/test'
 import MainBanner from '@/assets/introduction/introduction_banner.png'
 // import GlobalNavigation from './globalNavigation'
 import mainBanner from '@/assets/main_banner.svg'
@@ -31,6 +30,27 @@ import SharedButton from '@/components/SharedButton'
 import InstaIcon from '@/assets/icons/insta_icon.svg'
 import KakaoIcon from '@/assets/icons/kakao_icon.svg'
 import ContactIcon from '@/assets/icons/contact_icon.svg'
+
+import sticker01 from '@/assets/stickers/sticker01.png'
+import sticker02 from '@/assets/stickers/sticker02.png'
+import sticker03 from '@/assets/stickers/sticker03.png'
+import sticker04 from '@/assets/stickers/sticker04.png'
+import sticker05 from '@/assets/stickers/sticker05.png'
+import sticker06 from '@/assets/stickers/sticker06.png'
+import sticker07 from '@/assets/stickers/sticker07.png'
+import sticker08 from '@/assets/stickers/sticker08.png'
+import sticker09 from '@/assets/stickers/sticker09.png'
+import sticker10 from '@/assets/stickers/sticker10.png'
+import sticker11 from '@/assets/stickers/sticker11.png'
+import sticker12 from '@/assets/stickers/sticker12.png'
+import sticker13 from '@/assets/stickers/sticker13.png'
+import sticker14 from '@/assets/stickers/sticker14.png'
+import sticker15 from '@/assets/stickers/sticker15.png'
+import sticker16 from '@/assets/stickers/sticker16.png'
+import sticker17 from '@/assets/stickers/sticker17.svg'
+import slogun from '@/assets/stickers/slogun.png'
+import logo from '@/assets/stickers/logo.png'
+
 import { subscribeRecruit } from '@/api/recruit'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -42,6 +62,7 @@ export default function MainPage() {
     const lionTitleRef = useRef<HTMLDivElement>(null)
     const aboutTitleRef = useRef<HTMLDivElement>(null)
     const projectContainerRef = useRef<HTMLDivElement>(null)
+    const [isComplete, setIsComplete] = useState(false)
     useGSAP(
         () => {
             const sections = gsap.utils.toArray('.main-section')
@@ -49,67 +70,68 @@ export default function MainPage() {
                 containerRef.current.scrollWidth - window.innerWidth
             const lionWidth = containerRef.current?.scrollWidth - window.innerWidth
             const aboutWidth = containerRef.current?.scrollWidth - window.innerWidth
-
-            const tween = gsap.to(containerRef.current, {
-                x: -totalWidth,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    pin: true,
-                    scrub: 1,
-                    anticipatePin: 1,
-                    end: () => `+=${totalWidth}`,
-                    // markers: true,
-                }
-            })
-            // HighlightenTitle sticky 효과
-            gsap.to(lionTitleRef.current, {
-                x: lionWidth,
-                opacity: 0,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: lionTitleRef.current,
-                    containerAnimation: tween,
-                    start: `left 10%`, // 타이틀이 화면 상단에 닿을 때
-                    end: () => `${lionWidth + window.innerWidth} left`,// 원하는 지점까지
-                    pin: true,
-                    pinSpacing: false, // 섹션이 밀리지 않게
-                    // markers: true,// 섹션이 밀리지 않게
-                    scrub: 0,
-                    toggleActions: "play none reverse none",
-                },
-                // onEnter, onLeave 등으로 추가 효과도 가능
-            });
-            gsap.to(aboutTitleRef.current, {
-                display: 'hidden',
-                x: -window.innerWidth,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: projectContainerRef.current,
-                    containerAnimation: tween,
-                    start: `left left`, // 타이틀이 화면 상단에 닿을 때
-                    end: () => `${projectContainerRef.current?.scrollWidth + window.innerWidth / 2} left`,// 원하는 지점까지
-                    toggleActions: "play none reverse none ",
-                }
-            });
-            gsap.to(aboutTitleRef.current, {
-                x: aboutWidth - window.innerWidth / 2,
-                opacity: 0,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: aboutTitleRef.current, // 타이틀이 화면 상단에 닿을 때
-                    containerAnimation: tween,
-                    start: `left 10%`, // 타이틀이 화면 상단에 닿을 때
-                    end: () => `${aboutWidth + window.innerWidth / 2} left`,// 원하는 지점까지
-                    pin: true,
-                    pinSpacing: false, // 섹션이 밀리지 않게
-                    scrub: 0,
-                    toggleActions: "play none reverse none ",
-                },
-                // onEnter, onLeave 등으로 추가 효과도 가능
-            });
-
-        }
+            if (isComplete) {
+                const tween = gsap.to(containerRef.current, {
+                    x: -totalWidth,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        pin: true,
+                        scrub: 1,
+                        anticipatePin: 1,
+                        end: () => `+=${totalWidth}`,
+                        // markers: true,
+                    }
+                })
+                // HighlightenTitle sticky 효과
+                gsap.to(lionTitleRef.current, {
+                    x: lionWidth,
+                    opacity: 0,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: lionTitleRef.current,
+                        containerAnimation: tween,
+                        start: `left 10%`, // 타이틀이 화면 상단에 닿을 때
+                        end: () => `${lionWidth + window.innerWidth} left`,// 원하는 지점까지
+                        pin: true,
+                        pinSpacing: false, // 섹션이 밀리지 않게
+                        // markers: true,// 섹션이 밀리지 않게
+                        scrub: 0,
+                        toggleActions: "play none reverse none",
+                    },
+                    // onEnter, onLeave 등으로 추가 효과도 가능
+                });
+                gsap.to(aboutTitleRef.current, {
+                    display: 'hidden',
+                    x: -window.innerWidth,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: projectContainerRef.current,
+                        containerAnimation: tween,
+                        start: `left left`, // 타이틀이 화면 상단에 닿을 때
+                        end: () => `${projectContainerRef.current?.scrollWidth + window.innerWidth / 2} left`,// 원하는 지점까지
+                        toggleActions: "play none reverse none ",
+                    }
+                });
+                gsap.to(aboutTitleRef.current, {
+                    x: aboutWidth - window.innerWidth / 2,
+                    opacity: 0,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: aboutTitleRef.current, // 타이틀이 화면 상단에 닿을 때
+                        containerAnimation: tween,
+                        start: `left 10%`, // 타이틀이 화면 상단에 닿을 때
+                        end: () => `${aboutWidth + window.innerWidth / 2} left`,// 원하는 지점까지
+                        pin: true,
+                        pinSpacing: false, // 섹션이 밀리지 않게
+                        scrub: 0,
+                        toggleActions: "play none reverse none ",
+                    },
+                    // onEnter, onLeave 등으로 추가 효과도 가능
+                });
+            }
+        },
+        [isComplete]
     )
     const handleSubscribe = async () => {
         // if (!isLoggedIn) {
@@ -122,36 +144,13 @@ export default function MainPage() {
         //     console.log('구독 요청에 실패했습니다.')
         // }
     }
+
     return (
         <div
             ref={containerRef}
             className="relative flex-row flex h-screen w-fit overflow-y-hidden">
             {/* Hero Section */}
-            <section
-                className="main-section flex h-[100vh] w-screen items-center justify-center border-b border-[#E5E5E5] bg-white py-128"
-                style={{
-                    background:
-                        'radial-gradient(79.41% 100% at 50% 100%, rgba(255, 251, 244, 0.20) 57.66%, rgba(248, 193, 145, 0.20) 72.15%, rgba(239, 130, 130, 0.20) 87.14%, rgba(116, 118, 126, 0.20) 100%), #F5F4F2'
-                }}>
-                {/* <StickerRain /> */}
-
-                <video
-                    autoPlay
-                    muted
-                    loop
-                    className="h-full w-full object-fill object-center"
-                    poster={mainBanner}>
-                    <source
-                        src="/videos/main.mp4"
-                        type="video/mp4"
-                    />
-                    <img
-                        src={mainBanner}
-                        alt="main_banner"
-                        className="h-full w-full object-cover"
-                    />
-                </video>
-            </section>
+            <StickerRain onCompleteHandler={() => setIsComplete(true)} />
             {/* LILON section */}
             <SectionLayout containerRef={lionContainerRef}>
                 <SectionLion titleRef={lionTitleRef} />
@@ -559,21 +558,173 @@ const SectionAbout = ({ titleRef, containerRef }: { titleRef: React.RefObject<HT
         </>
     )
 }
-const CarouselControl = () => {
-    const { scrollPrev, scrollNext, canScrollPrev, canScrollNext } =
-        useCarousel()
 
+const SectionLayout = ({ children, containerRef, className, style }: { children: React.ReactNode, containerRef?: React.RefObject<HTMLDivElement>, className?: string, style?: React.CSSProperties }) => {
     return (
-        <div>
-            <Button onClick={scrollPrev}>Previous</Button>
-        </div>
-    )
-}
-
-const SectionLayout = ({ children, containerRef, className }: { children: React.ReactNode, containerRef?: React.RefObject<HTMLDivElement>, className?: string }) => {
-    return (
-        <section className={cn("main-section flex h-screen w-fit flex-row items-end justify-end gap-128 bg-[oklch(96.7%_0.002869_84.6)] pl-128 pt-189 pb-128 pr-64 relative", className)} ref={containerRef}>
+        <section className={cn("main-section flex h-screen w-fit flex-row items-end justify-end gap-128 bg-[oklch(96.7%_0.002869_84.6)] pl-128 pt-189 pb-128 pr-64 relative", className)} ref={containerRef} style={style}>
             {children}
         </section>
+    )
+}
+function StickerRain({ onCompleteHandler }: { onCompleteHandler: () => void }) {
+    const containerRef = useRef(null)
+
+    const stickers = [
+        {
+            id: 'sticker01',
+            src: sticker01,
+            x: 210,
+            y: 137,
+            rotation: -37
+        },
+        { id: 'sticker02', src: sticker02, x: 490.55, y: 176.4, rotation: 7 },
+        { id: 'sticker03', src: sticker03, x: 1235, y: 195, rotation: 9 },
+        {
+            id: 'sticker04',
+            src: sticker04,
+            x: 1442.5,
+            y: 298,
+            rotation: 28
+        },
+        { id: 'sticker05', src: sticker05, x: 142.5, y: 263, rotation: 7 },
+        {
+            id: 'sticker06',
+            src: sticker06,
+            x: 720,
+            y: 222,
+            rotation: -14.75
+        },
+        {
+            id: 'sticker07',
+            src: sticker07,
+            x: 1300,
+            y: 364,
+            rotation: -17.5
+        },
+        {
+            id: 'sticker08',
+            src: sticker08,
+            x: 1374.45,
+            y: 732,
+            rotation: -9.65
+        },
+        { id: 'sticker09', src: sticker09, x: 220.42, y: 318.4, rotation: 13 },
+        { id: 'sticker10', src: sticker10, x: 757.62, y: 322.88, rotation: 8.3 },
+        { id: 'sticker11', src: sticker11, x: 1205.5, y: 572.07, rotation: 49.3 },
+        { id: 'sticker12', src: sticker12, x: 649.13, y: 562.03, rotation: 8 },
+        {
+            id: 'sticker13',
+            src: sticker13,
+            x: 1140.76,
+            y: 691.35,
+            rotation: 16.5
+        },
+        { id: 'sticker14', src: sticker14, x: 103, y: 385.69, rotation: 18 },
+        {
+            id: 'sticker15',
+            src: sticker15,
+            x: 141.48,
+            y: 658.53,
+            rotation: -13.83
+        },
+        { id: 'sticker16', src: sticker16, x: 153.23, y: 727.69, rotation: 10.3 },
+        { id: 'sticker17', src: sticker17, x: 611.98, y: 347, rotation: 0 }
+    ]
+
+    useGSAP(() => {
+        const stickers1 = stickers.slice(0, stickers.length / 2)
+        const stickers2 = stickers.slice(stickers.length / 2)
+        stickers1.forEach(({ id, x, y }, index) => {
+            const el = containerRef.current.querySelector(`#${id}`)
+
+
+            gsap.from(el, {
+                x: x + 1000,
+                opacity: 1,
+                ease: 'back.out',
+                duration: 1.3,
+                delay: Math.random() * 0.4 + index * 0.05 // 랜덤 + 살짝 시간차
+            })
+        })
+
+        stickers2.forEach(({ id, x, y }, index) => {
+            const el = containerRef.current.querySelector(`#${id}`)
+
+
+            gsap.from(el, {
+                y: y + 1000,
+                opacity: 1,
+                ease: 'back.out',
+                duration: 1.3,
+                delay: Math.random() * 0.6 + index * 0.05
+            })
+        })
+        const tl = gsap.timeline()
+        tl.to('#overlay', {
+            opacity: 0.5,
+            x: 0,
+            y: 0,
+            duration: 1,
+            delay: 1.5,
+        })
+        tl.to('#finalReveal', {
+            opacity: 1,
+            duration: 1.2,
+            delay: 0.5,
+            ease: 'back.out',
+            onComplete: () => {
+                onCompleteHandler()
+                tl.kill()
+            }
+        })
+    }, [])
+
+    return (
+        <div className="main-section h-fit w-fit relative" ref={containerRef} style={{
+            background:
+                'radial-gradient(79.41% 100% at 50% 100%, rgba(255, 251, 244, 0.20) 57.66%, rgba(248, 193, 145, 0.20) 72.15%, rgba(239, 130, 130, 0.20) 87.14%, rgba(116, 118, 126, 0.20) 100%), #F5F4F2'
+        }} >
+            {/* 시안 1 */}
+            <div
+
+                className="pointer-events-none 
+                w-screen h-screen"
+            >
+            </div>
+            <div className="h-full w-full bg-pri-white z-10 absolute top-0 left-0 opacity-0" id="overlay" />
+            <div
+                className="flex flex-col items-center opacity-0 z-20 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+                id="finalReveal">
+                <img
+                    src={logo}
+                    id="logo"
+                    className="drag-none select-none w-240 object-contain h-240 rotate-z-[13deg]"
+                />
+                <img
+                    src={slogun}
+                    id="slogun"
+                    className="drag-none select-none"
+                />
+            </div>
+
+            {
+                stickers.map(({ id, src, x, y, rotation }) => (
+                    <img
+                        key={id}
+                        id={id}
+                        src={src}
+                        className={`absolute translate-x-1/2 translate-y-1/2 scale-100 origin-center drag-none select-none`}
+                        style={
+                            {
+                                left: `calc(${x} * 0.05787037037037037vw)`,
+                                top: `calc(${y + 100} * 0.09259259259259259vh)`,
+                                transform: `rotateZ(${rotation}deg)`
+                            }
+                        }
+                    />
+                ))
+            }
+        </div >
+
     )
 }
