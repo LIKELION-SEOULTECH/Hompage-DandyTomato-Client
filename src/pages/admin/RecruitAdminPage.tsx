@@ -3,6 +3,7 @@ import HighlightenTitle from '@/components/HighlightenTitle'
 import SharedButton from '@/components/SharedButton'
 import ArrowIcon from '@/assets/icons/FileUploadIcon.svg'
 import { useNavigate } from 'react-router-dom'
+import {
     useApplicants,
     usePromotePassedApplicants,
     useSendPassNotification

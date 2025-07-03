@@ -4,13 +4,14 @@ import useHorizontalScroll from '@/hooks/useHorizontalScroll'
 import FilterButton from '@/components/archive/FilterButton'
 import HighlightenTitle from '@/components/HighlightenTitle'
 import ProjectGrid from '@/components/archive/ProjectGrid'
+import { useNavigate } from 'react-router-dom'
 
 export default function ProjectPage() {
     const projectItems = Array.from({ length: 10 }, (_, i) => ({ id: i + 1 }))
 
     const containerRef = useRef<HTMLDivElement>(null)
     useHorizontalScroll(containerRef as React.RefObject<HTMLDivElement>)
-
+    const navigate = useNavigate()
     return (
         <>
             <div
@@ -21,7 +22,9 @@ export default function ProjectPage() {
                     className=""
                 />
 
-                <ProjectGrid projectItems={projectItems} />
+                <ProjectGrid projectItems={projectItems} onClick={() => {
+                    navigate('/project/1')
+                }} />
             </div>
             <div className="fixed box-border flex flex-row content-stretch items-center justify-end gap-16 right-100 top-189 z-10">
                 <FilterButton

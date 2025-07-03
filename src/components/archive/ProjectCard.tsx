@@ -9,6 +9,7 @@ interface ProjectCardProps {
     title?: string
     description?: string
     tag?: string[]
+    onClick?: () => void
     // Add other props like title, imageUrl, etc. as needed
 }
 
@@ -18,11 +19,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     index,
     title = '서비스명',
     description = '서비스 설명',
-    tag = ['해시태그']
+    tag = ['해시태그'],
+    onClick
 }) => {
     const [isHovered, setIsHovered] = useState(false)
     return (
         <div
+            onClick={onClick}
             onMouseOver={() => {
                 setIsHovered(true)
             }}

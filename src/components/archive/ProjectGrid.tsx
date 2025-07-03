@@ -1,6 +1,6 @@
 import ProjectCard from './ProjectCard'
 
-export default function ProjectGrid({ projectItems }: { projectItems: any[] }) {
+export default function ProjectGrid({ projectItems, onClick }: { projectItems: any[], onClick: (id: number) => void }) {
     const rows = 2
     const columns = Math.ceil(projectItems.length / rows) + 1
     return (
@@ -16,6 +16,7 @@ export default function ProjectGrid({ projectItems }: { projectItems: any[] }) {
                     <ProjectCard
                         key={item.id}
                         index={index}
+                        onClick={onClick}
                     />
                 )
             })}

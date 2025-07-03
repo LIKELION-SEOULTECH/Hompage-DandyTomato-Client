@@ -56,6 +56,7 @@ import Ideathon from '@/assets/images/Ideathon.png'
 import WeeklySession from '@/assets/images/WeeklySession.png'
 import { subscribeRecruit } from '@/api/recruit'
 import { useNavigate } from 'react-router-dom'
+import { useAuthZustandStore } from '@/stores/auth'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 // 실제 섹션별 컴포넌트는 추후 분리/구현
@@ -583,16 +584,21 @@ const SectionProject = () => {
     )
 }
 const SectionRecruit = () => {
+    const navigate = useNavigate()
+    const { isLoggedIn, email } = useAuthZustandStore()
+    const handleRecruit = () => {
+        navigate('/recruit')
+    }
     const handleSubscribe = async () => {
-        // if (!isLoggedIn) {
-        //     navigate('/login')
-        //     return
-        // }
-        // try {
-        //     const res = await subscribeRecruit({ email })
-        // } catch (e) {
-        //     console.log('구독 요청에 실패했습니다.')
-        // }
+        if (!isLoggedIn) {
+            navigate('/auth/login')
+            return
+        }
+        try {
+            const res = await subscribeRecruit({ email })
+        } catch (e) {
+            console.log('구독 요청에 실패했습니다.')
+        }
     }
     return (
         <div className='w-screen h-full flex flex-row items-end justify-baseline gap-164 relative'>
@@ -607,7 +613,7 @@ const SectionRecruit = () => {
                     </div>
 
                     <div className='flex flex-col items-start justify-center gap-28 mt-68'>
-                        <AnimatedButton text="모집 페이지로 이동하기" color="#0B4066" onClick={() => navigate('/apply')} />
+                        <AnimatedButton text="모집 페이지로 이동하기" color="#0B4066" onClick={handleRecruit} />
 
                         <SharedButton onClick={handleSubscribe} className='px-16 py-8 rounded-50'>
                             모집 알림 받기
@@ -765,12 +771,12 @@ function StickerRain({ onCompleteHandler }: { onCompleteHandler: () => void }) {
                 <img
                     src={logo}
                     id="logo"
-                    className="drag-none select-none w-240 object-contain h-240 rotate-z-[13deg]"
+                    className="drag-none select-none w-240 object-contain h-240 rotate-z-[13deg] pointer-events-none"
                 />
                 <img
                     src={slogun}
                     id="slogun"
-                    className="drag-none select-none"
+                    className="drag-none select-none pointer-events-none"
                 />
             </div>
 
