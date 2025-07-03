@@ -1,17 +1,12 @@
 import { http, HttpResponse, delay } from 'msw'
 import type {
-    MemberPostRequest,
-    MemberResponse,
-    MemberListResponse,
-    MemberListItem
+    MemberListResponse
 } from '@/types/member'
 import { baseURL } from '@/api/client'
 import type {
     GetApplicantsParams,
     GetApplicantDetailParams,
     UpdateMemberRoleParams,
-    ExpelMemberParams,
-    UpdateMemberPartParams,
     ArchiveGalleryPostRequest,
     ArchiveProjectPostRequest,
     RecruitQuestionPostRequest
@@ -19,8 +14,11 @@ import type {
 
 // 샘플 데이터 (실제 프로젝트에 맞게 보완 필요)
 const applicants = [
-    { id: '1', name: '홍길동', part: 'FRONTEND', round: '1' },
-    { id: '2', name: '김철수', part: 'BACKEND', round: '2' }
+    { id: '1', name: '홍길동', part: 'FRONTEND', round: '1', status: 'PASS' },
+    { id: '2', name: '김철수', part: 'BACKEND', round: '2', status: 'FAIL' },
+    { id: '3', name: '이영희', part: 'AI', round: '1', status: 'PENDING' },
+    { id: '4', name: '박민수', part: 'DESIGN', round: '1', status: 'PASS' },
+    { id: '5', name: '정수진', part: 'PM', round: '2', status: 'PENDING' }
 ]
 
 const members = [
@@ -58,7 +56,11 @@ const adminHandlers = [
         if (part) filtered = filtered.filter(a => a.part === part)
         if (round) filtered = filtered.filter(a => a.round === round)
         await delay(100)
-        return HttpResponse.json(filtered, { status: 200 })
+        return HttpResponse.json({ 
+            data: { 
+                applicants: filtered 
+            } 
+        }, { status: 200 })
     }),
 
     // 지원자 응답 확인
@@ -115,26 +117,7 @@ const adminHandlers = [
         }
     ),
 
-    // 멤버 제명
-    http.delete(
-        `${baseURL}/admin/member/:memberId`,
-        async ({ params, request }) => {
-            const { memberId } = params
-            const url = new URL(request.url)
-            const year = url.searchParams.get('year')
-            const idx = members.findIndex(
-                m => m.id === memberId && m.year === year
-            )
-            if (idx === -1)
-                return HttpResponse.json(
-                    { message: 'Not found' },
-                    { status: 404 }
-                )
-            members.splice(idx, 1)
-            await delay(100)
-            return HttpResponse.json({ status: 'expelled' }, { status: 200 })
-        }
-    ),
+
 
     // 세션 과제 및 자료 업로드
     http.post(
@@ -312,8 +295,10 @@ const adminHandlers = [
     ),
 
     // 지원서 질문 항목 업로드
-    http.post(`${baseURL}/admin/recruit/questions`, async ({ request }) => {
+    http.post(`${baseURL}/admin/recruit/question`, async ({ request }) => {
         const body = await request.json()
+        const url = new URL(request.url)
+        const part = url.searchParams.get('part')
         await delay(100)
         return HttpResponse.json(
             typeof body === 'object' && body !== null

@@ -1,25 +1,17 @@
 // Auth DTO 타입 정의
 
-export interface LoginSuccessResponse {
+export interface LoginUrlResponse {
     status: 'success'
-    data: {
-        access_token: string
-        refresh_token: string
-        expiresIn: number
-        member: {
-            id: string
-            email: string
-            name: string
-            profileUrl: string
-        }
-    }
+    message: string
+    data: string // Google OAuth URL
 }
 
-export interface LoginErrorResponse {
-    status: 'error'
-    error: {
-        code: string
-        message: string
-        details: string | null
-    }
+export interface LogoutResponse {
+    status: 'success'
+    message: string
+}
+
+export interface RefreshResponse {
+    status: 'success'
+    message: string
 }

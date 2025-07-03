@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useSpellCheck } from '@/query/recruit';
 
 interface QuestionAnswerBoxProps {
     question: string;
@@ -10,12 +11,36 @@ interface QuestionAnswerBoxProps {
     type: 'common' | 'part';
 }
 
-export default function QuestionAnswerBox({ question, value, onChange, maxLength, onSubmit, countLabel, type }: QuestionAnswerBoxProps) {
+const QuestionAnswerBox = React.memo(function QuestionAnswerBox({ question, value, onChange, maxLength, onSubmit, countLabel, type }: QuestionAnswerBoxProps) {
     const scrollRef = useRef<HTMLTextAreaElement>(null);
     const [showGradient, setShowGradient] = React.useState(false);
+    const spellCheckMutation = useSpellCheck();
 
     // value가 undefined일 수 있으므로 안전하게 처리
     const safeValue = value || '';
+
+    const handleSpellCheck = async () => {
+        if (!safeValue.trim()) {
+            alert('검사할 텍스트를 입력해주세요.');
+            return;
+        }
+
+        try {
+            const result = await spellCheckMutation.mutateAsync({ text: safeValue });
+            if (result.corrected_text) {
+                // 교정된 텍스트로 textarea 값 업데이트
+                const event = {
+                    target: { value: result.corrected_text }
+                } as React.ChangeEvent<HTMLTextAreaElement>;
+                onChange(event);
+                alert('맞춤법 검사가 완료되었습니다.');
+            } else {
+                alert('교정할 내용이 없습니다.');
+            }
+        } catch (error) {
+            alert('맞춤법 검사 중 오류가 발생했습니다.');
+        }
+    };
 
     useEffect(() => {
         const el = scrollRef.current;
@@ -73,13 +98,16 @@ export default function QuestionAnswerBox({ question, value, onChange, maxLength
                 <div className="flex justify-between items-center mt-4">
                     <span className="text-sub-seoultech-blue font-normal text-16 leading-[24px] tracking-[-0.48px]">{safeValue.length}/{maxLength}</span>
                     <button
-                        className="bg-sub-seoultech-red text-white rounded-50 px-16 py-6 font-bold text-11 leading-[16.5px] tracking-[-0.33px]"
-                        onClick={() => { }}
+                        className="bg-sub-seoultech-red text-white rounded-50 px-16 py-6 font-bold text-11 leading-[16.5px] tracking-[-0.33px] disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={handleSpellCheck}
+                        disabled={spellCheckMutation.isPending}
                     >
-                        맞춤법 검사하기
+                        {spellCheckMutation.isPending ? '검사 중...' : '맞춤법 검사하기'}
                     </button>
                 </div>
             </div>
         </div>
     );
-} 
+});
+
+export default QuestionAnswerBox; 
