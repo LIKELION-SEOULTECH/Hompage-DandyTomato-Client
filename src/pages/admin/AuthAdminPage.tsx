@@ -7,11 +7,17 @@ export default function AuthAdminPage() {
         { name: '김철수', authState: '마스터' },
         { name: '이영희', authState: '관리자' },
         { name: '박영수', authState: '아기사자' },
+        { name: '최영희', authState: '게스트' },
+        { name: '김철수', authState: '마스터' },
+        { name: '이영희', authState: '관리자' },
+        { name: '박영수', authState: '아기사자' },
         { name: '최영희', authState: '게스트' }
     ]
-
+    const containerRef = useRef<HTMLDivElement>(null)
+    const scrollRef = useRef<HTMLDivElement>(null)
+    useVerticalScroll(containerRef as RefObject<HTMLDivElement>, scrollRef as RefObject<HTMLDivElement>)
     return (
-        <div className="relative flex h-full w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128">
+        <div ref={containerRef} className="relative flex h-screen w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128 overflow-y-hidden">
             <div className="flex flex-col gap-313">
                 <HighlightenTitle text="권한 설정" className='text-nowrap' />
                 <div className="flex flex-col gap-52">
@@ -48,8 +54,11 @@ export default function AuthAdminPage() {
                         저장하기
                     </SharedButton>
                 </div>
-                <AuthList items={items} />
+                <div ref={scrollRef} className="flex h-fit w-full -z-10">
+                    <AuthList items={items} />
+                </div>
             </div>
+            <div className="flex h-300 w-full -z-10 bg-gradient-to-b from-background to-transparent absolute top-0" />
         </div>
     )
 }
@@ -96,6 +105,9 @@ function AuthItem({ name, authState }: AuthItemProps) {
 import { cn } from '@/lib/utils'
 import FilterButton from '@/components/archive/FilterButton'
 import SharedButton from '@/components/SharedButton'
+import useVerticalScroll from '@/hooks/useVerticalScroll'
+import { useRef } from 'react'
+import { RefObject } from 'react'
 
 function AuthList({
     items,

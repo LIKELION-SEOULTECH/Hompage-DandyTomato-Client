@@ -1,7 +1,8 @@
 import { ToggleGroupButton } from '@/components/archive/ToggleGroupButton'
 import HighlightenTitle from '@/components/HighlightenTitle'
 import SessionResourceList from '@/components/session/SessionResourceList'
-import { useState } from 'react'
+import useVerticalScroll from '@/hooks/useVerticalScroll'
+import { RefObject, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 export default function SessionResourcesPage() {
@@ -23,8 +24,11 @@ export default function SessionResourcesPage() {
     const handlePartChange = (part: string) => {
         setPart(part)
     }
+    const containerRef = useRef<HTMLDivElement>(null)
+    const scrollRef = useRef<HTMLDivElement>(null)
+    useVerticalScroll(containerRef as RefObject<HTMLDivElement>, scrollRef as RefObject<HTMLDivElement>)
     return (
-        <div className="relative flex h-full w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128">
+        <div ref={containerRef} className="relative flex h-screen w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128 overflow-y-hidden">
             <div className="flex flex-col gap-313">
                 <HighlightenTitle text="세션 자료" className="text-nowrap" />
                 <div className="flex flex-col gap-52">
@@ -49,7 +53,7 @@ export default function SessionResourcesPage() {
                     />
                 </div>
             </div>
-            <div className="flex h-full w-full flex-col items-end gap-115">
+            <div className="flex h-full w-full flex-col items-end gap-115 relative">
                 <ToggleGroupButton
                     options={[
                         { label: '세션 자료', value: 'resources' },
@@ -58,8 +62,11 @@ export default function SessionResourcesPage() {
                     className="text-sub-seoultech-red flex-row"
                     itemClassName="px-16 py-8 h-auto"
                 />
-                <SessionResourceList items={items} />
+                <div ref={scrollRef} className="flex h-fit w-full -z-10">
+                    <SessionResourceList items={items} />
+                </div>
             </div>
+            <div className="flex h-300 w-full -z-10 bg-gradient-to-b from-background to-transparent absolute top-0" />
         </div>
     )
 }

@@ -9,11 +9,18 @@ export default function RecruitAdminPage() {
     const items = [
         { name: '김철수', acceptState: '합격' },
         { name: '이영희', acceptState: '불합격' },
-        { name: '박영수', acceptState: '합불 여부 입력' }
+        { name: '박영수', acceptState: '합불 여부 입력' },
+        { name: '박영수', acceptState: '합불 여부 입력' },
+        { name: '박영수', acceptState: '합불 여부 입력' },
+        { name: '박영수', acceptState: '합불 여부 입력' },
+        { name: '박영수', acceptState: '합불 여부 입력' },
+        { name: '박영수', acceptState: '합불 여부 입력' },
     ]
-
+    const containerRef = useRef<HTMLDivElement>(null)
+    const scrollRef = useRef<HTMLDivElement>(null)
+    useVerticalScroll(containerRef as RefObject<HTMLDivElement>, scrollRef as RefObject<HTMLDivElement>)
     return (
-        <div className="relative flex h-full w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128">
+        <div ref={containerRef} className="relative flex h-screen w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128 overflow-y-hidden">
             <div className="flex flex-col gap-313">
                 <HighlightenTitle
                     text="지원서 관리"
@@ -48,8 +55,11 @@ export default function RecruitAdminPage() {
                         합격 여부 전송하기
                     </SharedButton>
                 </div>
-                <RecruitList items={items} />
+                <div ref={scrollRef} className="flex h-fit w-full -z-10">
+                    <RecruitList items={items} />
+                </div>
             </div>
+            <div className="flex h-300 w-full -z-10 bg-gradient-to-b from-background to-transparent absolute top-0" />
         </div>
     )
 }
@@ -93,6 +103,9 @@ function RecruitItem({ name, acceptState }: RecruitItemProps) {
 }
 
 import { cn } from '@/lib/utils'
+import { useRef } from 'react'
+import { RefObject } from 'react'
+import useVerticalScroll from '@/hooks/useVerticalScroll'
 
 function RecruitList({
     items,

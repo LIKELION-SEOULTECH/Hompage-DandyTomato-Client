@@ -5,17 +5,18 @@ import ScrollTrigger from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 export default function useVerticalScroll(
-    containerRef: React.RefObject<HTMLDivElement>
+    containerRef: React.RefObject<HTMLDivElement>,
+    scrollRef: React.RefObject<HTMLDivElement> = containerRef
 ) {
     useGSAP(
         () => {
-            const totalHeight = containerRef.current?.scrollHeight
+            const totalHeight = containerRef.current?.scrollHeight - window.innerHeight
             if (!totalHeight) return
-            gsap.to(containerRef.current, {
+            gsap.to(scrollRef.current, {
                 y: -totalHeight,
                 ease: 'none',
                 scrollTrigger: {
-                    trigger: containerRef.current,
+                    trigger: containerRef.current || scrollRef.current,
                     pin: true,
                     scrub: 1,
                     anticipatePin: 1,
@@ -24,7 +25,7 @@ export default function useVerticalScroll(
             })
         },
         {
-            scope: containerRef.current
+            scope: containerRef.current || scrollRef.current
         }
     )
 }

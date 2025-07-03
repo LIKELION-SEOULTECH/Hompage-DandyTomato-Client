@@ -2,6 +2,9 @@ import { ToggleGroupButton } from '@/components/archive/ToggleGroupButton'
 import HighlightenTitle from '@/components/HighlightenTitle'
 import SessionResourceList from '@/components/session/SessionResourceList'
 import SharedButton from '@/components/SharedButton'
+import useVerticalScroll from '@/hooks/useVerticalScroll'
+import { useRef } from 'react'
+import { RefObject } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function SessionAdminPage() {
@@ -19,8 +22,11 @@ export default function SessionAdminPage() {
         { week: 10, title: '과제 10', assignmentState: '기한 만료' }
     ]
 
+    const containerRef = useRef<HTMLDivElement>(null)
+    const scrollRef = useRef<HTMLDivElement>(null)
+    useVerticalScroll(containerRef as RefObject<HTMLDivElement>, scrollRef as RefObject<HTMLDivElement>)
     return (
-        <div className="relative flex h-full w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128">
+        <div ref={containerRef} className="relative flex h-screen w-full flex-row justify-end gap-164 pt-185 pr-100 pl-128 overflow-y-hidden">
             <div className="flex flex-col gap-313">
                 <HighlightenTitle text="세션 관리" className='text-nowrap' />
                 <div className="flex flex-col gap-52">
@@ -44,11 +50,19 @@ export default function SessionAdminPage() {
                 </div>
             </div>
             <div className="flex h-full w-full flex-col items-end gap-115">
-                <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-red h-auto w-fit border-2 px-16 py-8" onClick={() => navigate('/admin/session/upload')}>
-                    자료 업로드
-                </SharedButton>
-                <SessionResourceList items={items} />
+                <div className='flex flex-row gap-16'>
+                    <SharedButton className="rounded-50 text-sub-seoultech-red border-sub-seoultech-red h-auto w-fit border-2 bg-transparent px-16 py-8" onClick={() => navigate('/admin/session/upload')}>
+                        제출 확인
+                    </SharedButton>
+                    <SharedButton className="rounded-50 text-pri-white bg-sub-seoultech-red h-auto w-fit border-2 px-16 py-8" onClick={() => navigate('/admin/session/upload')}>
+                        자료 업로드
+                    </SharedButton>
+                </div>
+                <div ref={scrollRef} className="flex h-fit w-full -z-10">
+                    <SessionResourceList items={items} />
+                </div>
             </div>
+            <div className="flex h-300 w-full -z-10 bg-gradient-to-b from-background to-transparent absolute top-0" />
         </div>
     )
 }

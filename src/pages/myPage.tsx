@@ -3,25 +3,32 @@ import TagBadge from '@/components/archive/TagBadge'
 import HighlightenTitle from '@/components/HighlightenTitle'
 import LinkIcon from '@/components/LinkIcon'
 import SessionResourceList from '@/components/session/SessionResourceList'
+import SharedButton from '@/components/SharedButton'
+import useVerticalScroll from '@/hooks/useVerticalScroll'
+import { RefObject, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function MyPage() {
     const { image, name, major, email, description, links, generation, part } =
-        {
-            image: '/src/assets/testpng.png',
-            name: '김철수',
-            major: '도예학과',
-            email: 'bogus_j@naver.com',
-            description:
-                '기획으로 들어오게 된 정재현이라고 합니다! 잘 부탁드립니다~!',
-            links: [
-                'https://www.behance.net/bogus_j',
-                'https://github.com/bogus-j'
-            ],
-            generation: '13기',
-            part: '기획'
-        }
+    {
+        image: '/src/assets/testpng.png',
+        name: '김철수',
+        major: '도예학과',
+        email: 'bogus_j@naver.com',
+        description:
+            '기획으로 들어오게 된 정재현이라고 합니다! 잘 부탁드립니다~!',
+        links: [
+            'https://www.behance.net/bogus_j',
+            'https://github.com/bogus-j'
+        ],
+        generation: '13기',
+        part: '기획'
+    }
+    const containerRef = useRef<HTMLDivElement>(null)
+    const scrollRef = useRef<HTMLDivElement>(null)
+    useVerticalScroll(containerRef as RefObject<HTMLDivElement>, scrollRef as RefObject<HTMLDivElement>)
     return (
-        <div className="relative flex h-[100vh] flex-row gap-128 pt-185 pr-100 pl-128">
+        <div ref={containerRef} className="relative flex h-[100vh] flex-row gap-128 pt-185 pr-100 pl-128 overflow-y-hidden">
             <ProfileCard
                 image={image}
                 name={name}
@@ -49,22 +56,83 @@ export default function MyPage() {
 
                 {/* Assignment List */}
 
-                <SessionResourceList
-                    items={[
-                        {
-                            week: 1,
-                            title: '과제 제목',
-                            assignmentState: '과제 할당됨'
-                        },
+                <div ref={scrollRef} className="flex h-fit w-full -z-10">
+                    <SessionResourceList
+                        items={[
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
 
-                        {
-                            week: 1,
-                            title: '과제 제목',
-                            assignmentState: '과제 할당됨'
-                        }
-                    ]}
-                />
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
+
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
+
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
+
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
+
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
+
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
+
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
+                            {
+                                week: 1,
+                                title: '과제 제목',
+                                assignmentState: '과제 할당됨'
+                            },
+
+
+                        ]}
+                    />
+                </div>
             </div>
+            <div className="flex h-300 w-full -z-10 bg-gradient-to-b from-background to-transparent absolute top-0" />
         </div>
     )
 }
@@ -88,6 +156,7 @@ const ProfileCard = ({
     generation: string
     part: string
 }) => {
+    const navigate = useNavigate()
     return (
         <div className="bg-pri-white relative z-10 flex w-[265px] flex-col items-start justify-start gap-36">
             <img
@@ -134,9 +203,14 @@ const ProfileCard = ({
                 </div>
             </div>
             {/* Profile Buttons */}
-            <div className="rounded-50 bg-sub-seoultech-blue px-16 py-8">
-                <p className="text-20 text-pri-white font-bold">프로필 수정</p>
-            </div>
+            <SharedButton
+                className="rounded-50 text-pri-white bg-sub-seoultech-blue h-auto w-fit px-16 py-8"
+                onClick={() => {
+                    navigate('/myPage/edit')
+                }}
+            >
+                프로필 수정
+            </SharedButton>
         </div>
     )
 }
